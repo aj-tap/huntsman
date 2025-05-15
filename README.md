@@ -1,19 +1,18 @@
 # Huntsman 
-================
 
 Huntsman is a threat intel aggregator designed to streamline threat intelligence analysis for security operations. It aggregates data from various sources, provides multiple analysis views (Graph, Table, AI Insights, Detections), and offers a query language for custom detection rules. Huntsman aims to help analysts investigate threats faster, reduce research time, and make more informed decisions by centralizing and unifying threat intelligence data.
 
 For further information on its functionality, refer to the article: 
 [taming-the-threat-intelligence-beast-with-huntsman](https://shinkensec.com/2025/05/15/taming-the-threat-intelligence-beast-with-huntsman/)
 
+[Watch "Huntsman Tutorial: Submitting an indicator"](http://www.youtube.com/watch?v=UU-Wy27byRs)
+
 ## Prerequisites
--------------
 - Docker (https://docs.docker.com/get-docker/)
 - Docker Compose (Usually included with Docker Desktop, or see https://docs.docker.com/compose/install/)
 
 
 ## Setup & Running
----------------
 
 1.  **Clone the Repository:**
 
@@ -57,7 +56,6 @@ docker compose up --build -d
 5. Default credentials are "admin" and "admin". Remember to change these in the admin dashboard.        
 
 ## Stopping the Application
-------------------------
 
 * To stop the running containers, navigate to the project's root directory in your terminal and run:
     
@@ -66,7 +64,6 @@ docker compose down
 ```
 
 ## Troubleshooting
----------------
 If you encounter issues, check the Docker logs for error messages: docker-compose logs -f
 - Ensure Docker and Docker Compose are installed and running correctly.
 - Ensure all necessary ports (e.g., 8000) are not being used by other applications.
@@ -74,7 +71,6 @@ If you encounter issues, check the Docker logs for error messages: docker-compos
 - Check the container logs for errors: `docker compose logs` or `docker compose logs -f <service_name>` (e.g., `docker compose logs -f web`).
 
 ## Contributing:
----------------
 We welcome contributions to Huntsman! If you're interested in contributing, please:
 
 1. Fork the repository.
@@ -83,8 +79,6 @@ We welcome contributions to Huntsman! If you're interested in contributing, plea
 4. Submit a pull request with a clear description of your changes.
 
 ## Show Your Support:
----------------
 If you find Huntsman useful, consider supporting its development:
-
 - Star the project on GitHub!
 - Support the developer: https://buymeacoffee.com/ajtap
