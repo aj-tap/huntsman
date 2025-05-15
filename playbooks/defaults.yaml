@@ -23,7 +23,7 @@
     - urls    
 
 - name: 2 - In-depth Search
-  description: This playbook facilitates comprehensive investigations by aggregating data from various modules, providing in-depth analysis of SHA256, MD5, IPv4, and IPv6 addresses. While the lookups may be slower, the enriched results offer valuable insights, making it ideal for detailed threat assessments. It allows GTO to explore extensive information, enhancing their understanding of potential threats.
+  description: This playbook facilitates comprehensive investigations by aggregating data from various modules, providing in-depth analysis of SHA256, MD5, IPv4, and IPv6 addresses. While the lookups may be slower, the enriched results offer valuable insights, making it ideal for detailed threat assessments. It allows analyst to explore extensive information, enhancing their understanding of potential threats.
   analyzer_names:
     - abuseipdb
     - alienvault
