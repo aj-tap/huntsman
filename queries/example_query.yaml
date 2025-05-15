@@ -1,0 +1,52 @@
+- title: Aggregated Results
+  query_string: |
+    switch (
+      case meta.analyzerName=='virustotal'=> {Source:meta.analyzerName, observable, Results:'VTScore: ' + cast(rawData.data.attributes.last_analysis_stats, <string>), Link:'https://www.virustotal.com/gui/search/' + observable}
+      case meta.analyzerName=='abuseipdb'=> {Source:meta.analyzerName, observable, Results:'Abuse Confidence Score: ' + cast(rawData.data.abuseConfidenceScore, <string>), Link:'https://www.abuseipdb.com/check/' + observable}
+      case meta.analyzerName=='alienvault'=> {Source:meta.analyzerName, observable, Results:'AlienVault Pulse Count: ' + cast(rawData.pulse_info.count, <string>), Link: 'https://otx.alienvault.com/browse/global/pulses?q=' + observable}
+      case meta.analyzerName=='internetstormcast'=> {Source:meta.analyzerName, observable, Results:'Reported Attacks: ' + cast(rawData.ip.attacks, <string>), Link: 'https://isc.sans.edu/ipinfo/' + observable}
+      case meta.analyzerName=='ipinfo'=> {Source:meta.analyzerName, observable, Results:'IPInfo: ' + cast(rawData, <string>), Link:'https://ipinfo.io/'+ observable}
+      case meta.analyzerName=='internetdb'=> {Source:meta.analyzerName, observable, Results:'InternetDB: ' + cast(rawData.tags, <string>),  Link:'https://internetdb.shodan.io/' + observable }
+      case meta.analyzerName=='shodan'=> {Source:meta.analyzerName, observable, Results:'Hostname: ' + cast(rawData.hostnames, <string>) + ', ISP: ' + cast(rawData.isp, <string>) + ', Ports: ' +  cast(rawData.ports, <string>) + ', Tags: ' +  cast(rawData.tags, <string>), Link: 'https://www.shodan.io/host/' + observable}
+      case meta.analyzerName=='crowdsec'=> {Source:meta.analyzerName, observable, Results:'Score: ' + cast(rawData.scores.overall, <string>), Link: 'https://app.crowdsec.net/cti/' + observable}
+      case (meta.analyzerName=='threatfox' and rawData.query_status!="no_result") => {Source:meta.analyzerName, observable, Results:'Threatfox: ' + cast(rawData.data, <string>), Link: 'https://threatfox.abuse.ch/browse.php?search=ioc:' + observable}
+      case (meta.analyzerName=='wildfire' and rawData.wildfire["get-verdict-info"].verdict=="0") => {Source:meta.analyzerName, observable, Results:'Wildfire Verdict: Benign', Link:'https://www.paloaltonetworks.com/network-security/wildfire'}
+      case (meta.analyzerName=='wildfire' and rawData.wildfire["get-verdict-info"].verdict=="1") => {Source:meta.analyzerName, observable, Results:'Wildfire Verdict: Malware', Link:'https://www.paloaltonetworks.com/network-security/wildfire'}
+      case (meta.analyzerName=='wildfire' and rawData.wildfire["get-verdict-info"].verdict=="2") => {Source:meta.analyzerName, observable, Results:'Wildfire Verdict: Grayware', Link:'https://www.paloaltonetworks.com/network-security/wildfire'}
+      case (meta.analyzerName=='wildfire' and rawData.wildfire["get-verdict-info"].verdict=="4") => {Source:meta.analyzerName, observable, Results:'Wildfire Verdict: Phishing', Link:'https://www.paloaltonetworks.com/network-security/wildfire'}
+      case (meta.analyzerName=='wildfire' and rawData.wildfire["get-verdict-info"].verdict=="5") => {Source:meta.analyzerName, observable, Results:'Wildfire Verdict: Command and Control', Link:'https://www.paloaltonetworks.com/network-security/wildfire'}
+      case (meta.analyzerName=='wildfire' and rawData.wildfire["get-verdict-info"].verdict=="-100") => {Source:meta.analyzerName, observable, Results:'Wildfire Verdict: sample exists, but there is currently no verdict', Link:'https://www.paloaltonetworks.com/network-security/wildfire'}    
+      case (meta.analyzerName=='wildfire' and rawData.wildfire["get-verdict-info"].verdict=="-102") => {Source:meta.analyzerName, observable, Results:'Wildfire Verdict: Unknown, cannot find sample record in wildfire DB', Link:'https://www.paloaltonetworks.com/network-security/wildfire'}      
+      case (meta.analyzerName=='malwarebazaar' and rawData.query_status=="ok" ) => {Source:meta.analyzerName, observable, Results:'Malware Bazaar:'+ cast(rawData.data, <string>), Link:'https://bazaar.abuse.ch/sample/'  + observable }
+      case meta.analyzerName=="spurus" => {Source:meta.analyzerName, observable, Results:"" + cast(rawData.attribution, <string>), Link:"https://spur.us/context/" + observable}
+      case meta.analyzerName=="proxycheckio" => {Source:meta.analyzerName, observable, Results:"" + cast(rawData, <string>), Link:"https://proxycheck.io/v2/" + observable}
+    ) | Results!='null'
+- title: Read Brave Search Results
+  query_string: |
+    meta.analyzerName=='bravesearch' | over rawData | select title, url, description
+- title: VT - Engine View
+  query_string: |
+    meta.analyzerName=="virustotal" |  yield rawData.data.attributes.last_analysis_results
+- title: VT - Whois View
+  query_string: |
+    meta.analyzerName=="virustotal" |  yield rawData.data.attributes | cut network, whois
+- title: VT - Table View
+  query_string: |
+    meta.analyzerName=="virustotal" |  yield rawData.data.attributes
+- title: IPinfo - Group by Org/ASN
+  query_string: |
+    meta.analyzerName=="ipinfo" | yield this["rawData"] | count() by this["org"]
+- title: IPinfo - Table View
+  query_string: |
+    meta.analyzerName=="ipinfo" | yield this["rawData"]                
+- title: Alien Vault - Pulse View
+  query_string: |
+    meta.analyzerName=="alienvault" | over rawData.pulse_info.pulses | fuse | select name, description, tags, references                                
+- title: Wildfire - File info View
+  query_string: |
+    (meta.analyzerName=="wildfire" and rawData.wildfire.version=="2.0") |  yield rawData.wildfire.file_info                             
+- title: Wildfire - Report View
+  query_string: |
+    (meta.analyzerName=="wildfire" and rawData.wildfire.version=="2.0") |  over rawData.wildfire.task_info.report | fuse | cut  sha256,malware, software, summary
+
+

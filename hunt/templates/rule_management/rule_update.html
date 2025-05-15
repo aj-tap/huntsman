@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-dark mb-0">Update Detection Rule</h3>
+</div>
+
+<div class="card shadow">
+    <div class="card-header py-3">
+        <p class="text-primary m-0 fw-bold">
+            <i class="fa fa-edit"></i> Edit Rule
+        </p>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="row mb-3">
+                <label for="{{ form.title.id_for_label }}" class="col-sm-2 col-form-label fw-bold">Title:</label>
+                <div class="col-sm-10">
+                    {{ form.title }}
+                    <small class="form-text text-muted">Title of the detection rule</small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="{{ form.description.id_for_label }}" class="col-sm-2 col-form-label fw-bold">Description:</label>
+                <div class="col-sm-10">
+                    {{ form.description }}
+                    <small class="form-text text-muted">Detailed description of the rule</small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="{{ form.syntax.id_for_label }}" class="col-sm-2 col-form-label fw-bold">Syntax:</label>
+                <div class="col-sm-10">
+                    {{ form.syntax }}
+                    <small class="form-text text-muted">SuperDB syntax for the detection rule</small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="{{ form.tags.id_for_label }}" class="col-sm-2 col-form-label fw-bold">Tags:</label>
+                <div class="col-sm-10">
+                    {{ form.tags }}
+                    <small class="form-text text-muted">Comma-separated tags for the rule</small>
+                </div>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

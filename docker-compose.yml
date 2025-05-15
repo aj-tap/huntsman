@@ -1,0 +1,25 @@
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+      - "5555:5555"    
+    depends_on:
+      - superdb
+      - redis
+  superdb:
+    build:
+      context: .
+      dockerfile: Dockerfile.superdb
+    volumes:
+      - superdb_data:/data
+    ports:
+      - "9867:9867"
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+volumes:
+  superdb_data:

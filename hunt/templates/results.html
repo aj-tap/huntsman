@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Results - Huntsman{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-dark mb-0">Results</h3>
+</div>
+
+<!-- Tutorial Mode Toggle -->
+<div class="form-check form-switch mb-3">
+    <input class="form-check-input" type="checkbox" id="tutorialModeToggle">
+    <label class="form-check-label" for="tutorialModeToggle">Enable Tutorial Mode</label>
+</div>
+
+<!-- Tutorial Modal -->
+<div class="modal fade" id="tutorialModal" tabindex="-1" aria-labelledby="tutorialModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tutorialModalLabel">Tutorial Step</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="tutorialDiagram" class="mb-3">
+                    <!-- Diagram will be displayed here -->
+                </div>
+                <div id="tutorialInstructions">
+                    <!-- Instructions will be displayed here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="prevStepBtn">Previous</button>
+                <button type="button" class="btn btn-primary" id="nextStepBtn">Next</button>
+                <button type="button" class="btn btn-danger" id="skipTutorialBtn">Skip Tutorial</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Detection Results Display Section -->
+    <div id="detectionResultsContainer" class="mt-3">
+        <div class="card shadow-sm mb-4 border-0">
+            <div class="card-body">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+                    <h6 class="text-primary fw-bold m-0 d-flex align-items-center gap-2">
+                        <i class="fa fa-exclamation-triangle"></i> Detection
+                    </h6>
+                </div>
+                <div id="detectionResultsContent" class="mt-2">
+                    <div id="detectionLoader" class="spinner-border text-info" role="status" style="display: none;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- AI Insights Display Section -->
+<div id="aiInsightsContainer" class="mt-3" style="display: none;">
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-body">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+                <h6 class="text-primary fw-bold m-0 d-flex align-items-center gap-2">
+                    <i class="fa fa-magic"></i> Insights
+                </h6>
+            </div>
+            <div class="spinner-border text-info" id="aiLoader" role="status" style="display: none;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div id="aiInsightsContent" class="border rounded p-3 mt-2" style="background-color: #f8f9fa;">
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- Query Input Section-->
+<div class="mt-4">
+    <div class="card shadow mb-4 border-0">        
+        <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+            <h6 class="text-primary fw-bold m-0 d-flex align-items-center gap-2">
+                <i class="fa fa-search"></i> Query
+            </h6>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST" class="query-input" id="queryForm">
+                {% csrf_token %}
+                
+                <!-- Search Bar and Button -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <textarea id="query" name="query" class="form-control form-control-lg rounded-start border-0 shadow-sm"
+                                      rows="5"
+                                      placeholder="Enter here SuperDB/SQL like queries..."
+                                      style="font-family: monospace; font-size: 15px; line-height: 1.6; white-space: pre-wrap; padding: 15px;"></textarea>
+                            <div class="input-group-append d-flex flex-column">
+                                <button type="button" id="clearQueryButton" class="btn btn-light border mb-1 shadow-sm"
+                                        aria-label="Clear Query" title="Clear Query">
+                                    <i class="fa fa-times text-danger"></i>
+                                </button>
+                                <button type="submit" class="btn btn-primary shadow-sm" title="Submit Query">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons Section -->
+                <div class="row mt-4">
+                    <div class="col-md-12 d-flex align-items-center flex-wrap gap-2">
+
+                        <!-- Insights Button -->
+                        <button id="magicWandButton" type="button" class="btn btn-outline-primary btn-sm shadow-sm">
+                            <i class="fa fa-magic"></i> Insights
+                        </button>
+
+                        <!-- History Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary btn-sm dropdown-toggle shadow-sm" type="button"
+                                    id="queryHistoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-history"></i> History
+                            </button>
+                            <ul class="dropdown-menu shadow-sm" id="queryHistoryList" aria-labelledby="queryHistoryDropdown">
+                                <!-- Query history items will be added here -->
+                            </ul>
+                        </div>
+
+                        <!-- Examples Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary btn-sm dropdown-toggle shadow-sm" type="button"
+                                    id="queryExamplesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-lightbulb"></i> Queries
+                            </button>
+                            <ul class="dropdown-menu shadow-sm" id="queryExamplesList" aria-labelledby="queryExamplesDropdown">
+                                <!-- Query example items will be added here -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Results Table Section-->
+<div id="resultTableContainer" class="mt-4">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <button id="copyButton" class="btn btn-secondary btn-sm" style="display: none;" aria-label="Copy to clipboard">
+                    Copy to Clipboard
+                </button>
+            </div>
+            <div id="queryError" class="text-danger mb-2" style="display: none;"></div>
+            <div class="table-responsive">
+                <table id="resultTable" class="table table-striped table-bordered">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dropdown menu for column actions -->
+<div id="columnActionMenu" class="dropdown-menu" style="position: absolute; display: none;" aria-labelledby="columnActionButton">
+    <a class="dropdown-item sort-asc" href="#" aria-label="Sort Ascending">Sort Ascending</a>
+    <a class="dropdown-item sort-desc" href="#" aria-label="Sort Descending">Sort Descending</a>
+    <a class="dropdown-item count-by" href="#" aria-label="Count by Field">Count by Field</a>
+    <a class="dropdown-item yield-value" href="#" aria-label="Yield Value">Yield Value</a>
+</div>
+
+<div id="results">
+    <div id="stixResults">
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+                        <h6 class="text-primary fw-bold m-0 d-flex align-items-center gap-2">
+                            <i class="fa fa-crosshairs"></i> Graph View
+                        </h6>
+                    </div>
+                    
+                    <!-- Card Body -->
+                    <div class="card-body p-4">
+
+                        <!-- Graph Container -->
+                        <div id="stix-graph"
+                             data-graph-layout="cise"
+                             data-show-footer="true"
+                             data-graph-width="100%"
+                             data-graph-height="600"
+                             data-show-idrefs="false"
+                             data-hidden-objects=""
+                             class="border rounded p-3  mb-4 shadow-sm">
+                        </div>                        
+                        
+                        <!-- Graph Controls -->     
+                        <div id="stix-graph-controls" class="p-3 rounded bg-white shadow-sm border"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .highlight {
+        border: 2px solid #007bff; /* Example highlight style */
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Optional glow effect */
+    }
+</style>
+<style>
+    .scroll-to-element {
+        scroll-margin-top: 100px; /* Adjust as needed */
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const queryForm = document.getElementById("queryForm");
+        const queryTextArea = document.getElementById("query");
+        const queryHistoryList = document.getElementById("queryHistoryList");
+        const queryExamplesList = document.getElementById("queryExamplesList");
+        const clearQueryButton = document.getElementById("clearQueryButton");
+        const tutorialModeToggle = document.getElementById('tutorialModeToggle');
+        const tutorialModal = new bootstrap.Modal(document.getElementById('tutorialModal'));
+        const nextStepBtn = document.getElementById('nextStepBtn');
+        const prevStepBtn = document.getElementById('prevStepBtn');
+        const skipTutorialBtn = document.getElementById('skipTutorialBtn');
+        const tutorialDiagram = document.getElementById('tutorialDiagram');
+        const tutorialInstructions = document.getElementById('tutorialInstructions');
+        
+        const maxHistoryLength = 10;
+
+        // Load query history from local storage
+        let queryHistory = JSON.parse(localStorage.getItem("queryHistory")) || [];
+
+        // Function to update the query history dropdown
+        function updateQueryHistoryDropdown() {
+            queryHistoryList.innerHTML = ""; // Clear existing items
+            queryHistory.forEach((query, index) => {
+                const listItem = document.createElement("li");
+                const link = document.createElement("a");
+                link.classList.add("dropdown-item");
+                link.href = "#";
+                link.textContent = query.length > 50 ? query.substring(0, 50) + "..." : query; // Truncate long queries
+                link.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    queryTextArea.value = query;
+                });
+                listItem.appendChild(link);
+                queryHistoryList.appendChild(listItem);
+            });
+        }
+
+        function addToQueryHistory(query) {
+            if (queryHistory.includes(query)) return; // Avoid duplicates
+            queryHistory.unshift(query); // Add to the beginning
+            if (queryHistory.length > maxHistoryLength) {
+                queryHistory.pop(); // Remove the oldest if over the limit
+            }
+            localStorage.setItem("queryHistory", JSON.stringify(queryHistory));
+            updateQueryHistoryDropdown();
+        }
+
+        updateQueryHistoryDropdown();
+
+        queryForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const query = queryTextArea.value.trim();
+            if (query) {
+                addToQueryHistory(query);
+                console.log("Executing query:", query);
+            }
+        });
+        
+        // Clear query button functionality
+        clearQueryButton.addEventListener("click", () => {
+            queryTextArea.value = "";
+        });
+
+        // Function to update the query examples dropdown
+        function updateQueryExamplesDropdown(exampleQueries) {
+            queryExamplesList.innerHTML = ""; // Clear existing items
+            exampleQueries.forEach((example, index) => {
+                const listItem = document.createElement("li");
+                const link = document.createElement("a");
+                link.classList.add("dropdown-item");
+                link.href = "#";
+                link.textContent = example.title.length > 50 ? example.title.substring(0, 50) + "..." : example.title; // Truncate long titles
+                link.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    queryTextArea.value = example.query_string;
+                });
+                listItem.appendChild(link);
+                queryExamplesList.appendChild(listItem);
+            });
+        }
+
+        fetch('/api/example-queries/')
+            .then(response => response.json())
+            .then(data => {
+                updateQueryExamplesDropdown(data);
+            })
+            .catch(error => {
+                console.error('Error fetching example queries:', error);
+            });
+
+        // Tutorial Logic
+        let currentStep = 0;
+        const tutorialSteps = [
+            {
+                target: '#stixResults',
+                diagram: '<p>Diagram for Graph View</p>', // Replace with actual diagram content
+                instructions: 'This is the Graph View. It shows the relationships between different indicators of compromise (IOCs).'
+            },
+            {
+                target: '#query',
+                diagram: '<p>Diagram for Query Input</p>', // Replace with actual diagram content
+                instructions: 'This is the Query Input. You can enter SuperDB/SQL-like queries here to search for specific data.'
+            },
+            {
+                target: '#magicWandButton',
+                diagram: '<p>Diagram for Insights Button</p>', // Replace with actual diagram content
+                instructions: 'Click the "Insights" button to get AI-powered analysis of the data.'
+            },
+            {
+                target: '#queryHistoryDropdown',
+                diagram: '<p>Diagram for History Dropdown</p>', // Replace with actual diagram content
+                instructions: 'The "History" dropdown allows you to quickly access and reuse your previous queries.'
+            },
+            {
+                target: '#queryExamplesDropdown',
+                diagram: '<p>Diagram for Examples Dropdown</p>', // Replace with actual diagram content
+                instructions: 'The "Examples" dropdown provides pre-built queries to help you get started.'
+            },
+            {
+                target: '#resultTableContainer',
+                diagram: '<p>Diagram for Results Table</p>', // Replace with actual diagram content
+                instructions: 'The results of your query will be displayed in this table.'
+            }
+        ];
+
+        function showTutorialStep(stepIndex) {
+            if (stepIndex < 0 || stepIndex >= tutorialSteps.length) return;
+
+            // Remove previous highlight
+            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+
+            currentStep = stepIndex;
+            const step = tutorialSteps[currentStep];
+            const targetElement = document.querySelector(step.target);
+
+            if (targetElement) {
+                targetElement.classList.add('highlight');
+                // Scroll to the target element
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                tutorialDiagram.innerHTML = step.diagram;
+                tutorialInstructions.innerHTML = step.instructions;
+                tutorialModal.show();
+            }
+
+            // Update button states
+            prevStepBtn.disabled = currentStep === 0;
+            nextStepBtn.disabled = currentStep === tutorialSteps.length - 1;
+        }
+
+        // Tutorial Mode Toggle Logic
+        tutorialModeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                showTutorialStep(0);
+            } else {
+                // Remove highlight and close modal
+                document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+                tutorialModal.hide();
+            }
+        });
+
+        // Navigation buttons
+        nextStepBtn.addEventListener('click', () => showTutorialStep(currentStep + 1));
+        prevStepBtn.addEventListener('click', () => showTutorialStep(currentStep - 1));
+        skipTutorialBtn.addEventListener('click', () => {
+            tutorialModeToggle.checked = false;
+            // Remove highlight and close modal
+            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+            tutorialModal.hide();
+        });
+        // Close modal when click outside
+        tutorialModal._element.addEventListener('hidden.bs.modal', function () {
+            // Remove highlight
+            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+            tutorialModal.hide();
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src='{% static "/assets/js/stixview.bundle.js" %}'></script>
+    <script  type="module" src='{% static "/assets/js/results.js" %}'></script>
+    <script type="module" src='{% static "/assets/js/ai-insights.js" %}'></script>
+    <script type="module">
+        import { initializeAIInsights } from '{% static "/assets/js/ai-insights.js" %}';
+        document.addEventListener("DOMContentLoaded", () => {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            initializeAIInsights("magicWandButton", "aiInsightsContainer", "aiInsightsContent", csrfToken);
+        });
+    </script>
+{% endblock %}

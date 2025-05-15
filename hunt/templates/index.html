@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Hunt - Huntsman{% endblock %}
+
+{% block sidebar %}
+    <li class="nav-item">
+        <a class="nav-link active" href="/">
+            <i class="fa fa-binoculars"></i>
+            <span>Hunt</span>
+        </a>
+        <a class="nav-link" href="/rules/">
+            <i class="fa fa-list"></i>
+            <span>Rules</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0">Hunt</h3>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card text-white bg-info shadow">
+                <div class="card-body">
+                    <div>
+                        <p class="m-0">Usage</p>
+                        <p class="text-white-50 small m-0">
+                            <span style="color: rgb(215, 226, 232);">
+                                Huntsman uses SuperDB, which employs an extended SQL query language. This extended language, known as <a href="https://superdb.org/docs/language/overview/">SuperSQL</a>
+                            </span>
+                            <br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- Main Content Area -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <p class="text-primary m-0 fw-bold">IOC Analysis</p>
+                </div>
+                <div class="card-body">
+                    <form id="iocForm">
+                        <div class="mb-3">
+                            <label for="raw_string" class="form-label">Enter Observables:</label>
+                            <textarea id="raw_string" name="raw_string" class="form-control" rows="4" placeholder="Enter your observables (such as IP addresses, domains, hashes, etc) here, which are the input data supported by the playbook." required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="playbook_id" class="form-label">Select Playbook:</label>
+                            <div class="input-group">
+                                <select id="playbook_id" name="playbook_id" class="form-select" required>
+                                    <!-- Playbooks will be loaded here -->
+                                </select>
+                                <button type="button" class="btn btn-outline-secondary" id="show-playbook-info-btn" data-bs-toggle="modal" data-bs-target="#playbookInfoModal">
+                                    <i class="fa fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Main Content Area -->
+
+    <!-- Playbook Info Modal -->
+    <div class="modal fade" id="playbookInfoModal" tabindex="-1" aria-labelledby="playbookInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playbookInfoModalLabel">Playbook Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="playbook-info-modal-body">
+                    <!-- Playbook information will be displayed here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const form = document.getElementById('iocForm');
+        const playbookSelect = document.getElementById('playbook_id');
+        const playbookInfoModalBody = document.getElementById('playbook-info-modal-body');
+        const showPlaybookInfoBtn = document.getElementById('show-playbook-info-btn');
+
+        // Function to get the CSRF token from the cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Function to fetch playbooks from the API
+        async function fetchPlaybooks() {
+            try {
+                const response = await fetch('/api/playbooks/'); // Adjust the URL if necessary
+                const playbooks = await response.json();
+
+                playbooks.forEach(playbook => {
+                    const option = document.createElement('option');
+                    option.value = playbook.id;
+                    option.text = playbook.name;
+                    playbookSelect.appendChild(option);
+                });
+                // Trigger change event to load info for the first playbook
+                if (playbooks.length > 0) {
+                    playbookSelect.dispatchEvent(new Event('change'));
+                }
+            } catch (error) {
+                console.error('Error fetching playbooks:', error);
+                alert('Error loading playbooks. Please try again.');
+            }
+        }
+
+        // Function to fetch and display playbook information
+        async function fetchPlaybookInfo(playbookId) {
+            try {
+                const response = await fetch(`/api/playbooks/${playbookId}/`); // Adjust the URL if necessary
+                const playbook = await response.json();
+
+                // Clear previous information
+                playbookInfoModalBody.innerHTML = '';
+
+                // Display playbook name and description
+                const nameHeading = document.createElement('h5');
+                nameHeading.textContent = `Playbook: ${playbook.name}`;
+                playbookInfoModalBody.appendChild(nameHeading);
+
+                if (playbook.description) {
+                    const descriptionParagraph = document.createElement('p');
+                    descriptionParagraph.textContent = playbook.description;
+                    playbookInfoModalBody.appendChild(descriptionParagraph);
+                }
+
+                // Display analyzers
+                if (playbook.analyzers && playbook.analyzers.length > 0) {
+                    const analyzersHeading = document.createElement('h6');
+                    analyzersHeading.textContent = 'Analyzers:';
+                    playbookInfoModalBody.appendChild(analyzersHeading);
+
+                    const analyzersList = document.createElement('ul');
+                    playbook.analyzers.forEach(analyzer => {
+                        const analyzerItem = document.createElement('li');
+                        analyzerItem.textContent = analyzer.name;
+                        analyzersList.appendChild(analyzerItem);
+                    });
+                    playbookInfoModalBody.appendChild(analyzersList);
+                }
+            } catch (error) {
+                console.error('Error fetching playbook info:', error);
+                playbookInfoModalBody.innerHTML = '<p>Error loading playbook information.</p>';
+            }
+        }
+
+        // Load playbooks when the page loads
+        window.addEventListener('load', fetchPlaybooks);
+
+        // Event listener for playbook selection change
+        playbookSelect.addEventListener('change', (event) => {
+            const selectedPlaybookId = event.target.value;
+            //fetchPlaybookInfo(selectedPlaybookId); // Removed this line
+        });
+
+        // Event listener for the info button
+        showPlaybookInfoBtn.addEventListener('click', () => {
+            const selectedPlaybookId = playbookSelect.value;
+            fetchPlaybookInfo(selectedPlaybookId);
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const raw_string = document.getElementById('raw_string').value;
+            const playbook_id = document.getElementById('playbook_id').value;
+
+
+            try {
+                // Include the CSRF token in the headers
+                const csrftoken = getCookie('csrftoken');
+                const response = await fetch('/api/tasks/', { // Adjust the URL if necessary
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken  // Add CSRF token
+                    },
+                    body: JSON.stringify({ raw_string, playbook_id }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const taskIds = data.task_ids;
+
+                    // Store task_ids in local storage to retrieve later
+                    localStorage.setItem('task_ids', taskIds);
+
+                    // Redirect to the loading page
+                    window.location.href = `/loading?task_ids=${taskIds}`;
+
+
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error submitting task:', errorData);
+                    alert(`Error submitting task: ${errorData.error || 'Unknown error'}`);
+                }
+            } catch (error) {
+                console.error('Error submitting task:', error);
+                alert('Error submitting task. Please try again.');
+            }
+        });
+    </script>
+{% endblock %}

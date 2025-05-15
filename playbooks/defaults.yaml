@@ -1,0 +1,103 @@
+# playbooks/defaults.yaml
+# Default playbook definitions loaded by populateDB.py
+
+- name: 1 - Basic Search
+  description: This playbook provides a basic search from common threat intelligence sources, making it ideal for efficient investigations. It effectively handles domains, IPs, MD5s, and SHA256 hashes.
+  analyzer_names:
+    - abuseipdb
+    - alienvault
+    - virustotal
+    - ipinfo
+    - shodan
+    - internetdb
+    - proxycheckio
+    - spurus
+    - internetstormcast
+    - wildfire    
+  observable_type_names: 
+    - ipv4s
+    - ipv6s
+    - domains
+    - sha256s
+    - md5s 
+    - urls    
+
+- name: 2 - In-depth Search
+  description: This playbook facilitates comprehensive investigations by aggregating data from various modules, providing in-depth analysis of SHA256, MD5, IPv4, and IPv6 addresses. While the lookups may be slower, the enriched results offer valuable insights, making it ideal for detailed threat assessments. It allows GTO to explore extensive information, enhancing their understanding of potential threats.
+  analyzer_names:
+    - abuseipdb
+    - alienvault
+    - virustotal
+    - ipinfo
+    - shodan
+    - internetdb
+    - proxycheckio
+    - spurus
+    - internetstormcast
+    - wildfire
+    - malwarebazaar
+    - threatfox
+    - urlscanio
+    - urlhaus
+    - crowdsec
+    - certificatesearch
+  observable_type_names: 
+    - ipv4s
+    - ipv6s
+    - domains
+    - sha256s
+    - md5s 
+    - urls
+    
+- name: 3 - Default IP Enrichment
+  description: Basic playbook for enriching IP addresses.
+  analyzer_names:
+    - abuseipdb
+    - virustotal
+    - ipinfo
+    - shodan
+    - internetdb
+    - proxycheckio
+    - spurus
+    - internetstormcast
+    - crowdsec
+  observable_type_names: # Added list of relevant observable types
+    - ipv4s
+    - ipv6s
+
+- name: 4 - Default Domain Enrichment
+  description: Basic playbook for enriching Domain names.
+  analyzer_names:
+    - virustotal
+    - whois
+    - urlscanio
+    - dnsresolver
+    - certificatesearch
+    - urlhaus
+    - spurus
+  observable_type_names: # Added list of relevant observable types
+    - domains
+
+- name: 5 - Default File Hash Enrichment
+  description: Basic playbook for enriching file hashes (SHA256).
+  analyzer_names:
+    - virustotal
+    - malwarebazaar
+    - threatfox
+    - wildfire
+  observable_type_names: # Added list of relevant observable types
+    - sha256s
+    - md5s # Example: Add other relevant hash types if needed
+    - sha1s
+
+- name: 6 - Default URL Enrichment
+  description: Basic playbook for enriching URLs.
+  analyzer_names:
+    - virustotal
+    - urlscanio
+    - urlhaus
+    - threatfox
+  observable_type_names: # Added list of relevant observable types
+    - urls
+
+# Add more playbooks here or in other .yaml files within the playbooks/ directory
