@@ -1,0 +1,24 @@
+bleepingcomputer:
+  name: "BleepingComputer"
+  url: "https://www.bleepingcomputer.com/feed/"
+  db_pool: "rss-news"
+  type: "rss_feed" 
+
+malpedia:
+  name: "Malpedia"
+  url: "https://malpedia.caad.fkie.fraunhofer.de/rss"
+  db_pool: "rss-news"
+  type: "rss_feed" 
+
+mandiant_threat_intel:
+  name: "Mandiant Threat Intel"
+  url: "https://www.mandiant.com/blogs/threat-research/rss.xml"
+  db_pool: "rss-news"
+  type: "rss_feed" 
+
+hackernews:
+  name: "hackerNews"
+  url: "https://feeds.feedburner.com/TheHackersNews"
+  db_pool: "rss-news"
+  type: "rss_feed" 
+

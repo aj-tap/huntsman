@@ -1,0 +1,451 @@
+{% extends 'api/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="view-input" class="view-section">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            
+            <div class="mb-4">
+                <ul class="nav nav-pills nav-fill bg-light rounded p-1 border">
+                    <li class="nav-item">
+                        <button class="nav-link active rounded-1 fw-bold small" id="tab-regex" onclick="app.toggleInputView('regex')">
+                            <i class="bi bi-robot me-2"></i>Auto
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link rounded-1 fw-bold small" id="tab-manual" onclick="app.toggleInputView('manual')">
+                            <i class="bi bi-keyboard-fill me-2"></i>Manual Input
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="mode-regex" class="card shadow-sm mb-4 border-0">
+                <div class="card-header bg-white border-bottom pt-3 pb-2">
+                    <h6 class="mb-0 text-uppercase fw-bold text-muted small"><i class="bi bi-file-earmark-text me-2"></i>Raw Data Ingestion</h6>
+                </div>
+                <div class="card-body">
+                    <label class="form-label text-muted small fw-bold">Source Data (Logs, Text, CSV)</label>
+                    <textarea id="input-text" class="form-control font-monospace bg-light border-0" rows="6" style="font-size: 0.85rem;" placeholder="Paste unstructured logs or text here..."></textarea>
+                    <div class="mt-2 d-flex justify-content-between align-items-center border-top pt-2">
+                        <span class="text-primary small fw-bold" id="ioc-count"><i class="bi bi-crosshair me-1"></i>0 artifacts detected</span>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="app.clearInput()">
+                            <i class="bi bi-eraser me-1"></i>Clear Buffer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mode-manual" class="card shadow-sm mb-4 border-0 d-none">
+                 <div class="card-header bg-white border-bottom pt-3 pb-2 d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 text-uppercase fw-bold text-muted small"><i class="bi bi-pencil-square me-2"></i>Structured Input</h6>
+                    <span class="badge bg-primary rounded-pill" id="manual-count">0 Staged</span>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2 mb-3 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted text-uppercase mb-1">Indicator Type</label>
+                            <input class="form-control form-control-sm" list="ioc-types" id="manual-type" placeholder="Select type...">
+                            <datalist id="ioc-types"></datalist>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted text-uppercase mb-1">Indicator Value</label>
+                            <input type="text" class="form-control form-control-sm font-monospace" id="manual-id" placeholder="e.g. 192.168.1.1">
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-sm btn-primary w-100" type="button" onclick="app.addManualIOC()">
+                                <i class="bi bi-plus-lg me-1"></i>Add
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-light rounded border p-3" style="min-height: 100px;">
+                        <label class="form-label small fw-bold text-muted text-uppercase mb-2">Staged Artifacts</label>
+                        <div id="manual-ioc-list" class="d-flex flex-wrap gap-2">
+                            <small class="text-muted fst-italic" id="manual-placeholder">No artifacts staged.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4 border-0">
+                <div class="card-header bg-white border-bottom pt-3 pb-2 d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 text-uppercase fw-bold text-muted small"><i class="bi bi-hdd-stack me-2"></i>Enrichment Modules</h6>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary" onclick="app.selectAllServices(true)">All</button>
+                        <button class="btn btn-outline-secondary" onclick="app.selectAllServices(false)">None</button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="p-2 border-bottom bg-light">
+                         <div class="input-group input-group-sm">
+                            <span class="input-group-text border-0 bg-transparent"><i class="bi bi-filter"></i></span>
+                            <input type="text" id="service-search" class="form-control border-0 bg-transparent" placeholder="Filter modules...">
+                         </div>
+                    </div>
+                    <div id="services-container" class="service-list-container p-0" style="max-height: 250px; overflow-y: auto;">
+                        <div class="text-center text-muted py-4">
+                            <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
+                            <p class="mt-2 small">Loading modules...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid pb-5">
+                <button class="btn btn-primary py-2 shadow-sm fw-bold text-uppercase" onclick="app.startAnalysis()" style="letter-spacing: 0.5px;">
+                    <i class="bi bi-lightning-charge-fill me-2"></i>Execute Analysis
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="view-monitor" class="view-section d-none">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom">
+            <h6 class="mb-0 text-uppercase fw-bold text-primary">Operation Status</h6>
+            <button class="btn btn-sm btn-outline-secondary" onclick="app.switchView('view-results')">
+                <i class="bi bi-arrow-right me-1"></i>View Results
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="progress mb-4" style="height: 6px;">
+                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+            </div>
+            
+            <div id="status-message" class="d-flex align-items-center text-muted small mb-3">
+                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                <span>Initializing analysis tasks...</span>
+            </div>
+
+            <div class="table-responsive border rounded" style="max-height: 400px; overflow-y: auto;">
+                <table class="table table-hover table-sm align-middle mb-0 small">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th style="width: 100px;">State</th>
+                            <th>Module</th>
+                            <th>Target</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasks-table-body" class="font-monospace"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="view-results" class="view-section d-none">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h4 class="mb-1 fw-bold">Investigation Results</h4>
+        </div>
+        <div class="btn-group shadow-sm">
+            <button class="btn btn-sm btn-outline-secondary" onclick="app.toggleViewMode('graph')"><i class="bi bi-share me-1"></i>Graph</button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="app.toggleViewMode('list')"><i class="bi bi-list-ul me-1"></i>Detections</button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="app.toggleViewMode('explorer')"><i class="bi bi-terminal me-1"></i>Explorer</button>
+            <button class="btn btn-sm btn-primary" onclick="app.resetView()">
+                <i class="bi bi-plus-circle me-1"></i>New Investigation
+            </button>
+        </div>
+    </div>
+
+    <div id="graph-container" class="card shadow-sm mb-4 position-relative border-0">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom py-2">
+            <h6 class="mb-0 text-uppercase fw-bold small text-muted">Relationship Graph</h6>
+            <div>
+                <small class="text-muted me-2" style="font-size: 0.75rem;">Right-click nodes to edit/connect</small>
+                <button class="btn btn-xs btn-outline-primary ms-2" onclick="app.openAddObjectModal()">
+                    <i class="bi bi-plus-lg me-1"></i>Add Object
+                </button>
+                <span class="badge bg-light text-dark border ms-2">STIX 2.1</span>
+            </div>
+        </div>
+        
+        <div class="card-body p-0 position-relative" style="min-height: 700px; overflow: hidden;">
+            <div id="cy" style="width: 100%; height: 700px; background-color: #f8f9fa;"></div>
+            
+            <div class="graph-controls shadow-sm border rounded">
+                <div id="node-details-panel" class="mb-3 d-none border-bottom pb-2">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h6 class="fw-bold text-primary small mb-2">Object Details</h6>
+                        <button class="btn-close btn-close-sm" onclick="app.hideNodeDetails()"></button>
+                    </div>
+                    <div class="bg-white p-2 rounded border font-monospace" id="node-json" style="max-height: 150px; overflow-y: auto; white-space: pre-wrap; font-size: 0.7rem;"></div>
+                </div>
+                
+                <div class="accordion accordion-flush" id="graphSettingsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed py-2 small fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#layoutSettings">
+                                Layout & Physics
+                            </button>
+                        </h2>
+                        <div id="layoutSettings" class="accordion-collapse collapse" data-bs-parent="#graphSettingsAccordion">
+                             <div class="accordion-body p-2">
+                                <div class="mb-2">
+                                    <label class="form-label x-small text-muted mb-0">Algorithm</label>
+                                    <select id="layoutAlgo" class="form-select form-select-sm" onchange="app.updateLayout()">
+                                        <option value="cola" selected>Cola (Force)</option>
+                                        <option value="klay">Klay (Layered)</option>
+                                        <option value="dagre">Dagre (Tree)</option>
+                                        <option value="grid">Grid</option>
+                                        <option value="cose">CoSE</option>
+                                    </select>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label x-small text-muted mb-0">Repulsion</label>
+                                    <input type="range" class="form-range" id="nodeRepulsion" min="1000" max="200000" value="50000" step="1000" oninput="app.updateLayout()">
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label x-small text-muted mb-0">Zoom</label>
+                        <span id="zoomVal" class="x-small text-muted">1.0x</span>
+                    </div>
+                    <input type="range" class="form-range" id="zoomSlider" min="0.1" max="3.0" step="0.1" value="1.0" oninput="app.setZoom(this.value)">
+                </div>
+                <div class="btn-group w-100 mt-2">
+                     <button class="btn btn-xs btn-outline-secondary" onclick="app.toggleFullScreen()">
+                        <i class="bi bi-arrows-fullscreen"></i>
+                    </button>
+                    <button class="btn btn-xs btn-outline-secondary" onclick="app.exportGraph()" title="Export PNG">
+                        <i class="bi bi-camera"></i>
+                    </button>
+                     <button class="btn btn-xs btn-outline-secondary" onclick="app.exportBundle()" title="Export Bundle (JSON)">
+                        <i class="bi bi-filetype-json"></i>
+                    </button>
+                </div>
+                <div class="mt-3 border-top pt-2">
+                    <h6 class="fw-bold x-small text-muted mb-2">Legend</h6>
+                    <div id="legend-list" class="legend-scroll-area"></div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="pivotModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="false">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content shadow">
+                        <div class="modal-header py-2 border-bottom">
+                            <h6 class="modal-title fw-bold text-uppercase small">Pivot Analysis</h6>
+                            <button type="button" class="btn-close small" onclick="app.hidePivotModal()"></button>
+                        </div>
+                        <div class="modal-body py-2">
+                            <div class="mb-3 bg-light p-2 rounded border text-center">
+                                <small class="text-muted d-block x-small text-uppercase">Target Artifact</small>
+                                <span id="pivot-node-label" class="font-monospace fw-bold text-primary text-break"></span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="x-small fw-bold text-muted text-uppercase">Modules</span>
+                                <div>
+                                    <a href="#" class="text-decoration-none x-small fw-bold me-2" onclick="app.togglePivotSelection(true)">All</a>
+                                    <a href="#" class="text-decoration-none x-small text-muted" onclick="app.togglePivotSelection(false)">None</a>
+                                </div>
+                            </div>
+                            
+                            <div id="pivot-services-list" class="list-group list-group-flush border rounded mb-3" style="max-height: 200px; overflow-y: auto;"></div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-sm btn-primary shadow-sm" onclick="app.executePivot()">
+                                    <i class="bi bi-lightning-charge-fill me-1"></i>Execute Pivot
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="addObjectModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content shadow">
+                        <div class="modal-header py-2 border-bottom">
+                            <h6 class="modal-title fw-bold text-uppercase small">Add / Edit STIX Object</h6>
+                            <button type="button" class="btn-close small" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body py-3">
+                            <input type="hidden" id="obj-hidden-id">
+                            <div class="mb-2">
+                                <label class="form-label x-small text-muted text-uppercase fw-bold">Type</label>
+                                <select id="new-obj-type" class="form-select form-select-sm">
+                                    <optgroup label="SDOs (Domains)">
+                                        <option value="attack-pattern">Attack Pattern</option>
+                                        <option value="campaign">Campaign</option>
+                                        <option value="course-of-action">Course of Action</option>
+                                        <option value="grouping">Grouping</option>
+                                        <option value="identity">Identity</option>
+                                        <option value="incident">Incident</option>
+                                        <option value="indicator">Indicator</option>
+                                        <option value="infrastructure">Infrastructure</option>
+                                        <option value="intrusion-set">Intrusion Set</option>
+                                        <option value="location">Location</option>
+                                        <option value="malware">Malware</option>
+                                        <option value="malware-analysis">Malware Analysis</option>
+                                        <option value="note">Note</option>
+                                        <option value="observed-data">Observed Data</option>
+                                        <option value="opinion">Opinion</option>
+                                        <option value="report">Report</option>
+                                        <option value="threat-actor">Threat Actor</option>
+                                        <option value="tool">Tool</option>
+                                        <option value="vulnerability">Vulnerability</option>
+                                    </optgroup>
+                                    <optgroup label="SCOs (Observables)">
+                                        <option value="autonomous-system">Autonomous System</option>
+                                        <option value="directory">Directory</option>
+                                        <option value="domain-name">Domain Name</option>
+                                        <option value="email-addr">Email Address</option>
+                                        <option value="file">File</option>
+                                        <option value="ipv4-addr">IPv4 Address</option>
+                                        <option value="ipv6-addr">IPv6 Address</option>
+                                        <option value="mac-addr">MAC Address</option>
+                                        <option value="mutex">Mutex</option>
+                                        <option value="network-traffic">Network Traffic</option>
+                                        <option value="process">Process</option>
+                                        <option value="software">Software</option>
+                                        <option value="url">URL</option>
+                                        <option value="user-account">User Account</option>
+                                        <option value="windows-registry-key">Registry Key</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label x-small text-muted text-uppercase fw-bold">Name / Value</label>
+                                <input type="text" id="new-obj-name" class="form-control form-control-sm" placeholder="Enter name...">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label x-small text-muted text-uppercase fw-bold">Labels (comma separated)</label>
+                                <input type="text" id="new-obj-labels" class="form-control form-control-sm" placeholder="e.g. suspicious, apt29">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label x-small text-muted text-uppercase fw-bold">Description</label>
+                                <textarea id="new-obj-description" class="form-control form-control-sm" rows="3" placeholder="Enter description..."></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="app.saveStixObject()">
+                                    <i class="bi bi-save me-1"></i>Save Object
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="relationshipModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content shadow">
+                        <div class="modal-header py-2 border-bottom">
+                            <h6 class="modal-title fw-bold text-uppercase small">Create Relationship</h6>
+                            <button type="button" class="btn-close small" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body py-3">
+                            <div class="mb-2">
+                                <label class="form-label x-small text-muted text-uppercase fw-bold">Type</label>
+                                <select id="rel-type" class="form-select form-select-sm">
+                                    <option value="related-to">related-to</option>
+                                    <option value="attributed-to">attributed-to</option>
+                                    <option value="targets">targets</option>
+                                    <option value="uses">uses</option>
+                                    <option value="located-at">located-at</option>
+                                    <option value="indicates">indicates</option>
+                                    <option value="mitigates">mitigates</option>
+                                    <option value="variant-of">variant-of</option>
+                                    <option value="derived-from">derived-from</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 bg-light border rounded p-2 x-small">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-muted">Source:</span>
+                                    <span class="fw-bold text-truncate" style="max-width: 150px;" id="rel-source-display"></span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Target:</span>
+                                    <span class="fw-bold text-truncate" style="max-width: 150px;" id="rel-target-display"></span>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="app.createRelationship()">
+                                    <i class="bi bi-share-fill me-1"></i>Connect
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toast-container position-absolute bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast shadow-sm border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header text-white bg-dark">
+                        <i class="bi bi-terminal me-2"></i>
+                        <strong class="me-auto small">System Notification</strong>
+                        <button type="button" class="btn-close btn-close-white" onclick="bootstrap.Toast.getInstance(document.getElementById('liveToast')).hide()"></button>
+                    </div>
+                    <div class="toast-body bg-white text-dark small" id="toast-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="list-container" class="d-none">
+        <div class="accordion" id="results-accordion"></div>
+    </div>
+
+    <div id="explorer-container" class="d-none card shadow-sm border-0" style="min-height: 700px;">
+        <div id="ai-insight-section" class="d-none border-bottom bg-light"></div>
+
+        <div class="card-header bg-light p-3">
+            <div class="input-group input-group-sm">
+                <span class="input-group-text font-monospace border-end-0 bg-white text-muted">QUERY</span>
+                <textarea id="zq-input" class="form-control font-monospace border-start-0" rows="4"  placeholder="yield this | count() by service"></textarea>
+                <button class="btn btn-primary" type="button" id="btn-run-zq"><i class="bi bi-play-fill"></i></button>
+            </div>
+            <div id="predefined-queries-bar" class="mt-2 pt-2 border-top d-flex flex-wrap gap-2">
+                <small class="text-muted w-100 x-small">QUERY LIBRARY</small>
+            </div>
+        </div>
+        <div class="card-body p-0" style="overflow: auto; height: 650px;">
+            <div id="explorer-results" class="p-3"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'api/js/vendor/cytoscape.min.js' %}"></script>
+<script src="{% static 'api/js/vendor/cytoscape-cxtmenu.min.js' %}"></script>
+<script src="{% static 'api/js/vendor/cola.min.js' %}"></script>
+<script src="{% static 'api/js/vendor/cytoscape-cola.min.js' %}"></script>
+<script src="{% static 'api/js/vendor/klay.js' %}"></script>
+<script src="{% static 'api/js/vendor/cytoscape-klay.min.js' %}"></script>
+<script src="{% static 'api/js/vendor/marked.min.js' %}"></script>
+<script src="{% static 'api/js/vendor/dagre.min.js' %}"></script>
+<script src="{% static 'api/js/vendor/cytoscape-dagre.min.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'api/css/dashboard.css' %}">
+
+<script>
+    window.HuntsmanConfig = {
+        urls: {
+            services: "{% url 'api:list-services' %}",
+            analyzeBulk: "{% url 'api:trigger-bulk-analysis' %}",
+            tasksBulk: "{% url 'api:get-bulk-task-status' %}",
+            correlate: "{% url 'api:correlation-engine' %}",
+            stixBulk: "{% url 'api:stix-report-create-bulk' %}",
+            query: "{% url 'api:superdb-query' %}",
+            aiAnalyze: "{% url 'api:ai-analyze' %}"
+        },
+        csrfToken: "{{ csrf_token }}",
+        patterns: {{ ioc_patterns|safe }},
+        wasmPath: "{% static 'api/wasm/superdb.wasm' %}",
+        maxIocSubmissionLimit: {{ max_ioc_submission_limit }}
+    };
+</script>
+
+<script src="{% static 'api/js/wasm_exec.js' %}"></script>
+<script src="{% static 'api/js/bridge.js' %}"></script>
+<script type="module" src="{% static 'api/js/dashboard.js' %}"></script>
+{% endblock %}

@@ -1,13 +1,73 @@
 services:
+  # Database Service
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:           
+      - .env            
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U huntsman_user -d huntsman_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Web Service
   web:
-    build:
-      context: .
+    build: .
+    command: gunicorn huntsman.wsgi:application --bind 0.0.0.0:8080 --workers 3
     ports:
       - "8080:8080"
-      - "5555:5555"    
     depends_on:
-      - superdb
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      superdb:
+        condition: service_started
+    env_file:
+      - .env
+
+  # Celery Worker
+  celery_worker:
+    build: .
+    command: celery -A huntsman worker -l info
+    depends_on:
+      - db
+      - redis      
+    env_file:
+      - .env
+
+  # Celery Beat
+  celery_beat:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             celery -A huntsman beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    depends_on:
+      - db
       - redis
+    env_file:
+      - .env
+
+  # Flower (Monitoring)
+  flower:
+    build: .
+    command: celery -A huntsman.celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+    env_file:
+      - .env
+
+  # Redis
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  # SuperDB
   superdb:
     build:
       context: .
@@ -16,10 +76,11 @@ services:
       - superdb_data:/data
     ports:
       - "9867:9867"
-  redis:
-    image: "redis:alpine"
-    ports:
-      - "6379:6379"
 
 volumes:
   superdb_data:
+  postgres_data:
+
+networks:
+  default:
+    driver: bridge

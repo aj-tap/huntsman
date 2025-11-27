@@ -2,21 +2,16 @@ FROM debian:latest
 
 WORKDIR /app
 
-# Install required dependencies (if any)
 RUN apt-get update && apt-get install -y libgcc-s1 && rm -rf /var/lib/apt/lists/*
 
-# Ensure the /data and cobweb directories exist
-RUN mkdir -p /data /app/cobweb
+RUN mkdir -p /data /app/datalake
 
-# Copy the binary and ensure execution permissions
-COPY bin/super /usr/local/bin/super
-RUN chmod +x /usr/local/bin/super
+COPY bin/zed /usr/local/bin/zed
 
-# Create lake and pool
-RUN super db init -lake /app/cobweb/
-RUN super db create -lake /app/cobweb/ -orderby "meta.ts:desc" ThreatData 
-RUN super db create -lake /app/cobweb/ -orderby "meta.ts:desc" AIInsights
-RUN super db create -lake /app/cobweb/ StixObjects
+RUN chmod +x /usr/local/bin/zed
 
-# Initialize the lake and then start serving
-CMD ["/bin/sh", "-c", "/usr/local/bin/super db serve -lake /app/cobweb/"]
+RUN zed init  datalake/
+
+CMD ["/bin/sh", "-c", "/usr/local/bin/zed serve /app/datalake/ -l 0.0.0.0:9867"]
+
+

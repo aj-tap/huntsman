@@ -1,0 +1,36 @@
+- title: Aggregated Results
+  query_string: |
+    switch (
+      case grep('virustotal', this)=> {Results:'VTScore: ' + cast(data.attributes.last_analysis_stats, <string>), Link:'https://www.virustotal.com/gui/search/' + data.id}
+      case grep('hostnames', this)=> {Results:'InternetDB: ' + cast(tags, <string>) + ' open ports' +cast(ports, <string>),  Link:'https://internetdb.shodan.io/' + ip}
+    ) | Results!='null'
+
+- title: virustotal - Engine View
+  query_string: |
+    yield data.attributes.last_analysis_results | quiet(this)
+
+- title: virustotal - Whois View
+  query_string: |
+    yield data.attributes | cut network, whois | quiet(this)
+
+- title: virustotal - Table View
+  query_string: |
+    yield data.attributes | quiet(this)
+
+- title: ipinfo - Group by Org/ASN
+  query_string: |
+    yield this | count() by this["org"] | quiet(this)
+
+- title: otx - Pulse View
+  query_string: |
+    over pulse_info.pulses | fuse | cut name, description, tags, references | quiet(this)
+
+- title: otx - Validation View
+  query_string: |
+    fuse | over validation | quiet(this)
+
+- title: urlscanio - Results View
+  query_string: |
+    over results | yield page  | fuse | sort -r tlsValidFrom
+
+

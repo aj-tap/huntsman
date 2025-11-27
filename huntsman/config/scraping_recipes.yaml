@@ -1,0 +1,8 @@
+#spur:
+#  base_url: "https://spur.us"
+#  endpoints:
+#    ipv4-addr:
+#      path_template: "/context/{identifier}"
+#      db_pool: "spur_context"
+#      data_to_extract:
+#        context_description: "/html/body/div[2]/main/div/div/div/p"

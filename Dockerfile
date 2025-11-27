@@ -1,37 +1,40 @@
-# Use an official Python runtime as a parent image
+# Dockerfile
 FROM python:3.11-slim-bullseye
 
-# Set the working directory in the container
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    DJANGO_SETTINGS_MODULE=huntsman.settings
+
+# Create a non-root user and group
+RUN addgroup --system appgroup && adduser --system --group appuser
+
 WORKDIR /app
 
-# Copy the requirements file into the container at /app
-COPY requirements.txt /app/
+# Install system dependencies
+# libpq-dev is often needed for psycopg2 (Postgres)
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install any needed packages specified in requirements.txt
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code into the container
-COPY . /app/
+# Copy project files
+COPY . .
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE=core.settings
+# Copy entrypoint and ensure it is executable
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Expose the port your Gunicorn app runs on (8080)
+# Chown all the files to the app user
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose the Gunicorn port
 EXPOSE 8080
-EXPOSE 5555
 
-# Make the super binary and run.sh executable
-RUN chmod +x /app/run.sh
-
-# Run migrations and populate the database
-RUN python manage.py makemigrations hunt
-RUN python manage.py migrate
-RUN python populateDB.py
-RUN python manage.py collectstatic --noinput
-RUN python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@shinkensec.local', 'admin') if not User.objects.filter(username='admin').exists() else print('Superuser already exists.')"
-
-CMD export PYTHONPATH=/app && \
-    celery -A core worker -E -l info & \
-    celery -A core.celery_app flower --basic_auth=admin:admin --port=5555 & \
-    gunicorn core.wsgi:application --bind 0.0.0.0:8080 --workers 3
+ENTRYPOINT ["entrypoint.sh"]

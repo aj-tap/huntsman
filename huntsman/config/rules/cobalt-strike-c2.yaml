@@ -1,0 +1,11 @@
+id: e3365100-2d49-47fa-b73a-f03981fe1f69 
+title: Detect Cobaltstrike C2
+description: This rule detects known c2 jarm hashes.
+author: aj-tap
+tags: 
+  - C2
+  - Cobaltstrike
+  - shodan
+syntax: |
+  from shodan | grep('29d21b20d29d29d21c41d21b21b41d494e0df9532e75299f15ba73156cee38',this) | quiet(this)
+source: internetstormcast

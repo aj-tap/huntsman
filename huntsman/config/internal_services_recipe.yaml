@@ -1,0 +1,49 @@
+rss-news:
+  label: "RSS News Context"
+  description: "Searches the internal RSS threat intelligence data lake for related articles."
+  endpoints:
+    ipv4-addr:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"
+    ipv6-addr:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"
+    domain-name:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"
+    url:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"
+    sha256:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"
+    md5:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"
+    file:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"
+    vulnerability:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"
+    software:
+      query_pattern: "from 'rss-news' | search '{identifier}'| head 1 "
+      llm_ioc_extract: true
+      pivots:
+        all: "yield full_text"        

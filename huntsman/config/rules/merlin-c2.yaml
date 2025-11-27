@@ -1,0 +1,11 @@
+id: d2e8f1c0-a4b3-4f1e-9d2c-8a1b5c2d3e4f 
+title: Detect Merlin C2
+description: This rule detects known merlin jarm hashes. go 1.15.2 linux/amd64 with github.com/gorilla/websocket package
+author: aj-tap
+tags: 
+  - C2
+  - Merlin
+  - shodan
+syntax: |
+  from shodan | grep('2ad2ad0002ad2ad22c42d42d000000faabb8fd156aa8b4d8a37853e1063261',this)| quiet(this)
+source: internetstormcast

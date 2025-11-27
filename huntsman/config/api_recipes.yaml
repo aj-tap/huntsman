@@ -1,0 +1,947 @@
+virustotal:
+  enabled: true
+  base_url: "https://www.virustotal.com/api/v3"
+  auth:
+    type: "header"
+    config:
+      header_name: "x-apikey"
+  endpoints:
+    domain-name:
+      method: "GET"
+      path_template: "/domains/{identifier}"
+      db_pool: "virustotal"
+      ratelimit: "1/5s"
+      pivots:
+        domain-name: "yield data.attributes.last_dns_records| type=='NS' or type=='MX'"
+        autonomous-system: "yield data.attributes.asn | 'AS' +  cast(this, <string>)" 
+        ipv4-addr: "over data.attributes.last_dns_records | type=='A'"
+        ipv6-addr: "over data.attributes.last_dns_records | type=='AAAA'"
+        email-addr: "yield data.attributes.whois"
+        jarm: "yield data.attributes.jarm"
+        x509-certificate: "yield data.attributes.last_https_certificate.thumbprint"
+    ipv4-addr:
+      method: "GET"
+      path_template: "/ip_addresses/{identifier}"
+      db_pool: "virustotal"
+      ratelimit: "1/5s"
+      pivots:
+        ipv4-addr: "cut data.id"
+        autonomous-system: "yield data.attributes.asn | 'AS' +  cast(this, <string>)" 
+        domain-name: "yield data.attributes.last_https_certificate.subject.CN"
+        email-addr: "yield data.attributes.whois"
+        location: "yield data.attributes.country"
+    ipv6-addr:
+      method: "GET"
+      path_template: "/ip_addresses/{identifier}"
+      db_pool: "virustotal"
+      ratelimit: "1/5s"
+      pivots:
+        ipv6-addr: "cut data.id"
+        autonomous-system: "yield data.attributes.asn | 'AS' +  cast(this, <string>)" 
+        email-addr: "yield data.attributes.whois"
+        location: "yield data.attributes.country"
+    sha256:
+      method: "GET"
+      path_template: "/files/{identifier}"
+      db_pool: "virustotal"
+      ratelimit: "1/5s"
+      pivots:
+        md5: "yield data.attributes.pe_info"
+        sha1: "cut data.attributes.sha1"
+        ssdeep: "cut data.attributes.ssdeep"
+        win-reg-key: "yield data.attributes.sigma_analysis_results"
+        imphash : "yield data.attributes.pe_info.imphash"
+        authentihash: "yield data.attributes.authentihash"
+    md5:
+      method: "GET"
+      path_template: "/files/{identifier}"
+      db_pool: "virustotal"
+      ratelimit: "1/5s"
+      pivots:
+        md5: "yield data.attributes.pe_info"
+        sha1: "cut data.attributes.sha1"
+        ssdeep: "cut data.attributes.ssdeep"
+        win-reg-key: "yield data.attributes.sigma_analysis_results"
+        imphash : "yield data.attributes.pe_info.imphash"
+        authentihash: "yield data.attributes.authentihash"
+    sha1:
+      method: "GET"
+      path_template: "/files/{identifier}"
+      db_pool: "virustotal"
+      ratelimit: "1/5s"
+      pivots:
+        md5: "yield data.attributes.pe_info"
+        sha1: "cut data.attributes.sha1"
+        ssdeep: "cut data.attributes.ssdeep"
+        win-reg-key: "yield data.attributes.sigma_analysis_results"
+        imphash : "yield data.attributes.pe_info.imphash"
+        authentihash: "yield data.attributes.authentihash" 
+    file:
+      method: "GET"
+      path_template: "/files/{identifier}"
+      db_pool: "virustotal"
+      ratelimit: "1/5s"
+      pivots:
+        md5: "yield data.attributes.pe_info"
+        ssdeep: "cut data.attributes.ssdeep"
+        win-reg-key: "yield data.attributes.sigma_analysis_results"
+        imphash : "yield data.attributes.pe_info.imphash"
+        authentihash: "yield data.attributes.authentihash"         
+               
+otx:
+  enabled: true
+  base_url: "https://otx.alienvault.com/api/v1"
+  auth:
+    type: "header"
+    config:
+      header_name: "X-OTX-API-KEY"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/indicators/IPv4/{identifier}/general"
+      db_pool: "otx"
+      ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "cut asn"
+        attack-pattern:  "over pulse_info.pulses | yield attack_ids"
+        location: "yield country_code"
+    ipv6-addr:
+      method: "GET"
+      path_template: "/indicators/IPv6/{identifier}/general"
+      db_pool: "otx"
+      ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "cut asn"
+        attack-pattern:  "over pulse_info.pulses | yield attack_ids"
+        location: "yield country_code"
+    domain-name:
+      method: "GET"
+      path_template: "/indicators/domain/{identifier}/general"
+      db_pool: "otx"
+      ratelimit: "1/5s"
+      pivots:
+        attack-pattern:  "over pulse_info.pulses | yield attack_ids"
+    sha256:
+      method: "GET"
+      path_template: "/indicators/file/{identifier}/analysis"
+      db_pool: "otx"
+      ratelimit: "1/5s"
+      pivots:
+        sha256: "yield analysis.info.results.sha256"
+        attack-pattern: "yield analysis.plugins.cuckoo | yield result['att&ck']"
+        md5: "yield analysis.info.results.md5"
+        sha1: "yield analysis.info.results.sha1"
+        ssdeep: "yield analysis.info.results.ssdeep"
+        file-name: "over analysis.plugins.cuckoo.result.signatures  | fuse | over marks | yield call | api=='NtWriteFile'| yield arguments.filepath"
+        win-reg-key: "over analysis.plugins.cuckoo.result.signatures | fuse | over marks | reg_key!=null | yield reg_key"
+        imphash : "yield analysis.plugins.pe32info"
+        ipv4-addr: "yield analysis.plugins.cuckoo.result.network"
+        ipv6-addr: "yield analysis.plugins.cuckoo.result.network"
+        domain-name: "yield analysis.plugins.cuckoo.result.network"
+        url: "yield analysis.plugins.metaextract.results.urls"
+    file:
+      method: "GET"
+      path_template: "/indicators/file/{identifier}/analysis"
+      db_pool: "otx"
+      ratelimit: "1/5s"
+      pivots:
+        sha256: "yield analysis.info.results.sha256"
+        attack-pattern: "yield analysis.plugins.cuckoo | yield result['att&ck']"
+        md5: "yield analysis.info.results.md5"
+        sha1: "yield analysis.info.results.sha1"
+        ssdeep: "yield analysis.info.results.ssdeep"
+        file-name: "over analysis.plugins.cuckoo.result.signatures  | fuse | over marks | yield call | api=='NtWriteFile'| yield arguments.filepath"
+        win-reg-key: "over analysis.plugins.cuckoo.result.signatures | fuse | over marks | reg_key!=null | yield reg_key"
+        imphash : "yield analysis.plugins.pe32info"
+        ipv4-addr: "yield analysis.plugins.cuckoo.result.network"
+        ipv6-addr: "yield analysis.plugins.cuckoo.result.network"
+        domain-name: "yield analysis.plugins.cuckoo.result.network"
+        url: "yield analysis.plugins.metaextract.results.urls"        
+    vulnerability:
+      method: "GET"
+      path_template: "/indicators/cve/{identifier}/general"
+      db_pool: "otx"
+      ratelimit: "1/5s"
+    url:
+      method: "GET"
+      path_template: "/indicators/url/{identifier}/general"
+      db_pool: "otx"
+      ratelimit: "1/5s"
+      pivots:
+        attack-pattern:  "over pulse_info.pulses | yield attack_ids"        
+        domain-name: "cut hostname, domain"
+
+shodan:
+  enabled: true
+  base_url: "https://api.shodan.io"
+  auth:
+    type: "param"
+    config:
+      param_name: "key"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/shodan/host/{identifier}"
+      db_pool: "shodan"
+      ratelimit: "1/5s"
+      pivots:
+        ipv4-addr : "over data | fuse | yield ip_str | uniq"
+        domain-name: "yield domains"
+        software: "cut cpes"
+        location: "yield country_code"
+        autonomous-system: "yield asn"
+        vulnerability: "over data | fuse |  yield opts.vulns | uniq" 
+        jarm: "over data | fuse |  yield ssl.jarm | uniq"       
+    ipv6-addr:
+      method: "GET"
+      path_template: "/shodan/host/{identifier}"
+      db_pool: "shodan"
+      ratelimit: "1/5s"
+      pivots:
+        ipv4-addr : "over data | fuse | yield ip_str | uniq"
+        domain-name: "yield domains"
+        software: "cut cpes"
+        location: "yield country_code"
+        autonomous-system: "yield asn"
+        vulnerability: "over data | fuse |  yield opts.vulns | uniq" 
+        jarm: "over data | fuse |  yield ssl.jarm | uniq"      
+    domain-name:
+      method: "GET"
+      path_template: "/dns/domain/{identifier}"
+      db_pool: "shodan"
+      ratelimit: "1/5s"
+    jarm:
+      method: "GET"
+      path_template: "/shodan/host/search"
+      params_template:
+        query: "ssl.jarm:{identifier}"
+      db_pool: "shodan"
+      ratelimit: "1/5s"
+    software:
+      method: "GET"
+      path_template: "/shodan/host/search"
+      params_template:
+        query: "cpe:{identifier}"
+      db_pool: "shodan"
+      ratelimit: "1/5s"
+    x509-certificate:
+      method: "GET"
+      path_template: "/shodan/host/search"
+      params_template:
+        query: "ssl.cert.fingerprint:{identifier}"
+      db_pool: "shodan"
+      ratelimit: "1/5s"
+      pivots:
+        ipv6-addr : "over matches | fuse | yield ipv6 | uniq"
+        domain-name: "over matches | fuse | yield hostnames | uniq"
+        x509-certificate: "over matches | fuse | yield ssl.cert.fingerprint.sha1 | uniq"
+        location: "over matches | fuse | yield location.country_code | uniq"
+        autonomous-system: "over matches | fuse | yield asn"
+        jarm: "over matches | fuse | yield ssl.jarm | uniq"  
+    autonomous-system:
+      method: "GET"
+      path_template: "/shodan/host/search"
+      params_template:
+        query: "asn:{identifier}"
+      db_pool: "shodan"
+      ratelimit: "1/5s"
+      pivots:
+        ipv4-addr : "over matches | fuse | yield ip_str | uniq"
+        domain-name: "over matches | fuse | yield hostnames | uniq"
+        x509-certificate: "over matches | fuse | yield ssl.cert.fingerprint.sha1 | uniq"
+        location: "over matches | fuse | yield location.country_code | uniq"
+        autonomous-system: "over matches | fuse | yield asn"
+        jarm: "over matches | fuse | yield ssl.jarm | uniq"       
+    location:
+      method: "GET"
+      path_template: "/shodan/host/search"
+      params_template:
+        query: "country:{identifier}"
+      db_pool: "shodan"
+      ratelimit: "1/5s"
+
+internetdb:
+  enabled: true
+  base_url: "https://internetdb.shodan.io"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/{identifier}"
+      db_pool: "internetdb"
+      ratelimit: "1/5s"
+      pivots:
+        domain-name: "cut hostnames"
+        software: "cut cpes"
+        vulnerability: "cut vulns"
+    ipv6-addr:
+      method: "GET"
+      path_template: "/{identifier}"
+      db_pool: "internetdb"
+      ratelimit: "1/5s"
+      pivots:
+        domain-name: "cut hostnames"
+        software: "cut cpes"
+        vulnerability: "cut vulns"
+
+abuseipdb:
+  enabled: true
+  base_url: "https://api.abuseipdb.com/api/v2"
+  auth:
+    type: "header"
+    config:
+      header_name: "Key"
+  static_headers:
+    Accept: "application/json"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/check"
+      params_template:
+        ipAddress: "{identifier}"
+      db_pool: "abuseipdb"
+      ratelimit: "1/5s"
+      pivots:
+        domain-name: "yield data | cut domain, hostnames"      
+    ipv6-addr:
+      method: "GET"
+      path_template: "/check"
+      params_template:
+        ipAddress: "{identifier}"
+      db_pool: "abuseipdb"
+      ratelimit: "1/5s"
+      pivots:
+        domain-name: "yield data | cut domain, hostnames"    
+
+ipinfo:
+  enabled: true
+  base_url: "https://v4.api.ipinfo.io"
+  auth:
+    type: "param"
+    config:
+      param_name: "token"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/lite/{identifier}"
+      db_pool: "ipinfo"
+      ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "yield asn" 
+        domain-name: "yield as_domain"     
+        location: "yield country_code"
+
+    ipv6-addr:
+      method: "GET"
+      path_template: "/lite/{identifier}"
+      db_pool: "ipinfo"
+      ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "yield asn" 
+        domain-name: "yield as_domain"     
+        location: "yield country_code"
+      
+internetstormcast:
+  enabled: true
+  base_url: "https://isc.sans.edu/api"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/ip/{identifier}?json"
+      db_pool: "internetstormcast"
+      ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "yield ip.as | 'AS' +  cast(this, <string>)" 
+        email-addr: "yield ip.asabusecontact"  
+        domain-name: "yield ip.alexa.hostname" 
+        location: "yield ip.ascountry"
+    ipv6-addr:
+      method: "GET"
+      path_template: "/ip/{identifier}?json"
+      db_pool: "internetstormcast"
+      ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "yield ip.as | 'AS' +  cast(this, <string>)" 
+        email-addr: "yield ip.asabusecontact"  
+        domain-name: "yield ip.alexa.hostname"     
+        location: "yield ip.ascountry"
+
+proxycheckio:
+  enabled: true
+  base_url: "http://proxycheck.io/v2"
+  auth:
+    type: "param"
+    config:
+      param_name: "key"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/{identifier}"
+      params_template:
+        vpn: 1
+        asn: 1
+        risk: 1
+        port: 1
+        seen: 1
+        days: 7
+        tag: "msg"
+      db_pool: "proxycheckio"
+      ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "over this | cut value | yield value.asn | quiet(this)" 
+        domain-name: "over this | cut value | yield value.operator.url | quiet(this)"     
+        location: "over this | cut value | yield value.isocode | quiet(this)"
+        url: "over this | cut value | yield value.operator.url | quiet(this)"              
+    email-addr:
+      method: "GET"
+      path_template: "/{identifier}"
+      db_pool: "proxycheckio"
+      ratelimit: "1/5s"
+
+urlscanio:
+  enabled: true
+  base_url: "https://urlscan.io/api/v1"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/search/"
+      params_template:
+        q: "ip:{identifier}"
+      db_pool: "urlscanio"
+      ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "over results | yield page.asn | uniq" 
+        domain-name: "over results  | fuse | sort -r task.time | yield page.domain | uniq | head 10"     
+
+cve-services:
+  enabled: true
+  base_url: "https://cveawg.mitre.org/api/"
+  endpoints:
+    vulnerability:
+      method: "GET"
+      path_template: "/cve/{identifier}"
+      db_pool: "cve-services"
+      ratelimit: "1/5s"
+      pivots:
+        vulnerability: "yield cveMetadata.cveId"
+        software: "yield containers"        
+
+maclookup:
+  enabled: true
+  base_url: "https://api.maclookup.app/v2"
+  endpoints:
+    mac-addr:
+      method: "GET"
+      path_template: "/macs/{identifier}"
+      db_pool: "maclookup"
+      ratelimit: "1/5s"
+
+certificatesearch:
+  enabled: true
+  base_url: "https://crt.sh"
+  endpoints:
+    domain-name:
+      method: "GET"
+      path_template: "/"
+      params_template:
+        q: "{identifier}"
+        output: "json"
+      db_pool: "certificatesearch"
+      ratelimit: "1/5s"
+    x509-certificate:
+      method: "GET"
+      path_template: "/"
+      params_template:
+        q: "{identifier}"
+        output: "json"
+      db_pool: "certificatesearch"
+      ratelimit: "1/5s"
+
+brave-news:
+  enabled: true
+  base_url: "https://api.search.brave.com/res/v1"
+  auth:
+    type: "header"
+    config:
+      header_name: "X-Subscription-Token"
+  endpoints:
+    domain-name:
+      method: "GET"
+      path_template: "/news/search"
+      params_template:
+        q: "{identifier}"
+      db_pool: "brave-news"
+      ratelimit: "1/5s"
+
+hunterhow:
+  enabled: true
+  base_url: "https://api.hunter.how"
+  auth:
+    type: "param"
+    config:
+      param_name: "api-key"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/search"
+      params_template:
+        query:
+          transform: "base64"
+          template: 'ip="{identifier}"'
+        start_time: "{start_date}"
+        end_time: "{today}"
+        page: 1
+        page_size: 10
+        fields: "ip"
+      db_pool: "hunterhow"
+      ratelimit: "1/2s"
+    domain-name:
+      method: "GET"
+      path_template: "/search"
+      params_template:
+        query:
+          transform: "base64"
+          template: 'domain="{identifier}"'
+        start_time: "{start_date}"
+        end_time: "{today}"
+        page: 1
+        page_size: 10
+        fields: "ip,port,domain,asn,as_org,country,city,updated_at"
+      db_pool: "hunterhow"
+      ratelimit: "1/2s"
+
+dnsdumpster:
+  enabled: true
+  base_url: "https://api.dnsdumpster.com"
+  auth:
+    type: "header"
+    config:
+      header_name: "X-API-Key"
+  endpoints:
+    domain-name:
+      method: "GET"
+      path_template: "/domain/{identifier}"
+      db_pool: "dnsdumpster"
+      ratelimit: "1/2s"
+      pivots:
+        ipv4-addr: "over a | over ips | yield ip | uniq"
+        domain-name: "over a | yield host | uniq"
+        autonomous-system: "over a | over ips | yield asn |  'AS' +  cast(this, <string>) | uniq"
+        location: "over a | over ips | yield country_code | uniq"
+
+threatfox:
+  enabled: true
+  base_url: "https://threatfox-api.abuse.ch/api/v1"
+  auth:
+    type: "header"
+    config:
+      header_name: "Auth-Key"
+  endpoints:
+    ipv4-addr:
+      method: "POST"
+      path_template: "/"
+      body_template:
+        query: "search_ioc"
+        search_term: "{identifier}"
+      db_pool: "threatfox"
+      ratelimit: "1/2s"
+    domain-name:
+      method: "POST"
+      path_template: "/"
+      body_template:
+        query: "search_ioc"
+        search_term: "{identifier}"
+      db_pool: "threatfox"
+      ratelimit: "1/2s"
+    md5:
+      method: "POST"
+      path_template: "/"
+      body_template:
+        query: "search_hash"
+        hash: "{identifier}"
+      db_pool: "threatfox"
+      ratelimit: "1/2s"
+    sha256:
+      method: "POST"
+      path_template: "/"
+      body_template:
+        query: "search_hash"
+        hash: "{identifier}"
+      db_pool: "threatfox"
+      ratelimit: "1/2s"
+
+censys:
+  enabled: true
+  base_url: "https://api.platform.censys.io/v3/global/asset"
+  auth:
+    type: "header"
+    config:
+      header_name: "Authorization"
+      prefix: "Bearer "
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/host/{identifier}"
+      headers:
+        Accept: "application/vnd.censys.api.v3.host.v1+json"
+      db_pool: "censys"
+      ratelimit: "1/2s"
+    sha256:
+      method: "GET"
+      path_template: "/certificate/{identifier}"
+      headers:
+        Accept: "application/vnd.censys.api.v3.certificate.v1+json"
+      db_pool: "censys"
+      ratelimit: "1/2s"
+
+fofa:
+  enabled: true
+  base_url: "https://fofa.info/api/v1"
+  auth:
+    type: "param"
+    config:
+      param_name: "key"
+  endpoints:
+    ipv4-addr:
+      method: "GET"
+      path_template: "/host/{identifier}"
+      params_template:
+        detail: "true"
+      db_pool: "fofa"
+      ratelimit: "1/1s"
+    domain-name:
+      method: "GET"
+      path_template: "/search/all"
+      params_template:
+        qbase64:
+          transform: "base64"
+          template: 'domain="{identifier}"'
+        fields: "ip,host,port,asn,country"
+        r_type: "json"
+        size: 100
+      db_pool: "fofa"
+      ratelimit: "1/1s"
+
+malwarebazaar:
+  enabled: true
+  base_url: "https://mb-api.abuse.ch/api/v1"
+  auth:
+    type: "header"
+    config:
+      header_name: "Auth-Key"
+  endpoints:
+    sha256:
+      method: "POST"
+      path_template: "/"
+      encoding: "form"
+      body_template:
+        query: "get_info"
+        hash: "{identifier}"
+      db_pool: "malwarebazaar"
+      ratelimit: "1/2s"
+
+    md5:
+      method: "POST"
+      path_template: "/"
+      encoding: "form"
+      body_template:
+        query: "get_info"
+        hash: "{identifier}"
+      db_pool: "malwarebazaar"
+      ratelimit: "1/2s"
+
+    sha1:
+      method: "POST"
+      path_template: "/"
+      encoding: "form"
+      body_template:
+        query: "get_info"
+        hash: "{identifier}"
+      db_pool: "malwarebazaar"
+      ratelimit: "1/2s"
+
+urlhaus:
+  enabled: true
+  base_url: "https://urlhaus-api.abuse.ch/v1"
+  auth:
+    type: "header"
+    config:
+      header_name: "Auth-Key"
+  endpoints:
+    url:
+      method: "POST"
+      path_template: "/url/"
+      encoding: "form"
+      body_template:
+        url: "{identifier}"
+      db_pool: "urlhaus"
+    domain-name:
+      method: "POST"
+      path_template: "/host/"
+      encoding: "form"
+      body_template:
+        host: "{identifier}"
+      db_pool: "urlhaus"
+      ratelimit: "1/2s"
+    ipv4-addr:
+      method: "POST"
+      path_template: "/host/"
+      encoding: "form"
+      body_template:
+        host: "{identifier}"
+      db_pool: "urlhaus"
+      ratelimit: "1/2s"
+    md5:
+      method: "POST"
+      path_template: "/payload/"
+      encoding: "form"
+      body_template:
+        md5_hash: "{identifier}"
+      db_pool: "urlhaus"
+      ratelimit: "1/2s"
+    sha256:
+      method: "POST"
+      path_template: "/payload/"
+      encoding: "form"
+      body_template:
+        sha256_hash: "{identifier}"
+      db_pool: "urlhaus"
+      ratelimit: "1/2s"
+
+yaraify:
+  enabled: true
+  base_url: "https://yaraify-api.abuse.ch/api/v1"
+  auth:
+    type: "header"
+    config:
+      header_name: "Auth-Key"
+  endpoints:
+    md5:
+      method: "POST"
+      path_template: "/"
+      body_template:
+        query: "lookup_hash"
+        search_term: "{identifier}"
+      db_pool: "yaraify"
+      ratelimit: "1/2s"
+
+    sha1:
+      method: "POST"
+      path_template: "/"
+      body_template:
+        query: "lookup_hash"
+        search_term: "{identifier}"
+      db_pool: "yaraify"
+      ratelimit: "1/2s"
+
+    sha256:
+      method: "POST"
+      path_template: "/"
+      body_template:
+        query: "lookup_hash"
+        search_term: "{identifier}"
+      db_pool: "yaraify"
+      ratelimit: "1/2s"
+
+dehashed:
+  enabled: true
+  base_url: "https://api.dehashed.com/v2"
+  auth:
+    type: "header"
+    config:
+      header_name: "Dehashed-Api-Key"
+  endpoints:
+    email-addr:
+      method: "POST"
+      path_template: "/search"
+      body_template:
+        query: "{identifier}"
+      db_pool: "dehashed"
+      ratelimit: "5/1s"
+
+intelxio:
+  enabled: true
+  base_url: "https://free.intelx.io/"
+  auth:
+    type: "header"
+    config:
+      header_name: "x-key"
+  endpoints:
+    ipv4-addr:
+      method: "POST"
+      path_template: "/intelligent/search"
+      body_template:
+        term: "{identifier}"
+        maxresults: 100
+        media: 0
+        sort: 2
+        timeout: 0
+      db_pool: "intelxio"
+      ratelimit: "1/5s"
+    ipv6-addr:
+      method: "POST"
+      path_template: "/intelligent/search"
+      body_template:
+        term: "{identifier}"
+        maxresults: 100
+        media: 0
+        sort: 2
+        timeout: 0
+      db_pool: "intelxio"
+      ratelimit: "1/5s"
+    domain-name:
+      method: "POST"
+      path_template: "/intelligent/search"
+      body_template:
+        term: "{identifier}"
+        maxresults: 100
+        media: 0
+        sort: 2
+        timeout: 0
+      db_pool: "intelxio"
+      ratelimit: "1/5s"
+    email-addr:
+      method: "POST"
+      path_template: "/intelligent/search"
+      body_template:
+        term: "{identifier}"
+        maxresults: 100
+        media: 0
+        sort: 2
+        timeout: 0
+      db_pool: "intelxio"
+      ratelimit: "1/5s"
+    url:
+      method: "POST"
+      path_template: "/intelligent/search"
+      body_template:
+        term: "{identifier}"
+        maxresults: 100
+        media: 0
+        sort: 2
+        timeout: 0
+      db_pool: "intelxio"
+      ratelimit: "1/5s"
+
+ransomwarelive:
+  enabled: true
+  base_url: "https://api.ransomware.live"
+  auth:
+    type: "header"
+    config:
+      header_name: "x-api-key"
+  endpoints:
+    threat-actor:
+      method: "GET"
+      path_template: "/groups/{identifier}"
+      db_pool: "ransomwarelive"
+      ratelimit: "1/1s"
+    location:
+      method: "GET"
+      path_template: "/csirt/{identifier}"
+      db_pool: "ransomwarelive"
+      ratelimit: "1/1s"
+
+wildfire:
+  enabled: true
+  base_url: "https://wildfire.paloaltonetworks.com/publicapi/"
+  auth:
+    type: "param"
+    config:
+      param_name: "apikey"
+  endpoints:
+    url:
+      method: "POST"
+      path_template: "get/verdict"
+      encoding: "form"
+      body_template:
+        agent: "prismaaccessapi"
+        url: "{identifier}"
+      db_pool: "wildfire"
+      ratelimit: "1/5s"
+    md5:
+      method: "POST"
+      path_template: "get/verdict"
+      encoding: "form"
+      body_template:
+        agent: "prismaaccessapi"
+        hash: "{identifier}"
+      db_pool: "wildfire"
+      ratelimit: "1/5s"
+    sha256:
+      method: "POST"
+      path_template: "get/verdict"
+      encoding: "form"
+      body_template:
+        agent: "prismaaccessapi"
+        hash: "{identifier}"
+      db_pool: "wildfire"
+      ratelimit: "1/5s"
+
+threatminer:
+  enabled: true
+  base_url: "https://api.threatminer.org/v2"
+  endpoints:
+    domain-name:
+      method: "GET"
+      path_template: "/domain.php"
+      params_template:
+        q: "{identifier}"
+        rt: "2"
+      db_pool: "threatminer"
+      ratelimit: "1/6s"
+    ipv4-addr:
+      method: "GET"
+      path_template: "/host.php"
+      params_template:
+        q: "{identifier}"
+        rt: "2"
+      db_pool: "threatminer"
+      ratelimit: "1/6s"
+    md5:
+      method: "GET"
+      path_template: "/sample.php"
+      params_template:
+        q: "{identifier}"
+        rt: "1"
+      db_pool: "threatminer"
+      ratelimit: "1/6s"
+    sha1:
+      method: "GET"
+      path_template: "/sample.php"
+      params_template:
+        q: "{identifier}"
+        rt: "1"
+      db_pool: "threatminer"
+      ratelimit: "1/6s"
+    sha256:
+      method: "GET"
+      path_template: "/sample.php"
+      params_template:
+        q: "{identifier}"
+        rt: "1"
+      db_pool: "threatminer"
+      ratelimit: "1/6s"
+    ssdeep:
+      method: "GET"
+      path_template: "/ssdeep.php"
+      params_template:
+        q: "{identifier}"
+        rt: "1"
+      db_pool: "threatminer"
+      ratelimit: "1/6s"
+    imphash:
+      method: "GET"
+      path_template: "/imphash.php"
+      params_template:
+        q: "{identifier}"
+        rt: "1"
+      db_pool: "threatminer"
+      ratelimit: "1/6s"
+    email-addr:
+      method: "GET"
+      path_template: "/email.php"
+      params_template:
+        q: "{identifier}"
+        rt: "1"
+      db_pool: "threatminer"
+      ratelimit: "1/6s"
