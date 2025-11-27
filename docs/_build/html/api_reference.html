@@ -1,0 +1,1792 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internal Python Reference &mdash; Huntsman 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="REST API Reference" href="rest_api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Huntsman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#verification">Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#stopping-the-application">Stopping the Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#dashboard-overview">Dashboard Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#threat-detection">Threat Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#superdb-explorer">SuperDB Explorer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#stix-visualization">STIX Visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#api-recipes">API Recipes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#top-level-keys">Top-Level Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#endpoint-configuration">Endpoint Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#advanced-parameters-templating">Advanced Parameters &amp; Templating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#pivots-extraction-logic">Pivots (Extraction Logic)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configuration.html#full-recipe-example">Full Recipe Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#ratelimiting">Ratelimiting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#internal-services">Internal Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#ioc-patterns">IOC Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#scraping-recipes">Scraping Recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#rss-recipes">RSS Recipes</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rest_api.html">REST API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rest_api.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest_api.html#errors">Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest_api.html#service-discovery">Service Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest_api.html#analysis-tasks">Analysis Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest_api.html#superdb-operations">SuperDB Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rest_api.html#intelligence-automation">Intelligence &amp; Automation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Internal Python Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.views">Views</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.DashboardView"><code class="docutils literal notranslate"><span class="pre">DashboardView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.DashboardView.template_name"><code class="docutils literal notranslate"><span class="pre">DashboardView.template_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.DashboardView.get_context_data"><code class="docutils literal notranslate"><span class="pre">DashboardView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.DashboardView.dispatch"><code class="docutils literal notranslate"><span class="pre">DashboardView.dispatch()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.AnalysisTriggerView"><code class="docutils literal notranslate"><span class="pre">AnalysisTriggerView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.AnalysisTriggerView.post"><code class="docutils literal notranslate"><span class="pre">AnalysisTriggerView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.BulkAnalysisTriggerView"><code class="docutils literal notranslate"><span class="pre">BulkAnalysisTriggerView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.BulkAnalysisTriggerView.post"><code class="docutils literal notranslate"><span class="pre">BulkAnalysisTriggerView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.TaskStatusView"><code class="docutils literal notranslate"><span class="pre">TaskStatusView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.TaskStatusView.queryset"><code class="docutils literal notranslate"><span class="pre">TaskStatusView.queryset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.TaskStatusView.serializer_class"><code class="docutils literal notranslate"><span class="pre">TaskStatusView.serializer_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.TaskStatusView.lookup_field"><code class="docutils literal notranslate"><span class="pre">TaskStatusView.lookup_field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.TaskListView"><code class="docutils literal notranslate"><span class="pre">TaskListView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.TaskListView.queryset"><code class="docutils literal notranslate"><span class="pre">TaskListView.queryset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.TaskListView.serializer_class"><code class="docutils literal notranslate"><span class="pre">TaskListView.serializer_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.TaskListView.get_queryset"><code class="docutils literal notranslate"><span class="pre">TaskListView.get_queryset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.SuperDBQueryView"><code class="docutils literal notranslate"><span class="pre">SuperDBQueryView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.SuperDBQueryView.post"><code class="docutils literal notranslate"><span class="pre">SuperDBQueryView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.PredefinedQueriesListView"><code class="docutils literal notranslate"><span class="pre">PredefinedQueriesListView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.PredefinedQueriesListView.get"><code class="docutils literal notranslate"><span class="pre">PredefinedQueriesListView.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.CreatePoolView"><code class="docutils literal notranslate"><span class="pre">CreatePoolView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.CreatePoolView.post"><code class="docutils literal notranslate"><span class="pre">CreatePoolView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.LoadDataToBranchView"><code class="docutils literal notranslate"><span class="pre">LoadDataToBranchView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.LoadDataToBranchView.post"><code class="docutils literal notranslate"><span class="pre">LoadDataToBranchView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.ServiceListView"><code class="docutils literal notranslate"><span class="pre">ServiceListView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.ServiceListView.get"><code class="docutils literal notranslate"><span class="pre">ServiceListView.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.HealthCheckView"><code class="docutils literal notranslate"><span class="pre">HealthCheckView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.HealthCheckView.get"><code class="docutils literal notranslate"><span class="pre">HealthCheckView.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.HealthCheckView.check_database"><code class="docutils literal notranslate"><span class="pre">HealthCheckView.check_database()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.HealthCheckView.check_celery"><code class="docutils literal notranslate"><span class="pre">HealthCheckView.check_celery()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.BulkTaskStatusView"><code class="docutils literal notranslate"><span class="pre">BulkTaskStatusView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.BulkTaskStatusView.post"><code class="docutils literal notranslate"><span class="pre">BulkTaskStatusView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.CorrelationEngineView"><code class="docutils literal notranslate"><span class="pre">CorrelationEngineView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.CorrelationEngineView.post"><code class="docutils literal notranslate"><span class="pre">CorrelationEngineView.post()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.CorrelationEngineView.get"><code class="docutils literal notranslate"><span class="pre">CorrelationEngineView.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.STIXReportView"><code class="docutils literal notranslate"><span class="pre">STIXReportView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.STIXReportView.post"><code class="docutils literal notranslate"><span class="pre">STIXReportView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.BulkSTIXReportView"><code class="docutils literal notranslate"><span class="pre">BulkSTIXReportView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.BulkSTIXReportView.post"><code class="docutils literal notranslate"><span class="pre">BulkSTIXReportView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.views.AIAnalysisView"><code class="docutils literal notranslate"><span class="pre">AIAnalysisView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.views.AIAnalysisView.post"><code class="docutils literal notranslate"><span class="pre">AIAnalysisView.post()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.serializers">Serializers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.AnalysisTaskSerializer"><code class="docutils literal notranslate"><span class="pre">AnalysisTaskSerializer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.serializers.AnalysisTaskSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">AnalysisTaskSerializer.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.serializers.AnalysisTaskSerializer.get_full_result"><code class="docutils literal notranslate"><span class="pre">AnalysisTaskSerializer.get_full_result()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.SuperDBQuerySerializer"><code class="docutils literal notranslate"><span class="pre">SuperDBQuerySerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.TaskSubmissionSerializer"><code class="docutils literal notranslate"><span class="pre">TaskSubmissionSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.BulkTaskSubmissionSerializer"><code class="docutils literal notranslate"><span class="pre">BulkTaskSubmissionSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.BulkTaskStatusRequestSerializer"><code class="docutils literal notranslate"><span class="pre">BulkTaskStatusRequestSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.LoadDataToBranchSerializer"><code class="docutils literal notranslate"><span class="pre">LoadDataToBranchSerializer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.serializers.LoadDataToBranchSerializer.validate"><code class="docutils literal notranslate"><span class="pre">LoadDataToBranchSerializer.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.CreatePoolSerializer"><code class="docutils literal notranslate"><span class="pre">CreatePoolSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.CorrelationEngineSerializer"><code class="docutils literal notranslate"><span class="pre">CorrelationEngineSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.STIXReportSerializer"><code class="docutils literal notranslate"><span class="pre">STIXReportSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.STIXReportItemSerializer"><code class="docutils literal notranslate"><span class="pre">STIXReportItemSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.BulkSTIXReportSerializer"><code class="docutils literal notranslate"><span class="pre">BulkSTIXReportSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.serializers.AIAnalysisSerializer"><code class="docutils literal notranslate"><span class="pre">AIAnalysisSerializer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.models">Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api.models.AnalysisTask"><code class="docutils literal notranslate"><span class="pre">AnalysisTask</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.Status"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.Status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.id"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.celery_task_id"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.celery_task_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.status"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.service_name"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.service_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.identifier"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.identifier</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.identifier_type"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.identifier_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.result"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.result</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.created_at"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.completed_at"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.completed_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.get_status_display"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.get_status_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.AnalysisTask.objects"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.objects</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.models.ConfigFile"><code class="docutils literal notranslate"><span class="pre">ConfigFile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.name"><code class="docutils literal notranslate"><span class="pre">ConfigFile.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.path"><code class="docutils literal notranslate"><span class="pre">ConfigFile.path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.content"><code class="docutils literal notranslate"><span class="pre">ConfigFile.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.updated_at"><code class="docutils literal notranslate"><span class="pre">ConfigFile.updated_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.save"><code class="docutils literal notranslate"><span class="pre">ConfigFile.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">ConfigFile.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">ConfigFile.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">ConfigFile.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">ConfigFile.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.id"><code class="docutils literal notranslate"><span class="pre">ConfigFile.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.ConfigFile.objects"><code class="docutils literal notranslate"><span class="pre">ConfigFile.objects</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.models.clear_config_cache"><code class="docutils literal notranslate"><span class="pre">clear_config_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.models.Rule"><code class="docutils literal notranslate"><span class="pre">Rule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.id"><code class="docutils literal notranslate"><span class="pre">Rule.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.uuid"><code class="docutils literal notranslate"><span class="pre">Rule.uuid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.rule_id"><code class="docutils literal notranslate"><span class="pre">Rule.rule_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.name"><code class="docutils literal notranslate"><span class="pre">Rule.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.title"><code class="docutils literal notranslate"><span class="pre">Rule.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.author"><code class="docutils literal notranslate"><span class="pre">Rule.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.description"><code class="docutils literal notranslate"><span class="pre">Rule.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.content"><code class="docutils literal notranslate"><span class="pre">Rule.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.updated_at"><code class="docutils literal notranslate"><span class="pre">Rule.updated_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.save"><code class="docutils literal notranslate"><span class="pre">Rule.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Rule.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Rule.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Rule.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Rule.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.models.Rule.objects"><code class="docutils literal notranslate"><span class="pre">Rule.objects</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.tasks">Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.correlation_engine">Correlation Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api.correlation_engine.CorrelationRule"><code class="docutils literal notranslate"><span class="pre">CorrelationRule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.id"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.title"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.description"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.syntax"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.syntax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.author"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.source"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.tags"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.tags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.file_path"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.file_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationRule.execute_query"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.execute_query()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.correlation_engine.CorrelationEngine"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationEngine.rules_directory_path"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.rules_directory_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationEngine.rules"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationEngine.superdb_client"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.superdb_client</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationEngine.load_rules"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.load_rules()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationEngine.get_rules"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.get_rules()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api.correlation_engine.CorrelationEngine.run_correlation_analysis"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.run_correlation_analysis()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#api.correlation_engine.create_correlation_engine_instance"><code class="docutils literal notranslate"><span class="pre">create_correlation_engine_instance()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.config">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api.config.refresh_configuration"><code class="docutils literal notranslate"><span class="pre">refresh_configuration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.config.load_api_recipes"><code class="docutils literal notranslate"><span class="pre">load_api_recipes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.config.load_scraping_recipes"><code class="docutils literal notranslate"><span class="pre">load_scraping_recipes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.config.load_internal_services_recipes"><code class="docutils literal notranslate"><span class="pre">load_internal_services_recipes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.config.load_rss_recipes"><code class="docutils literal notranslate"><span class="pre">load_rss_recipes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.config.load_ioc_patterns"><code class="docutils literal notranslate"><span class="pre">load_ioc_patterns()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.config.load_predefined_queries"><code class="docutils literal notranslate"><span class="pre">load_predefined_queries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api.config.load_all_recipes"><code class="docutils literal notranslate"><span class="pre">load_all_recipes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.urls">URLs</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Huntsman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Internal Python Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api_reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="internal-python-reference">
+<h1>Internal Python Reference<a class="headerlink" href="#internal-python-reference" title="Link to this heading"></a></h1>
+<p>This section documents the internal Python modules for developers contributing to the Huntsman codebase.</p>
+<section id="module-api.views">
+<span id="views"></span><h2>Views<a class="headerlink" href="#module-api.views" title="Link to this heading"></a></h2>
+<p>Views for the Huntsman API.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.DashboardView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">DashboardView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#DashboardView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.DashboardView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/5.2/ref/class-based-views/base/#django.views.generic.base.TemplateView" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></a></p>
+<p>A view to render the main dashboard.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.views.DashboardView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'api/dashboard.html'</span></em><a class="headerlink" href="#api.views.DashboardView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.DashboardView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#DashboardView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.DashboardView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Get the context data for rendering the dashboard.</p>
+<p>This method loads IOC patterns and adds them to the context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The context data for the template.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.DashboardView.dispatch">
+<span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.views.DashboardView.dispatch" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.AnalysisTriggerView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">AnalysisTriggerView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#AnalysisTriggerView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.AnalysisTriggerView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to trigger a single analysis task.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.AnalysisTriggerView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#AnalysisTriggerView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.AnalysisTriggerView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to trigger an analysis task.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.BulkAnalysisTriggerView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">BulkAnalysisTriggerView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#BulkAnalysisTriggerView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.BulkAnalysisTriggerView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to trigger multiple analysis tasks in bulk.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.BulkAnalysisTriggerView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#BulkAnalysisTriggerView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.BulkAnalysisTriggerView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to trigger bulk analysis tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.TaskStatusView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">TaskStatusView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#TaskStatusView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.TaskStatusView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RetrieveAPIView</span></code></p>
+<p>An API view to retrieve the status of a single analysis task.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.views.TaskStatusView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><a class="headerlink" href="#api.views.TaskStatusView.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.views.TaskStatusView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#api.views.TaskStatusView.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.serializers.AnalysisTaskSerializer" title="api.serializers.AnalysisTaskSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisTaskSerializer</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.views.TaskStatusView.lookup_field">
+<span class="sig-name descname"><span class="pre">lookup_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'id'</span></em><a class="headerlink" href="#api.views.TaskStatusView.lookup_field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.TaskListView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">TaskListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#TaskListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.TaskListView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ListAPIView</span></code></p>
+<p>An API view to list all analysis tasks, with optional filtering by status.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.views.TaskListView.queryset">
+<span class="sig-name descname"><span class="pre">queryset</span></span><a class="headerlink" href="#api.views.TaskListView.queryset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.views.TaskListView.serializer_class">
+<span class="sig-name descname"><span class="pre">serializer_class</span></span><a class="headerlink" href="#api.views.TaskListView.serializer_class" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.serializers.AnalysisTaskSerializer" title="api.serializers.AnalysisTaskSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisTaskSerializer</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.TaskListView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#TaskListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.TaskListView.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Get the queryset for listing tasks.</p>
+<p>This method filters the queryset based on the ‘status’ query parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The filtered queryset of AnalysisTask objects.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>QuerySet</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.SuperDBQueryView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">SuperDBQueryView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#SuperDBQueryView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.SuperDBQueryView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to execute a query on SuperDB.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.SuperDBQueryView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#SuperDBQueryView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.SuperDBQueryView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to execute a SuperDB query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.PredefinedQueriesListView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">PredefinedQueriesListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#PredefinedQueriesListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.PredefinedQueriesListView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to list all predefined SuperDB queries.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.PredefinedQueriesListView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#PredefinedQueriesListView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.PredefinedQueriesListView.get" title="Link to this definition"></a></dt>
+<dd><p>Handle GET requests to list predefined queries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>format</strong> (<em>Any</em><em>, </em><em>optional</em>) – The format of the response.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object containing the predefined queries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.CreatePoolView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">CreatePoolView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#CreatePoolView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.CreatePoolView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to create a new pool in SuperDB.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.CreatePoolView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#CreatePoolView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.CreatePoolView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to create a SuperDB pool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.LoadDataToBranchView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">LoadDataToBranchView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#LoadDataToBranchView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.LoadDataToBranchView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to load data into a branch of a SuperDB pool.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.LoadDataToBranchView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#LoadDataToBranchView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.LoadDataToBranchView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to load data into a SuperDB branch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.ServiceListView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">ServiceListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#ServiceListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.ServiceListView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to list all available services and their supported types.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.ServiceListView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#ServiceListView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.ServiceListView.get" title="Link to this definition"></a></dt>
+<dd><p>Handle GET requests to list available services.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>format</strong> (<em>Any</em><em>, </em><em>optional</em>) – The format of the response.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object containing the list of services.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.HealthCheckView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">HealthCheckView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#HealthCheckView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.HealthCheckView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to perform health checks on the system components.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.HealthCheckView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#HealthCheckView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.HealthCheckView.get" title="Link to this definition"></a></dt>
+<dd><p>Handle GET requests to perform health checks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object with the health check results.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.HealthCheckView.check_database">
+<span class="sig-name descname"><span class="pre">check_database</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#HealthCheckView.check_database"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.HealthCheckView.check_database" title="Link to this definition"></a></dt>
+<dd><p>Check the status of the database connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary with the status and a message.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.HealthCheckView.check_celery">
+<span class="sig-name descname"><span class="pre">check_celery</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#HealthCheckView.check_celery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.HealthCheckView.check_celery" title="Link to this definition"></a></dt>
+<dd><p>Check the status of the Celery workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary with the status and a message.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.BulkTaskStatusView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">BulkTaskStatusView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#BulkTaskStatusView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.BulkTaskStatusView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to retrieve the status of multiple tasks in bulk.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.BulkTaskStatusView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#BulkTaskStatusView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.BulkTaskStatusView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to get the status of bulk tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object with the status of the requested tasks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.CorrelationEngineView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">CorrelationEngineView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#CorrelationEngineView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.CorrelationEngineView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to interact with the Correlation Engine.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.CorrelationEngineView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#CorrelationEngineView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.CorrelationEngineView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to run the correlation engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object with the correlation analysis results.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.CorrelationEngineView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#CorrelationEngineView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.CorrelationEngineView.get" title="Link to this definition"></a></dt>
+<dd><p>Handle GET requests to list correlation rules and tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object with the list of rules and tags.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.STIXReportView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">STIXReportView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#STIXReportView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.STIXReportView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to create a STIX report.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.STIXReportView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#STIXReportView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.STIXReportView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to create a STIX report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.BulkSTIXReportView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">BulkSTIXReportView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#BulkSTIXReportView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.BulkSTIXReportView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to create a bulk STIX report from multiple tasks.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.BulkSTIXReportView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#BulkSTIXReportView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.BulkSTIXReportView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to create a bulk STIX report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.views.AIAnalysisView">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.views.</span></span><span class="sig-name descname"><span class="pre">AIAnalysisView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#AIAnalysisView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.AIAnalysisView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">APIView</span></code></p>
+<p>An API view to perform AI analysis on a given dataset.</p>
+<p>Constructor. Called in the URLconf; can contain helpful extra
+keyword arguments, and other things.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.views.AIAnalysisView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#AIAnalysisView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.views.AIAnalysisView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests to perform AI analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The HTTP request object.</p></li>
+<li><p><strong>*args</strong> (<em>Any</em>) – Variable length argument list.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DRF Response object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-api.serializers">
+<span id="serializers"></span><h2>Serializers<a class="headerlink" href="#module-api.serializers" title="Link to this heading"></a></h2>
+<p>Serializers for the Huntsman API.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.AnalysisTaskSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">AnalysisTaskSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#AnalysisTaskSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.AnalysisTaskSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelSerializer</span></code></p>
+<p>Serializer for the AnalysisTask model.</p>
+<p>Serializes AnalysisTask objects, including a method to fetch the full
+results of a task, potentially from cache or by querying SuperDB.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.AnalysisTaskSerializer.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/api/serializers.html#AnalysisTaskSerializer.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.AnalysisTaskSerializer.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Meta options for the AnalysisTaskSerializer.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.serializers.AnalysisTaskSerializer.Meta.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#api.serializers.AnalysisTaskSerializer.Meta.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#api.models.AnalysisTask" title="api.models.AnalysisTask"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisTask</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.serializers.AnalysisTaskSerializer.Meta.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'status',</span> <span class="pre">'service_name',</span> <span class="pre">'identifier',</span> <span class="pre">'identifier_type',</span> <span class="pre">'full_result',</span> <span class="pre">'created_at',</span> <span class="pre">'completed_at']</span></em><a class="headerlink" href="#api.serializers.AnalysisTaskSerializer.Meta.fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.serializers.AnalysisTaskSerializer.Meta.read_only_fields">
+<span class="sig-name descname"><span class="pre">read_only_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['id',</span> <span class="pre">'status',</span> <span class="pre">'service_name',</span> <span class="pre">'identifier',</span> <span class="pre">'identifier_type',</span> <span class="pre">'full_result',</span> <span class="pre">'created_at',</span> <span class="pre">'completed_at']</span></em><a class="headerlink" href="#api.serializers.AnalysisTaskSerializer.Meta.read_only_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.serializers.AnalysisTaskSerializer.get_full_result">
+<span class="sig-name descname"><span class="pre">get_full_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#AnalysisTaskSerializer.get_full_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.AnalysisTaskSerializer.get_full_result" title="Link to this definition"></a></dt>
+<dd><p>Get the full result for an AnalysisTask.</p>
+<p>If the task was successful and the result is stored in SuperDB, this
+method will query SuperDB for the full result. The result is cached
+for an hour to reduce redundant queries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> (<a class="reference internal" href="#api.models.AnalysisTask" title="api.models.AnalysisTask"><em>AnalysisTask</em></a>) – The AnalysisTask instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The full result of the task.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.SuperDBQuerySerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">SuperDBQuerySerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#SuperDBQuerySerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.SuperDBQuerySerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for SuperDB queries.</p>
+<p>Validates and serializes the components of a SuperDB query, which can be
+either a raw query string or a structured query with a pool and commands.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.TaskSubmissionSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">TaskSubmissionSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#TaskSubmissionSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.TaskSubmissionSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for submitting a single analysis task.</p>
+<p>Validates and serializes the data required to submit a new analysis task.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.BulkTaskSubmissionSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">BulkTaskSubmissionSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#BulkTaskSubmissionSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.BulkTaskSubmissionSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for submitting multiple analysis tasks in a single request.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.BulkTaskStatusRequestSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">BulkTaskStatusRequestSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#BulkTaskStatusRequestSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.BulkTaskStatusRequestSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for requesting the status of multiple analysis tasks.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.LoadDataToBranchSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">LoadDataToBranchSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#LoadDataToBranchSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.LoadDataToBranchSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for loading data into a SuperDB branch.</p>
+<p>Validates and serializes the data required to load data into a specific
+branch of a SuperDB pool.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.serializers.LoadDataToBranchSerializer.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#LoadDataToBranchSerializer.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.LoadDataToBranchSerializer.validate" title="Link to this definition"></a></dt>
+<dd><p>Validate the data for loading into a branch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – The data to be validated.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The validated data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>serializers.ValidationError</strong> – If the ‘data’ field is not provided.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.CreatePoolSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">CreatePoolSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#CreatePoolSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.CreatePoolSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for creating a new SuperDB pool.</p>
+<p>Validates and serializes the data required to create a new SuperDB pool.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.CorrelationEngineSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">CorrelationEngineSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#CorrelationEngineSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.CorrelationEngineSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for the Correlation Engine.</p>
+<p>Validates and serializes the parameters for running the correlation engine
+on a specific task.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.STIXReportSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">STIXReportSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#STIXReportSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.STIXReportSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for generating a STIX report from a task.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.STIXReportItemSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">STIXReportItemSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#STIXReportItemSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.STIXReportItemSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for a single item in a bulk STIX report request.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.BulkSTIXReportSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">BulkSTIXReportSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#BulkSTIXReportSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.BulkSTIXReportSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for generating multiple STIX reports in a single request.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.serializers.AIAnalysisSerializer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.serializers.</span></span><span class="sig-name descname"><span class="pre">AIAnalysisSerializer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/serializers.html#AIAnalysisSerializer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.serializers.AIAnalysisSerializer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></p>
+<p>Serializer for AI analysis requests.</p>
+<p>Validates and serializes the data and prompts for an AI analysis request.</p>
+<p>When a field is instantiated, we store the arguments that were used,
+so that we can present a helpful representation of the object.</p>
+</dd></dl>
+
+</section>
+<section id="module-api.models">
+<span id="models"></span><h2>Models<a class="headerlink" href="#module-api.models" title="Link to this heading"></a></h2>
+<p>Django models for the Huntsman API.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api.models.AnalysisTask">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.models.</span></span><span class="sig-name descname"><span class="pre">AnalysisTask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#AnalysisTask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.models.AnalysisTask" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Represents a single analysis task and its state.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.Status">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#AnalysisTask.Status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.models.AnalysisTask.Status" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TextChoices</span></code></p>
+<p>Status choices for an AnalysisTask.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.Status.PENDING">
+<span class="sig-name descname"><span class="pre">PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PENDING'</span></em><a class="headerlink" href="#api.models.AnalysisTask.Status.PENDING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.Status.IN_PROGRESS">
+<span class="sig-name descname"><span class="pre">IN_PROGRESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'IN_PROGRESS'</span></em><a class="headerlink" href="#api.models.AnalysisTask.Status.IN_PROGRESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.Status.SUCCESS">
+<span class="sig-name descname"><span class="pre">SUCCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SUCCESS'</span></em><a class="headerlink" href="#api.models.AnalysisTask.Status.SUCCESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.Status.FAILURE">
+<span class="sig-name descname"><span class="pre">FAILURE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FAILURE'</span></em><a class="headerlink" href="#api.models.AnalysisTask.Status.FAILURE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#api.models.AnalysisTask.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.celery_task_id">
+<span class="sig-name descname"><span class="pre">celery_task_id</span></span><a class="headerlink" href="#api.models.AnalysisTask.celery_task_id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.status">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#api.models.AnalysisTask.status" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.service_name">
+<span class="sig-name descname"><span class="pre">service_name</span></span><a class="headerlink" href="#api.models.AnalysisTask.service_name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.identifier">
+<span class="sig-name descname"><span class="pre">identifier</span></span><a class="headerlink" href="#api.models.AnalysisTask.identifier" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.identifier_type">
+<span class="sig-name descname"><span class="pre">identifier_type</span></span><a class="headerlink" href="#api.models.AnalysisTask.identifier_type" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.result">
+<span class="sig-name descname"><span class="pre">result</span></span><a class="headerlink" href="#api.models.AnalysisTask.result" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#api.models.AnalysisTask.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.completed_at">
+<span class="sig-name descname"><span class="pre">completed_at</span></span><a class="headerlink" href="#api.models.AnalysisTask.completed_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#api.models.AnalysisTask.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/5.2/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#api.models.AnalysisTask.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/5.2/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.AnalysisTask.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.AnalysisTask.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.get_status_display">
+<span class="sig-name descname"><span class="pre">get_status_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">status&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.AnalysisTask.get_status_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.AnalysisTask.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#api.models.AnalysisTask.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.models.ConfigFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.models.</span></span><span class="sig-name descname"><span class="pre">ConfigFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#ConfigFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.models.ConfigFile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Represents a generic configuration file (Recipes, Patterns).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.ConfigFile.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#api.models.ConfigFile.name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.ConfigFile.path">
+<span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#api.models.ConfigFile.path" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.ConfigFile.content">
+<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#api.models.ConfigFile.content" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.ConfigFile.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#api.models.ConfigFile.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.ConfigFile.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#ConfigFile.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.models.ConfigFile.save" title="Link to this definition"></a></dt>
+<dd><p>Save the model instance and write the content to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api.models.ConfigFile.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#api.models.ConfigFile.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/5.2/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api.models.ConfigFile.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#api.models.ConfigFile.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/5.2/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.ConfigFile.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.ConfigFile.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.ConfigFile.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.ConfigFile.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.ConfigFile.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#api.models.ConfigFile.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.ConfigFile.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#api.models.ConfigFile.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.models.clear_config_cache">
+<span class="sig-prename descclassname"><span class="pre">api.models.</span></span><span class="sig-name descname"><span class="pre">clear_config_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#clear_config_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.models.clear_config_cache" title="Link to this definition"></a></dt>
+<dd><p>Clear the configuration cache when a ConfigFile is saved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sender</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>instance</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.models.Rule">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.models.</span></span><span class="sig-name descname"><span class="pre">Rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#Rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.models.Rule" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Represents a detection Rule.</p>
+<p>Uses ‘rule_id’ (from YAML) as the unique identifier for synchronization.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#api.models.Rule.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.uuid">
+<span class="sig-name descname"><span class="pre">uuid</span></span><a class="headerlink" href="#api.models.Rule.uuid" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.rule_id">
+<span class="sig-name descname"><span class="pre">rule_id</span></span><a class="headerlink" href="#api.models.Rule.rule_id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#api.models.Rule.name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#api.models.Rule.title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.author">
+<span class="sig-name descname"><span class="pre">author</span></span><a class="headerlink" href="#api.models.Rule.author" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#api.models.Rule.description" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.content">
+<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#api.models.Rule.content" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#api.models.Rule.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.Rule.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#Rule.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.models.Rule.save" title="Link to this definition"></a></dt>
+<dd><p>Save the model instance and write the content to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api.models.Rule.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#api.models.Rule.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/5.2/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></a></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="api.models.Rule.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#api.models.Rule.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.djangoproject.com/en/5.2/ref/exceptions/#django.core.exceptions.MultipleObjectsReturned" title="(in Django v5.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.Rule.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Rule.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.models.Rule.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.Rule.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.models.Rule.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#api.models.Rule.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-api.tasks">
+<span id="tasks"></span><h2>Tasks<a class="headerlink" href="#module-api.tasks" title="Link to this heading"></a></h2>
+<p>Celery tasks for the Huntsman API.</p>
+</section>
+<section id="module-api.correlation_engine">
+<span id="correlation-engine"></span><h2>Correlation Engine<a class="headerlink" href="#module-api.correlation_engine" title="Link to this heading"></a></h2>
+<p>The correlation engine for Huntsman.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.correlation_engine.</span></span><span class="sig-name descname"><span class="pre">CorrelationRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rule_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/correlation_engine.html#CorrelationRule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.correlation_engine.CorrelationRule" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Represents a single correlation rule.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationRule.id" title="Link to this definition"></a></dt>
+<dd><p>The unique identifier of the rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.title">
+<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationRule.title" title="Link to this definition"></a></dt>
+<dd><p>The title of the rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationRule.description" title="Link to this definition"></a></dt>
+<dd><p>A description of what the rule does.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.syntax">
+<span class="sig-name descname"><span class="pre">syntax</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationRule.syntax" title="Link to this definition"></a></dt>
+<dd><p>The query syntax for the rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.author">
+<span class="sig-name descname"><span class="pre">author</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationRule.author" title="Link to this definition"></a></dt>
+<dd><p>The author of the rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.source">
+<span class="sig-name descname"><span class="pre">source</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationRule.source" title="Link to this definition"></a></dt>
+<dd><p>The source of the rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationRule.tags" title="Link to this definition"></a></dt>
+<dd><p>A list of tags associated with the rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.file_path">
+<span class="sig-name descname"><span class="pre">file_path</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationRule.file_path" title="Link to this definition"></a></dt>
+<dd><p>The file path where the rule is defined.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Initialize a CorrelationRule object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – The dictionary containing the rule data.</p></li>
+<li><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The file path where the rule is defined.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If a required field is missing in the rule data.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationRule.execute_query">
+<span class="sig-name descname"><span class="pre">execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">superdb_client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/correlation_engine.html#CorrelationRule.execute_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.correlation_engine.CorrelationRule.execute_query" title="Link to this definition"></a></dt>
+<dd><p>Execute the rule’s query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The ID of the task to correlate.</p></li>
+<li><p><strong>superdb_client</strong> (<em>SuperDBClient</em>) – The SuperDB client to use for executing the query.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the results of the query execution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationEngine">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">api.correlation_engine.</span></span><span class="sig-name descname"><span class="pre">CorrelationEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules_directory_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/correlation_engine.html#CorrelationEngine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.correlation_engine.CorrelationEngine" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Main correlation engine for loading and executing rules.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationEngine.rules_directory_path">
+<span class="sig-name descname"><span class="pre">rules_directory_path</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationEngine.rules_directory_path" title="Link to this definition"></a></dt>
+<dd><p>The path to the directory containing the correlation rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationEngine.rules">
+<span class="sig-name descname"><span class="pre">rules</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationEngine.rules" title="Link to this definition"></a></dt>
+<dd><p>A list of loaded correlation rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#api.correlation_engine.CorrelationRule" title="api.correlation_engine.CorrelationRule">CorrelationRule</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationEngine.superdb_client">
+<span class="sig-name descname"><span class="pre">superdb_client</span></span><a class="headerlink" href="#api.correlation_engine.CorrelationEngine.superdb_client" title="Link to this definition"></a></dt>
+<dd><p>The SuperDB client used for executing queries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SuperDBClient</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Initialize a CorrelationEngine object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rules_directory_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The path to the directory containing the correlation rules. If not
+provided, it will be loaded from the Django settings.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationEngine.load_rules">
+<span class="sig-name descname"><span class="pre">load_rules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/correlation_engine.html#CorrelationEngine.load_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.correlation_engine.CorrelationEngine.load_rules" title="Link to this definition"></a></dt>
+<dd><p>Load correlation rules from the specified directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.14)"><strong>FileNotFoundError</strong></a> – If the rules directory is not found or is not a directory.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationEngine.get_rules">
+<span class="sig-name descname"><span class="pre">get_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rule_titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/correlation_engine.html#CorrelationEngine.get_rules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.correlation_engine.CorrelationEngine.get_rules" title="Link to this definition"></a></dt>
+<dd><p>Get a filtered list of correlation rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rule_titles</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – A list of rule titles to filter by.</p></li>
+<li><p><strong>tags_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – A list of tags to filter by.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of correlation rules that match the filter criteria.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a> of <a class="reference internal" href="#api.correlation_engine.CorrelationRule" title="api.correlation_engine.CorrelationRule">CorrelationRule</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="api.correlation_engine.CorrelationEngine.run_correlation_analysis">
+<span class="sig-name descname"><span class="pre">run_correlation_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule_titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/correlation_engine.html#CorrelationEngine.run_correlation_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.correlation_engine.CorrelationEngine.run_correlation_analysis" title="Link to this definition"></a></dt>
+<dd><p>Run correlation analysis for a specific task ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The ID of the task to analyze.</p></li>
+<li><p><strong>rule_titles</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – A list of rule titles to run. If not provided, all rules will be run.</p></li>
+<li><p><strong>tags_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – A list of tags to filter the rules to be run.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the results of the correlation analysis.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.correlation_engine.create_correlation_engine_instance">
+<span class="sig-prename descclassname"><span class="pre">api.correlation_engine.</span></span><span class="sig-name descname"><span class="pre">create_correlation_engine_instance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/correlation_engine.html#create_correlation_engine_instance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.correlation_engine.create_correlation_engine_instance" title="Link to this definition"></a></dt>
+<dd><p>Create a new instance of the CorrelationEngine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new instance of the CorrelationEngine.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#api.correlation_engine.CorrelationEngine" title="api.correlation_engine.CorrelationEngine">CorrelationEngine</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-api.config">
+<span id="configuration"></span><h2>Configuration<a class="headerlink" href="#module-api.config" title="Link to this heading"></a></h2>
+<p>Configuration loading for the Huntsman API.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="api.config.refresh_configuration">
+<span class="sig-prename descclassname"><span class="pre">api.config.</span></span><span class="sig-name descname"><span class="pre">refresh_configuration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/config.html#refresh_configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.config.refresh_configuration" title="Link to this definition"></a></dt>
+<dd><p>Clear the cache for the YAML configuration loader.</p>
+<p>This function clears the lru_cache for the _load_yaml_config function,
+forcing it to re-read the configuration files from disk the next time
+they are accessed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.config.load_api_recipes">
+<span class="sig-prename descclassname"><span class="pre">api.config.</span></span><span class="sig-name descname"><span class="pre">load_api_recipes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/config.html#load_api_recipes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.config.load_api_recipes" title="Link to this definition"></a></dt>
+<dd><p>Load the API recipes from the YAML configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The API recipes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.config.load_scraping_recipes">
+<span class="sig-prename descclassname"><span class="pre">api.config.</span></span><span class="sig-name descname"><span class="pre">load_scraping_recipes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/config.html#load_scraping_recipes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.config.load_scraping_recipes" title="Link to this definition"></a></dt>
+<dd><p>Load the scraping recipes from the YAML configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The scraping recipes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.config.load_internal_services_recipes">
+<span class="sig-prename descclassname"><span class="pre">api.config.</span></span><span class="sig-name descname"><span class="pre">load_internal_services_recipes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/config.html#load_internal_services_recipes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.config.load_internal_services_recipes" title="Link to this definition"></a></dt>
+<dd><p>Load the internal services recipes from the YAML configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The internal services recipes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.config.load_rss_recipes">
+<span class="sig-prename descclassname"><span class="pre">api.config.</span></span><span class="sig-name descname"><span class="pre">load_rss_recipes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/config.html#load_rss_recipes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.config.load_rss_recipes" title="Link to this definition"></a></dt>
+<dd><p>Load the RSS recipes from the YAML configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The RSS recipes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.config.load_ioc_patterns">
+<span class="sig-prename descclassname"><span class="pre">api.config.</span></span><span class="sig-name descname"><span class="pre">load_ioc_patterns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/config.html#load_ioc_patterns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.config.load_ioc_patterns" title="Link to this definition"></a></dt>
+<dd><p>Load the IOC patterns from the YAML configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The IOC patterns.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.config.load_predefined_queries">
+<span class="sig-prename descclassname"><span class="pre">api.config.</span></span><span class="sig-name descname"><span class="pre">load_predefined_queries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/config.html#load_predefined_queries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.config.load_predefined_queries" title="Link to this definition"></a></dt>
+<dd><p>Load the predefined queries from the YAML configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The predefined queries.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="api.config.load_all_recipes">
+<span class="sig-prename descclassname"><span class="pre">api.config.</span></span><span class="sig-name descname"><span class="pre">load_all_recipes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/config.html#load_all_recipes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#api.config.load_all_recipes" title="Link to this definition"></a></dt>
+<dd><p>Load all recipes from the YAML configuration files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing all the recipes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-api.urls">
+<span id="urls"></span><h2>URLs<a class="headerlink" href="#module-api.urls" title="Link to this heading"></a></h2>
+<p>URL patterns for the Huntsman API.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rest_api.html" class="btn btn-neutral float-left" title="REST API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, ajtap.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

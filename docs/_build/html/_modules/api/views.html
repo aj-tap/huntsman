@@ -1,0 +1,1250 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>api.views &mdash; Huntsman 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Huntsman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#verification">Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#stopping-the-application">Stopping the Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usage.html#dashboard-overview">Dashboard Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage.html#threat-detection">Threat Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage.html#superdb-explorer">SuperDB Explorer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage.html#stix-visualization">STIX Visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration.html#api-recipes">API Recipes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../configuration.html#top-level-keys">Top-Level Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../configuration.html#authentication">Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../configuration.html#endpoint-configuration">Endpoint Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../configuration.html#advanced-parameters-templating">Advanced Parameters &amp; Templating</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../configuration.html#pivots-extraction-logic">Pivots (Extraction Logic)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../configuration.html#full-recipe-example">Full Recipe Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration.html#ratelimiting">Ratelimiting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration.html#internal-services">Internal Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration.html#ioc-patterns">IOC Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration.html#scraping-recipes">Scraping Recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration.html#rss-recipes">RSS Recipes</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../rest_api.html">REST API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../rest_api.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rest_api.html#errors">Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rest_api.html#service-discovery">Service Discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rest_api.html#analysis-tasks">Analysis Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rest_api.html#superdb-operations">SuperDB Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rest_api.html#intelligence-automation">Intelligence &amp; Automation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">Internal Python Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api_reference.html#module-api.views">Views</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.DashboardView"><code class="docutils literal notranslate"><span class="pre">DashboardView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.DashboardView.template_name"><code class="docutils literal notranslate"><span class="pre">DashboardView.template_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.DashboardView.get_context_data"><code class="docutils literal notranslate"><span class="pre">DashboardView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.DashboardView.dispatch"><code class="docutils literal notranslate"><span class="pre">DashboardView.dispatch()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.AnalysisTriggerView"><code class="docutils literal notranslate"><span class="pre">AnalysisTriggerView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.AnalysisTriggerView.post"><code class="docutils literal notranslate"><span class="pre">AnalysisTriggerView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.BulkAnalysisTriggerView"><code class="docutils literal notranslate"><span class="pre">BulkAnalysisTriggerView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.BulkAnalysisTriggerView.post"><code class="docutils literal notranslate"><span class="pre">BulkAnalysisTriggerView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.TaskStatusView"><code class="docutils literal notranslate"><span class="pre">TaskStatusView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.TaskStatusView.queryset"><code class="docutils literal notranslate"><span class="pre">TaskStatusView.queryset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.TaskStatusView.serializer_class"><code class="docutils literal notranslate"><span class="pre">TaskStatusView.serializer_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.TaskStatusView.lookup_field"><code class="docutils literal notranslate"><span class="pre">TaskStatusView.lookup_field</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.TaskListView"><code class="docutils literal notranslate"><span class="pre">TaskListView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.TaskListView.queryset"><code class="docutils literal notranslate"><span class="pre">TaskListView.queryset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.TaskListView.serializer_class"><code class="docutils literal notranslate"><span class="pre">TaskListView.serializer_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.TaskListView.get_queryset"><code class="docutils literal notranslate"><span class="pre">TaskListView.get_queryset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.SuperDBQueryView"><code class="docutils literal notranslate"><span class="pre">SuperDBQueryView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.SuperDBQueryView.post"><code class="docutils literal notranslate"><span class="pre">SuperDBQueryView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.PredefinedQueriesListView"><code class="docutils literal notranslate"><span class="pre">PredefinedQueriesListView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.PredefinedQueriesListView.get"><code class="docutils literal notranslate"><span class="pre">PredefinedQueriesListView.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.CreatePoolView"><code class="docutils literal notranslate"><span class="pre">CreatePoolView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.CreatePoolView.post"><code class="docutils literal notranslate"><span class="pre">CreatePoolView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.LoadDataToBranchView"><code class="docutils literal notranslate"><span class="pre">LoadDataToBranchView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.LoadDataToBranchView.post"><code class="docutils literal notranslate"><span class="pre">LoadDataToBranchView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.ServiceListView"><code class="docutils literal notranslate"><span class="pre">ServiceListView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.ServiceListView.get"><code class="docutils literal notranslate"><span class="pre">ServiceListView.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.HealthCheckView"><code class="docutils literal notranslate"><span class="pre">HealthCheckView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.HealthCheckView.get"><code class="docutils literal notranslate"><span class="pre">HealthCheckView.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.HealthCheckView.check_database"><code class="docutils literal notranslate"><span class="pre">HealthCheckView.check_database()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.HealthCheckView.check_celery"><code class="docutils literal notranslate"><span class="pre">HealthCheckView.check_celery()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.BulkTaskStatusView"><code class="docutils literal notranslate"><span class="pre">BulkTaskStatusView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.BulkTaskStatusView.post"><code class="docutils literal notranslate"><span class="pre">BulkTaskStatusView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.CorrelationEngineView"><code class="docutils literal notranslate"><span class="pre">CorrelationEngineView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.CorrelationEngineView.post"><code class="docutils literal notranslate"><span class="pre">CorrelationEngineView.post()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.CorrelationEngineView.get"><code class="docutils literal notranslate"><span class="pre">CorrelationEngineView.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.STIXReportView"><code class="docutils literal notranslate"><span class="pre">STIXReportView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.STIXReportView.post"><code class="docutils literal notranslate"><span class="pre">STIXReportView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.BulkSTIXReportView"><code class="docutils literal notranslate"><span class="pre">BulkSTIXReportView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.BulkSTIXReportView.post"><code class="docutils literal notranslate"><span class="pre">BulkSTIXReportView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.views.AIAnalysisView"><code class="docutils literal notranslate"><span class="pre">AIAnalysisView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.views.AIAnalysisView.post"><code class="docutils literal notranslate"><span class="pre">AIAnalysisView.post()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_reference.html#module-api.serializers">Serializers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.AnalysisTaskSerializer"><code class="docutils literal notranslate"><span class="pre">AnalysisTaskSerializer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.serializers.AnalysisTaskSerializer.Meta"><code class="docutils literal notranslate"><span class="pre">AnalysisTaskSerializer.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.serializers.AnalysisTaskSerializer.get_full_result"><code class="docutils literal notranslate"><span class="pre">AnalysisTaskSerializer.get_full_result()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.SuperDBQuerySerializer"><code class="docutils literal notranslate"><span class="pre">SuperDBQuerySerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.TaskSubmissionSerializer"><code class="docutils literal notranslate"><span class="pre">TaskSubmissionSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.BulkTaskSubmissionSerializer"><code class="docutils literal notranslate"><span class="pre">BulkTaskSubmissionSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.BulkTaskStatusRequestSerializer"><code class="docutils literal notranslate"><span class="pre">BulkTaskStatusRequestSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.LoadDataToBranchSerializer"><code class="docutils literal notranslate"><span class="pre">LoadDataToBranchSerializer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.serializers.LoadDataToBranchSerializer.validate"><code class="docutils literal notranslate"><span class="pre">LoadDataToBranchSerializer.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.CreatePoolSerializer"><code class="docutils literal notranslate"><span class="pre">CreatePoolSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.CorrelationEngineSerializer"><code class="docutils literal notranslate"><span class="pre">CorrelationEngineSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.STIXReportSerializer"><code class="docutils literal notranslate"><span class="pre">STIXReportSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.STIXReportItemSerializer"><code class="docutils literal notranslate"><span class="pre">STIXReportItemSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.BulkSTIXReportSerializer"><code class="docutils literal notranslate"><span class="pre">BulkSTIXReportSerializer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.serializers.AIAnalysisSerializer"><code class="docutils literal notranslate"><span class="pre">AIAnalysisSerializer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_reference.html#module-api.models">Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask"><code class="docutils literal notranslate"><span class="pre">AnalysisTask</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.Status"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.Status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.id"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.celery_task_id"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.celery_task_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.status"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.service_name"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.service_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.identifier"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.identifier</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.identifier_type"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.identifier_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.result"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.result</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.created_at"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.completed_at"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.completed_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.get_status_display"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.get_status_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.AnalysisTask.objects"><code class="docutils literal notranslate"><span class="pre">AnalysisTask.objects</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile"><code class="docutils literal notranslate"><span class="pre">ConfigFile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.name"><code class="docutils literal notranslate"><span class="pre">ConfigFile.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.path"><code class="docutils literal notranslate"><span class="pre">ConfigFile.path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.content"><code class="docutils literal notranslate"><span class="pre">ConfigFile.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.updated_at"><code class="docutils literal notranslate"><span class="pre">ConfigFile.updated_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.save"><code class="docutils literal notranslate"><span class="pre">ConfigFile.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">ConfigFile.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">ConfigFile.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">ConfigFile.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">ConfigFile.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.id"><code class="docutils literal notranslate"><span class="pre">ConfigFile.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.ConfigFile.objects"><code class="docutils literal notranslate"><span class="pre">ConfigFile.objects</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.models.clear_config_cache"><code class="docutils literal notranslate"><span class="pre">clear_config_cache()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.models.Rule"><code class="docutils literal notranslate"><span class="pre">Rule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.id"><code class="docutils literal notranslate"><span class="pre">Rule.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.uuid"><code class="docutils literal notranslate"><span class="pre">Rule.uuid</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.rule_id"><code class="docutils literal notranslate"><span class="pre">Rule.rule_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.name"><code class="docutils literal notranslate"><span class="pre">Rule.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.title"><code class="docutils literal notranslate"><span class="pre">Rule.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.author"><code class="docutils literal notranslate"><span class="pre">Rule.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.description"><code class="docutils literal notranslate"><span class="pre">Rule.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.content"><code class="docutils literal notranslate"><span class="pre">Rule.content</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.updated_at"><code class="docutils literal notranslate"><span class="pre">Rule.updated_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.save"><code class="docutils literal notranslate"><span class="pre">Rule.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Rule.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Rule.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Rule.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Rule.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.models.Rule.objects"><code class="docutils literal notranslate"><span class="pre">Rule.objects</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_reference.html#module-api.tasks">Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_reference.html#module-api.correlation_engine">Correlation Engine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule"><code class="docutils literal notranslate"><span class="pre">CorrelationRule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.id"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.title"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.description"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.syntax"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.syntax</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.author"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.author</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.source"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.tags"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.tags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.file_path"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.file_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationRule.execute_query"><code class="docutils literal notranslate"><span class="pre">CorrelationRule.execute_query()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationEngine"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationEngine.rules_directory_path"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.rules_directory_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationEngine.rules"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationEngine.superdb_client"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.superdb_client</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationEngine.load_rules"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.load_rules()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationEngine.get_rules"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.get_rules()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.CorrelationEngine.run_correlation_analysis"><code class="docutils literal notranslate"><span class="pre">CorrelationEngine.run_correlation_analysis()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.correlation_engine.create_correlation_engine_instance"><code class="docutils literal notranslate"><span class="pre">create_correlation_engine_instance()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_reference.html#module-api.config">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.config.refresh_configuration"><code class="docutils literal notranslate"><span class="pre">refresh_configuration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.config.load_api_recipes"><code class="docutils literal notranslate"><span class="pre">load_api_recipes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.config.load_scraping_recipes"><code class="docutils literal notranslate"><span class="pre">load_scraping_recipes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.config.load_internal_services_recipes"><code class="docutils literal notranslate"><span class="pre">load_internal_services_recipes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.config.load_rss_recipes"><code class="docutils literal notranslate"><span class="pre">load_rss_recipes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.config.load_ioc_patterns"><code class="docutils literal notranslate"><span class="pre">load_ioc_patterns()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.config.load_predefined_queries"><code class="docutils literal notranslate"><span class="pre">load_predefined_queries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference.html#api.config.load_all_recipes"><code class="docutils literal notranslate"><span class="pre">load_all_recipes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api_reference.html#module-api.urls">URLs</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Huntsman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">api.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for api.views</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Views for the Huntsman API.&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db</span><span class="w"> </span><span class="kn">import</span> <span class="n">transaction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db</span><span class="w"> </span><span class="kn">import</span> <span class="n">connection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">OperationalError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.views.generic</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateView</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.http</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="n">JsonResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">method_decorator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">generics</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIView</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">huntsman.celery</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">celery_app</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.config</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">load_api_recipes</span><span class="p">,</span> <span class="n">load_internal_services_recipes</span><span class="p">,</span> 
+    <span class="n">load_scraping_recipes</span><span class="p">,</span> <span class="n">load_ioc_patterns</span><span class="p">,</span> 
+    <span class="n">load_predefined_queries</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalysisTask</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.serializers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AnalysisTaskSerializer</span><span class="p">,</span> <span class="n">BulkTaskSubmissionSerializer</span><span class="p">,</span>
+    <span class="n">TaskSubmissionSerializer</span><span class="p">,</span> <span class="n">SuperDBQuerySerializer</span><span class="p">,</span>
+    <span class="n">BulkTaskStatusRequestSerializer</span><span class="p">,</span> <span class="n">CorrelationEngineSerializer</span><span class="p">,</span>
+    <span class="n">CreatePoolSerializer</span><span class="p">,</span> <span class="n">LoadDataToBranchSerializer</span><span class="p">,</span>
+    <span class="n">STIXReportSerializer</span><span class="p">,</span> <span class="n">BulkSTIXReportSerializer</span><span class="p">,</span>
+    <span class="n">AIAnalysisSerializer</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tasks</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">run_analysis_task</span><span class="p">,</span> <span class="n">run_superdb_query_task</span><span class="p">,</span> <span class="n">run_create_pool_task</span><span class="p">,</span> 
+    <span class="n">run_load_data_to_branch_task</span><span class="p">,</span> <span class="n">run_stix_report_creation_task</span><span class="p">,</span>
+    <span class="n">run_bulk_stix_report_creation_task</span><span class="p">,</span> <span class="n">run_ai_analysis_task</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.correlation_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_correlation_engine_instance</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+
+<div class="viewcode-block" id="DashboardView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.DashboardView">[docs]</a>
+<span class="nd">@method_decorator</span><span class="p">(</span><span class="n">login_required</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;dispatch&#39;</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DashboardView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A view to render the main dashboard.&quot;&quot;&quot;</span>
+
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;api/dashboard.html&quot;</span>
+
+<div class="viewcode-block" id="DashboardView.get_context_data">
+<a class="viewcode-back" href="../../api_reference.html#api.views.DashboardView.get_context_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the context data for rendering the dashboard.</span>
+
+<span class="sd">        This method loads IOC patterns and adds them to the context.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The context data for the template.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;ioc_patterns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">load_ioc_patterns</span><span class="p">())</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;max_ioc_submission_limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">MAX_IOC_SUBMISSION_LIMIT</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+<div class="viewcode-block" id="AnalysisTriggerView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.AnalysisTriggerView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnalysisTriggerView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to trigger a single analysis task.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AnalysisTriggerView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.AnalysisTriggerView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to trigger an analysis task.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">TaskSubmissionSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                <span class="n">task_record</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">service_name</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;service_name&#39;</span><span class="p">],</span>
+                    <span class="n">identifier</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;identifier&#39;</span><span class="p">],</span>
+                    <span class="n">identifier_type</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;identifier_type&#39;</span><span class="p">],</span>
+                    <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+                <span class="p">)</span>
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">run_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">)))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create task in database.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Analysis task has been queued.&quot;</span><span class="p">,</span> <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">},</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+        <span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="BulkAnalysisTriggerView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.BulkAnalysisTriggerView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BulkAnalysisTriggerView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to trigger multiple analysis tasks in bulk.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BulkAnalysisTriggerView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.BulkAnalysisTriggerView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to trigger bulk analysis tasks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">BulkTaskSubmissionSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+        <span class="n">tasks_data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span><span class="p">[</span><span class="s1">&#39;tasks&#39;</span><span class="p">]</span>
+        <span class="n">task_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">task_data</span> <span class="ow">in</span> <span class="n">tasks_data</span><span class="p">:</span>
+                    <span class="n">task_record</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                        <span class="n">service_name</span><span class="o">=</span><span class="n">task_data</span><span class="p">[</span><span class="s1">&#39;service_name&#39;</span><span class="p">],</span>
+                        <span class="n">identifier</span><span class="o">=</span><span class="n">task_data</span><span class="p">[</span><span class="s1">&#39;identifier&#39;</span><span class="p">],</span>
+                        <span class="n">identifier_type</span><span class="o">=</span><span class="n">task_data</span><span class="p">[</span><span class="s1">&#39;identifier_type&#39;</span><span class="p">],</span>
+                        <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+                    <span class="p">)</span>
+                    <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="o">=</span><span class="n">task_record</span><span class="p">:</span> <span class="n">run_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)))</span>
+                    <span class="n">task_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create bulk tasks in database.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">task_ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> analysis tasks have been queued.&quot;</span><span class="p">,</span> <span class="s2">&quot;task_ids&quot;</span><span class="p">:</span> <span class="n">task_ids</span><span class="p">},</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+        <span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="TaskStatusView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.TaskStatusView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TaskStatusView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">RetrieveAPIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to retrieve the status of a single analysis task.&quot;&quot;&quot;</span>
+
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">AnalysisTaskSerializer</span>
+    <span class="n">lookup_field</span> <span class="o">=</span> <span class="s1">&#39;id&#39;</span></div>
+
+
+<div class="viewcode-block" id="TaskListView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.TaskListView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TaskListView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to list all analysis tasks, with optional filtering by status.&quot;&quot;&quot;</span>
+
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_at&#39;</span><span class="p">)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">AnalysisTaskSerializer</span>
+<div class="viewcode-block" id="TaskListView.get_queryset">
+<a class="viewcode-back" href="../../api_reference.html#api.views.TaskListView.get_queryset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the queryset for listing tasks.</span>
+
+<span class="sd">        This method filters the queryset based on the &#39;status&#39; query parameter.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        QuerySet</span>
+<span class="sd">            The filtered queryset of AnalysisTask objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="n">status_filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">query_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">status_filter</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status__iexact</span><span class="o">=</span><span class="n">status_filter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div>
+</div>
+
+
+<div class="viewcode-block" id="SuperDBQueryView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.SuperDBQueryView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SuperDBQueryView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to execute a query on SuperDB.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SuperDBQueryView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.SuperDBQueryView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to execute a SuperDB query.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">SuperDBQuerySerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span>
+        
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;query&#39;</span><span class="p">):</span>
+            <span class="n">query_string</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">from_pool</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;from_pool&#39;</span><span class="p">]</span>
+            <span class="n">commands</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;commands&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            
+            <span class="n">query_parts</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;from </span><span class="si">{</span><span class="n">from_pool</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+            <span class="n">query_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">commands</span><span class="p">)</span>
+            <span class="n">query_string</span> <span class="o">=</span> <span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">query_parts</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                <span class="n">task_record</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;superdb_query&#39;</span><span class="p">,</span>
+                    <span class="n">identifier</span><span class="o">=</span><span class="n">query_string</span><span class="p">,</span>
+                    <span class="n">identifier_type</span><span class="o">=</span><span class="s1">&#39;etl_query&#39;</span><span class="p">,</span>
+                    <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+                <span class="p">)</span>
+                <span class="n">task_record</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">run_superdb_query_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">)))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create query task in database.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Database query task has been queued.&quot;</span><span class="p">,</span> 
+                <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query_string</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+        <span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="PredefinedQueriesListView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.PredefinedQueriesListView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PredefinedQueriesListView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to list all predefined SuperDB queries.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PredefinedQueriesListView.get">
+<a class="viewcode-back" href="../../api_reference.html#api.views.PredefinedQueriesListView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle GET requests to list predefined queries.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        format : Any, optional</span>
+<span class="sd">            The format of the response.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object containing the predefined queries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">queries</span> <span class="o">=</span> <span class="n">load_predefined_queries</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">queries</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="CreatePoolView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.CreatePoolView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CreatePoolView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to create a new pool in SuperDB.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CreatePoolView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.CreatePoolView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to create a SuperDB pool.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">CreatePoolSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+        
+        <span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span>
+        <span class="n">pool_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">layout_order</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;layout_order&#39;</span><span class="p">,</span> <span class="s1">&#39;asc&#39;</span><span class="p">)</span>
+        <span class="n">layout_keys</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;layout_keys&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s1">&#39;ts&#39;</span><span class="p">]])</span>
+        <span class="n">thresh</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;thresh&#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                <span class="n">task_record</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;superdb_create_pool&#39;</span><span class="p">,</span>
+                    <span class="n">identifier</span><span class="o">=</span><span class="n">pool_name</span><span class="p">,</span>
+                    <span class="n">identifier_type</span><span class="o">=</span><span class="s1">&#39;pool_creation&#39;</span><span class="p">,</span>
+                    <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+                <span class="p">)</span>
+                <span class="n">task_record</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
+                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_create_pool_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                        <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">pool_name</span><span class="p">,</span>
+                        <span class="n">layout_order</span><span class="o">=</span><span class="n">layout_order</span><span class="p">,</span>
+                        <span class="n">layout_keys</span><span class="o">=</span><span class="n">layout_keys</span><span class="p">,</span>
+                        <span class="n">thresh</span><span class="o">=</span><span class="n">thresh</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create pool task in database.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;SuperDB pool creation task for &#39;</span><span class="si">{</span><span class="n">pool_name</span><span class="si">}</span><span class="s2">&#39; has been queued.&quot;</span><span class="p">,</span> 
+                <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">&quot;pool_name&quot;</span><span class="p">:</span> <span class="n">pool_name</span>
+            <span class="p">},</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+        <span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="LoadDataToBranchView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.LoadDataToBranchView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoadDataToBranchView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to load data into a branch of a SuperDB pool.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LoadDataToBranchView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.LoadDataToBranchView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to load data into a SuperDB branch.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">LoadDataToBranchSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+        
+        <span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span>
+        <span class="n">pool_id_or_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;pool_id_or_name&#39;</span><span class="p">]</span>
+        <span class="n">branch_name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;branch_name&#39;</span><span class="p">]</span>
+        <span class="n">load_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">csv_delim</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;csv_delim&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                <span class="n">task_record</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;superdb_load_data&#39;</span><span class="p">,</span>
+                    <span class="n">identifier</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Load data to </span><span class="si">{</span><span class="n">branch_name</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">pool_id_or_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">identifier_type</span><span class="o">=</span><span class="s1">&#39;data_loading&#39;</span><span class="p">,</span>
+                    <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+                <span class="p">)</span>
+                <span class="n">task_record</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
+                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_load_data_to_branch_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                        <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                        <span class="n">pool_id_or_name</span><span class="o">=</span><span class="n">pool_id_or_name</span><span class="p">,</span>
+                        <span class="n">branch_name</span><span class="o">=</span><span class="n">branch_name</span><span class="p">,</span>
+                        <span class="n">data</span><span class="o">=</span><span class="n">load_data</span><span class="p">,</span>
+                        <span class="n">csv_delim</span><span class="o">=</span><span class="n">csv_delim</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create load data task in. database.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Data loading task for branch &#39;</span><span class="si">{</span><span class="n">branch_name</span><span class="si">}</span><span class="s2">&#39; in pool &#39;</span><span class="si">{</span><span class="n">pool_id_or_name</span><span class="si">}</span><span class="s2">&#39; has been queued.&quot;</span><span class="p">,</span> 
+                <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">&quot;pool_id_or_name&quot;</span><span class="p">:</span> <span class="n">pool_id_or_name</span><span class="p">,</span>
+                <span class="s2">&quot;branch_name&quot;</span><span class="p">:</span> <span class="n">branch_name</span>
+            <span class="p">},</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+        <span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="ServiceListView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.ServiceListView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ServiceListView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to list all available services and their supported types.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ServiceListView.get">
+<a class="viewcode-back" href="../../api_reference.html#api.views.ServiceListView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle GET requests to list available services.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        format : Any, optional</span>
+<span class="sd">            The format of the response.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object containing the list of services.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">api_recipes</span> <span class="o">=</span> <span class="n">load_api_recipes</span><span class="p">()</span>
+        <span class="n">internal_recipes</span> <span class="o">=</span> <span class="n">load_internal_services_recipes</span><span class="p">()</span>
+        <span class="n">scraping_recipes</span> <span class="o">=</span> <span class="n">load_scraping_recipes</span><span class="p">()</span>
+        
+        <span class="n">combined_recipes</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">api_recipes</span><span class="p">,</span> <span class="o">**</span><span class="n">internal_recipes</span><span class="p">,</span> <span class="o">**</span><span class="n">scraping_recipes</span><span class="p">}</span>
+        
+        <span class="n">service_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">recipe</span> <span class="ow">in</span> <span class="n">combined_recipes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">recipe</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;enabled&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="s2">&quot;endpoints&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">recipe</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recipe</span><span class="p">[</span><span class="s2">&quot;endpoints&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="n">supported_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">recipe</span><span class="p">[</span><span class="s2">&quot;endpoints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+            <span class="n">service_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">recipe</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()),</span>
+                <span class="s2">&quot;supported_types&quot;</span><span class="p">:</span> <span class="n">supported_types</span>
+            <span class="p">})</span>
+            
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">service_list</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="HealthCheckView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.HealthCheckView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HealthCheckView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to perform health checks on the system components.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="HealthCheckView.get">
+<a class="viewcode-back" href="../../api_reference.html#api.views.HealthCheckView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle GET requests to perform health checks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object with the health check results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">checks</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;database&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_database</span><span class="p">(),</span>
+            <span class="s2">&quot;celery_redis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_celery</span><span class="p">(),</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">check</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;error&quot;</span> <span class="k">for</span> <span class="n">check</span> <span class="ow">in</span> <span class="n">checks</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">checks</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_503_SERVICE_UNAVAILABLE</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">checks</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HealthCheckView.check_database">
+<a class="viewcode-back" href="../../api_reference.html#api.views.HealthCheckView.check_database">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_database</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check the status of the database connection.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary with the status and a message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">ensure_connection</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Database connection successful.&quot;</span><span class="p">}</span>
+        <span class="k">except</span> <span class="n">OperationalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Database connection failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="HealthCheckView.check_celery">
+<a class="viewcode-back" href="../../api_reference.html#api.views.HealthCheckView.check_celery">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_celery</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check the status of the Celery workers.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary with the status and a message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ping</span> <span class="o">=</span> <span class="n">celery_app</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">ping</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ping</span><span class="p">:</span>
+                <span class="n">worker_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ping</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">worker_count</span><span class="si">}</span><span class="s2"> Celery worker(s) responded.&quot;</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;No Celery workers responded to ping.&quot;</span><span class="p">}</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Celery check failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span></div>
+</div>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BulkTaskStatusView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.BulkTaskStatusView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BulkTaskStatusView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to retrieve the status of multiple tasks in bulk.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BulkTaskStatusView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.BulkTaskStatusView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to get the status of bulk tasks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object with the status of the requested tasks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received bulk task status request with data: </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">BulkTaskStatusRequestSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bulk task status request validation failed: </span><span class="si">{</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+
+        <span class="n">task_ids</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span><span class="p">[</span><span class="s1">&#39;task_ids&#39;</span><span class="p">]</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id__in</span><span class="o">=</span><span class="n">task_ids</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="n">tasks</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="si">}</span><span class="s2"> tasks for IDs: </span><span class="si">{</span><span class="n">task_ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">results_serializer</span> <span class="o">=</span> <span class="n">AnalysisTaskSerializer</span><span class="p">(</span><span class="n">tasks</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">results_serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="CorrelationEngineView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.CorrelationEngineView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CorrelationEngineView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to interact with the Correlation Engine.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CorrelationEngineView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.CorrelationEngineView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to run the correlation engine.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object with the correlation analysis results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">CorrelationEngineSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+            
+        <span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span>
+        <span class="n">task_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">task_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Task with ID </span><span class="si">{</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">},</span> 
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span>
+            <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">FAILURE</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;warning&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Task </span><span class="si">{</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> is in &#39;</span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&#39; status. Results may be incomplete.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;task_status&quot;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">status</span>
+                <span class="p">},</span>
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+            <span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">engine</span> <span class="o">=</span> <span class="n">create_correlation_engine_instance</span><span class="p">()</span>
+            
+            <span class="n">analysis_result</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">run_correlation_analysis</span><span class="p">(</span>
+                <span class="n">task_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_id</span><span class="p">),</span>
+                <span class="n">rule_titles</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rules&#39;</span><span class="p">),</span>
+                <span class="n">tags_filter</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tags_filter&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+            
+            <span class="n">analysis_result</span><span class="p">[</span><span class="s1">&#39;task_metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;task_id&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                <span class="s1">&#39;service_name&#39;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">service_name</span><span class="p">,</span>
+                <span class="s1">&#39;identifier&#39;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span>
+                <span class="s1">&#39;identifier_type&#39;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">identifier_type</span><span class="p">,</span>
+                <span class="s1">&#39;task_status&#39;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
+                <span class="s1">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span>
+                <span class="s1">&#39;completed_at&#39;</span><span class="p">:</span> <span class="n">task</span><span class="o">.</span><span class="n">completed_at</span>
+            <span class="p">}</span>
+            
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">analysis_result</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Rules configuration file not found&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span>
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Invalid rules configuration&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span>
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Correlation analysis failed&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span>
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span>
+            <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="CorrelationEngineView.get">
+<a class="viewcode-back" href="../../api_reference.html#api.views.CorrelationEngineView.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle GET requests to list correlation rules and tags.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object with the list of rules and tags.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">engine</span> <span class="o">=</span> <span class="n">create_correlation_engine_instance</span><span class="p">()</span>
+            
+            <span class="n">rules_info</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">engine</span><span class="o">.</span><span class="n">rules</span><span class="p">:</span>
+                <span class="n">rules_info</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">rule</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">rule</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                    <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">rule</span><span class="o">.</span><span class="n">tags</span><span class="p">,</span>
+                    <span class="s2">&quot;syntax_template&quot;</span><span class="p">:</span> <span class="n">rule</span><span class="o">.</span><span class="n">syntax</span>
+                <span class="p">})</span>
+            
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span>
+                <span class="s2">&quot;total_rules&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">rules_info</span><span class="p">),</span>
+                <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="n">rules_info</span><span class="p">,</span>
+                <span class="s2">&quot;available_tags&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">tag</span> <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">engine</span><span class="o">.</span><span class="n">rules</span> <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">rule</span><span class="o">.</span><span class="n">tags</span><span class="p">))</span>
+            <span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to load rules information&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span>
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span>
+            <span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="STIXReportView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.STIXReportView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STIXReportView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to create a STIX report.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="STIXReportView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.STIXReportView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to create a STIX report.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">STIXReportSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+        
+        <span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span>
+        <span class="n">source_task_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">source_task</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">source_task_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+             <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Source task </span><span class="si">{</span><span class="n">source_task_id</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                <span class="n">task_record</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;stix_report_creation&#39;</span><span class="p">,</span>
+                    <span class="n">identifier</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;STIX Report for </span><span class="si">{</span><span class="n">source_task</span><span class="o">.</span><span class="n">identifier</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">identifier_type</span><span class="o">=</span><span class="s1">&#39;report_generation&#39;</span><span class="p">,</span>
+                    <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+                <span class="p">)</span>
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
+                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_stix_report_creation_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                        <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                        <span class="n">source_task_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">source_task_id</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create STIX report task.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;STIX report creation task has been queued.&quot;</span><span class="p">,</span> <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">},</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+        <span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="BulkSTIXReportView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.BulkSTIXReportView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BulkSTIXReportView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to create a bulk STIX report from multiple tasks.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BulkSTIXReportView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.BulkSTIXReportView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to create a bulk STIX report.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">BulkSTIXReportSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+        
+        <span class="n">report_mappings</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span><span class="p">[</span><span class="s1">&#39;reports&#39;</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                <span class="n">task_record</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;stix_bulk_report_creation&#39;</span><span class="p">,</span>
+                    <span class="n">identifier</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Bulk report job with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">report_mappings</span><span class="p">)</span><span class="si">}</span><span class="s2"> reports&quot;</span><span class="p">,</span>
+                    <span class="n">identifier_type</span><span class="o">=</span><span class="s1">&#39;bulk_report&#39;</span><span class="p">,</span>
+                    <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+                <span class="p">)</span>
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
+                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_bulk_stix_report_creation_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                        <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                        <span class="n">report_mappings</span><span class="o">=</span><span class="n">report_mappings</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create bulk STIX report task.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Bulk STIX report creation task has been queued.&quot;</span><span class="p">,</span> <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">},</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+        <span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="AIAnalysisView">
+<a class="viewcode-back" href="../../api_reference.html#api.views.AIAnalysisView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AIAnalysisView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An API view to perform AI analysis on a given dataset.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AIAnalysisView.post">
+<a class="viewcode-back" href="../../api_reference.html#api.views.AIAnalysisView.post">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle POST requests to perform AI analysis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : HttpRequest</span>
+<span class="sd">            The HTTP request object.</span>
+<span class="sd">        *args : Any</span>
+<span class="sd">            Variable length argument list.</span>
+<span class="sd">        **kwargs : Any</span>
+<span class="sd">            Arbitrary keyword arguments.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Response</span>
+<span class="sd">            A DRF Response object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">AIAnalysisSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+            
+        <span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span><span class="p">[</span><span class="s1">&#39;prompt&#39;</span><span class="p">]</span>
+        <span class="n">system_prompt</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">validated_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;system_prompt&#39;</span><span class="p">,</span> <span class="s1">&#39;You are a world class CTI Analyst. Give brief summary and provide actionable insights.&#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                <span class="n">task_record</span> <span class="o">=</span> <span class="n">AnalysisTask</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="n">service_name</span><span class="o">=</span><span class="s1">&#39;ai_analysis&#39;</span><span class="p">,</span>
+                    <span class="n">identifier</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;AI Analysis - </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> records&quot;</span><span class="p">,</span>
+                    <span class="n">identifier_type</span><span class="o">=</span><span class="s1">&#39;ai_insight&#39;</span><span class="p">,</span>
+                    <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
+                <span class="p">)</span>
+                
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
+                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_ai_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                        <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+                        <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                        <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+                        <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;AI Analysis task queued.&quot;</span><span class="p">,</span> <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">},</span>
+                <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_202_ACCEPTED</span>
+            <span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Failed to queue AI task: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, ajtap.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
