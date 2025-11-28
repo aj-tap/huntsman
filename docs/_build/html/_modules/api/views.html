@@ -319,6 +319,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">huntsman.celery</span><span class="w"> </span><span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">celery_app</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.config</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">load_api_recipes</span><span class="p">,</span> <span class="n">load_internal_services_recipes</span><span class="p">,</span> 
@@ -340,8 +344,8 @@
     <span class="n">run_bulk_stix_report_creation_task</span><span class="p">,</span> <span class="n">run_ai_analysis_task</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.correlation_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_correlation_engine_instance</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DashboardView">
 <a class="viewcode-back" href="../../api_reference.html#api.views.DashboardView">[docs]</a>
@@ -413,7 +417,9 @@
                     <span class="n">identifier_type</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;identifier_type&#39;</span><span class="p">],</span>
                     <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
                 <span class="p">)</span>
-                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">run_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">)))</span>
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
+                    <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">run_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span> <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+                <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create task in database.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
@@ -462,9 +468,12 @@
                         <span class="n">identifier_type</span><span class="o">=</span><span class="n">task_data</span><span class="p">[</span><span class="s1">&#39;identifier_type&#39;</span><span class="p">],</span>
                         <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
                     <span class="p">)</span>
-                    <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="o">=</span><span class="n">task_record</span><span class="p">:</span> <span class="n">run_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="p">)))</span>
-                    <span class="n">task_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                    <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
+                        <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">run_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span> <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+                    <span class="p">)</span>
+                    <span class="n">task_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bulk task creation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create bulk tasks in database.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
             <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">task_ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> analysis tasks have been queued.&quot;</span><span class="p">,</span> <span class="s2">&quot;task_ids&quot;</span><span class="p">:</span> <span class="n">task_ids</span><span class="p">},</span>
@@ -562,7 +571,9 @@
                 <span class="p">)</span>
                 <span class="n">task_record</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
                 
-                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">run_superdb_query_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">)))</span>
+                <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
+                    <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">run_superdb_query_task</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span> <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+                <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to create query task in database.&quot;</span><span class="p">,</span> <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)},</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">)</span>
 
@@ -651,7 +662,8 @@
                 <span class="n">task_record</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
                 
                 <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
-                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_create_pool_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                    <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+                        <span class="n">run_create_pool_task</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span>
                         <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
                         <span class="n">name</span><span class="o">=</span><span class="n">pool_name</span><span class="p">,</span>
                         <span class="n">layout_order</span><span class="o">=</span><span class="n">layout_order</span><span class="p">,</span>
@@ -719,7 +731,8 @@
                 <span class="n">task_record</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
                 
                 <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
-                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_load_data_to_branch_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                    <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+                        <span class="n">run_load_data_to_branch_task</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span>
                         <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
                         <span class="n">pool_id_or_name</span><span class="o">=</span><span class="n">pool_id_or_name</span><span class="p">,</span>
                         <span class="n">branch_name</span><span class="o">=</span><span class="n">branch_name</span><span class="p">,</span>
@@ -865,10 +878,6 @@
 </div>
 
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
 <div class="viewcode-block" id="BulkTaskStatusView">
 <a class="viewcode-back" href="../../api_reference.html#api.views.BulkTaskStatusView">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BulkTaskStatusView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
@@ -963,6 +972,7 @@
             
             <span class="n">analysis_result</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">run_correlation_analysis</span><span class="p">(</span>
                 <span class="n">task_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_id</span><span class="p">),</span>
+                <span class="n">service_name</span><span class="o">=</span><span class="n">task</span><span class="o">.</span><span class="n">service_name</span><span class="p">,</span>
                 <span class="n">rule_titles</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rules&#39;</span><span class="p">),</span>
                 <span class="n">tags_filter</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tags_filter&#39;</span><span class="p">)</span>
             <span class="p">)</span>
@@ -1088,7 +1098,8 @@
                     <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
                 <span class="p">)</span>
                 <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
-                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_stix_report_creation_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                    <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+                        <span class="n">run_stix_report_creation_task</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span>
                         <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
                         <span class="n">source_task_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">source_task_id</span><span class="p">)</span>
                     <span class="p">)</span>
@@ -1143,7 +1154,8 @@
                     <span class="n">status</span><span class="o">=</span><span class="n">AnalysisTask</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
                 <span class="p">)</span>
                 <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
-                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_bulk_stix_report_creation_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                    <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+                        <span class="n">run_bulk_stix_report_creation_task</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span>
                         <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
                         <span class="n">report_mappings</span><span class="o">=</span><span class="n">report_mappings</span>
                     <span class="p">)</span>
@@ -1201,7 +1213,8 @@
                 <span class="p">)</span>
                 
                 <span class="n">transaction</span><span class="o">.</span><span class="n">on_commit</span><span class="p">(</span>
-                    <span class="k">lambda</span><span class="p">:</span> <span class="n">run_ai_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span>
+                    <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+                        <span class="n">run_ai_analysis_task</span><span class="o">.</span><span class="n">delay</span><span class="p">,</span>
                         <span class="n">task_db_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">task_record</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                         <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>

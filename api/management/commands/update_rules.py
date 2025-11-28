@@ -1,27 +1,27 @@
-"""A Django management command to update correlation rules from GitHub."""
+"""A Django management command to update correlation rules from the local directory."""
 from django.core.management.base import BaseCommand
 from typing import Dict, Any
-from api.utils.rule_management import fetch_rules_from_github
+from api.utils.rule_management import sync_rules_from_local_dir
 
 class Command(BaseCommand):
     """
-    Download the latest correlation rules from GitHub and sync to the database.
+    Synchronize correlation rules from the local directory to the database.
 
-    This command fetches the latest correlation rules from the GitHub repository
-    and updates the local database to match.
+    This command reads all YAML rule files from the directory specified by the
+    `CORRELATION_RULES_PATH` setting and syncs them to the database.
     """
 
-    help = "Downloads the latest correlation rules from the GitHub repo and syncs to DB."
+    help = "Syncs correlation rules from the local directory to the database."
 
     def handle(self, *args: Any, **options: Any) -> None:
         """Run the command."""
-        self.stdout.write("Starting rule update...")
+        self.stdout.write("Starting rule synchronization...")
         try:
-            stats = fetch_rules_from_github()
+            stats = sync_rules_from_local_dir()
             
-            self.stdout.write(self.style.SUCCESS("--- Rule Update Complete ---"))
-            self.stdout.write(f"Downloaded: {stats['downloaded']}")
-            self.stdout.write(f"Skipped: {stats['skipped']}")
+            self.stdout.write(self.style.SUCCESS("--- Rule Sync Complete ---"))
+            self.stdout.write(f"Created: {stats['created']}")
+            self.stdout.write(f"Updated: {stats['updated']}")
             
             if stats['errors']:
                 self.stdout.write(self.style.WARNING("Errors encountered:"))

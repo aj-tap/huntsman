@@ -53,7 +53,7 @@ services:
   # Flower (Monitoring)
   flower:
     build: .
-    command: celery -A huntsman.celery_app flower --port=5555
+    command: celery -A huntsman flower --port=5555
     ports:
       - "5555:5555"
     depends_on:

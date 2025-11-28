@@ -1,7 +1,7 @@
 """The correlation engine for Huntsman."""
 import os
 import yaml
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
 from django.conf import settings
 from .db.superdb_client import SuperDBClient
 
@@ -58,6 +58,14 @@ class CorrelationRule:
         self.source: str = rule_data.get('source', 'Unknown')
         self.tags: List[str] = rule_data.get('tags', [])
         self.file_path: str = file_path
+        self.pool_name: str = self._extract_pool_name()
+
+    def _extract_pool_name(self) -> str:
+        """Extract the pool name from the rule's syntax."""
+        if " | " in self.syntax:
+            pool_part = self.syntax.split(" | ")[0]
+            return pool_part.replace("from ", "").replace("'", "").strip()
+        return "default"
 
     def execute_query(self, task_id: str, superdb_client: SuperDBClient) -> Dict[str, Any]:
         """
@@ -75,16 +83,11 @@ class CorrelationRule:
         dict
             A dictionary containing the results of the query execution.
         """
-        query = f"{self.syntax} | task_id == '{task_id}'"
+        parts = self.syntax.split(" | ", 1)
+        query = f"{parts[0]} | task_id == '{task_id}' | {parts[1]}"
 
         try:
-            if " | " in self.syntax:
-                pool_part = self.syntax.split(" | ")[0]
-                pool_name = pool_part.replace("from ", "").replace("'", "").strip()
-            else:
-                pool_name = "default"
-
-            result = superdb_client.execute_query(query=query, pool=pool_name)
+            result = superdb_client.execute_query(query=query, pool=self.pool_name)
 
             if result is None:
                 raise Exception("Query execution failed - likely pool not found or query syntax error")
@@ -126,6 +129,12 @@ class CorrelationEngine:
     superdb_client : SuperDBClient
         The SuperDB client used for executing queries.
     """
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(CorrelationEngine, cls).__new__(cls)
+        return cls._instance
 
     def __init__(self, rules_directory_path: Optional[str] = None) -> None:
         """
@@ -137,10 +146,12 @@ class CorrelationEngine:
             The path to the directory containing the correlation rules. If not
             provided, it will be loaded from the Django settings.
         """
-        self.rules_directory_path: Optional[str] = rules_directory_path or getattr(settings, 'CORRELATION_RULES_PATH', None)
-        self.rules: List[CorrelationRule] = []
-        self.superdb_client: SuperDBClient = SuperDBClient()
-        self.load_rules()
+        if not hasattr(self, 'initialized'):
+            self.rules_directory_path: Optional[str] = rules_directory_path or getattr(settings, 'CORRELATION_RULES_PATH', None)
+            self.rules: List[CorrelationRule] = []
+            self.superdb_client: SuperDBClient = SuperDBClient()
+            self.load_rules()
+            self.initialized = True
 
     def load_rules(self) -> None:
         """
@@ -155,6 +166,7 @@ class CorrelationEngine:
             raise FileNotFoundError(f"Rules directory not found or is not a directory: {self.rules_directory_path}")
 
         self.rules = []
+        loaded_ids: Set[str] = set()
         print(f"--- Loading correlation rules from: {self.rules_directory_path} ---")
 
         for root, _, files in os.walk(self.rules_directory_path):
@@ -168,8 +180,15 @@ class CorrelationEngine:
                             for rule_data in rule_data_list:
                                 if not rule_data:
                                     continue
+                                
+                                rule_id = rule_data.get('id')
+                                if rule_id and rule_id in loaded_ids:
+                                    print(f"  [-] Skipping duplicate rule ID {rule_id} in {file_path}")
+                                    continue
+
                                 rule = CorrelationRule(rule_data=rule_data, file_path=file_path)
                                 self.rules.append(rule)
+                                loaded_ids.add(rule.id)
                                 print(f"  [+] Loaded rule: {rule.title}")
 
                     except yaml.YAMLError as e:
@@ -215,6 +234,7 @@ class CorrelationEngine:
 
     def run_correlation_analysis(self,
                                 task_id: str,
+                                service_name: Optional[str] = None,
                                 rule_titles: Optional[List[str]] = None,
                                 tags_filter: Optional[List[str]] = None) -> Dict[str, Any]:
         """
@@ -224,6 +244,8 @@ class CorrelationEngine:
         ----------
         task_id : str
             The ID of the task to analyze.
+        service_name : str, optional
+            The name of the service to run the rules against.
         rule_titles : list of str, optional
             A list of rule titles to run. If not provided, all rules will be run.
         tags_filter : list of str, optional
@@ -235,6 +257,11 @@ class CorrelationEngine:
             A dictionary containing the results of the correlation analysis.
         """
         rules_to_run = self.get_rules(rule_titles, tags_filter)
+        if service_name:
+            rules_to_run = [
+                rule for rule in rules_to_run
+                if rule.pool_name == service_name or rule.pool_name == "*"
+            ]
 
         if not rules_to_run:
             return {

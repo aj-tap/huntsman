@@ -103,7 +103,7 @@ otx:
       ratelimit: "1/5s"
       pivots:
         autonomous-system: "cut asn"
-        attack-pattern:  "over pulse_info.pulses | yield attack_ids"
+        attack-pattern:  "over pulse_info.pulses | over attack_ids | uniq | head 25"
         location: "yield country_code"
     ipv6-addr:
       method: "GET"
@@ -112,7 +112,7 @@ otx:
       ratelimit: "1/5s"
       pivots:
         autonomous-system: "cut asn"
-        attack-pattern:  "over pulse_info.pulses | yield attack_ids"
+        attack-pattern:  "over pulse_info.pulses | over attack_ids | uniq | head 25"
         location: "yield country_code"
     domain-name:
       method: "GET"
@@ -120,7 +120,7 @@ otx:
       db_pool: "otx"
       ratelimit: "1/5s"
       pivots:
-        attack-pattern:  "over pulse_info.pulses | yield attack_ids"
+        attack-pattern:  "over pulse_info.pulses | over attack_ids | uniq | head 25"
     sha256:
       method: "GET"
       path_template: "/indicators/file/{identifier}/analysis"
@@ -168,7 +168,7 @@ otx:
       db_pool: "otx"
       ratelimit: "1/5s"
       pivots:
-        attack-pattern:  "over pulse_info.pulses | yield attack_ids"        
+        attack-pattern:  "over pulse_info.pulses | over attack_ids | uniq | head 25"        
         domain-name: "cut hostname, domain"
 
 shodan:
@@ -205,6 +205,7 @@ shodan:
         autonomous-system: "yield asn"
         vulnerability: "over data | fuse |  yield opts.vulns | uniq" 
         jarm: "over data | fuse |  yield ssl.jarm | uniq"      
+        
     domain-name:
       method: "GET"
       path_template: "/dns/domain/{identifier}"
@@ -217,6 +218,15 @@ shodan:
         query: "ssl.jarm:{identifier}"
       db_pool: "shodan"
       ratelimit: "1/5s"
+      pivots:
+        autonomous-system: "over matches | fuse | yield asn | uniq | head 25"
+        ipv6-addr : "over matches | fuse | yield ipv6 | uniq | head 25"
+        domain-name: "over matches | fuse | yield hostnames | uniq | head 25"
+        x509-certificate: "over matches | fuse | yield ssl.cert.fingerprint.sha1 | uniq | head 25"
+        location: "over matches | fuse | yield location.country_code | uniq"
+        jarm: "over matches | fuse | yield ssl.jarm | uniq | head 25"
+        software: "over matches | fuse | yield cpe | uniq | head 25"
+
     software:
       method: "GET"
       path_template: "/shodan/host/search"
@@ -238,6 +248,8 @@ shodan:
         location: "over matches | fuse | yield location.country_code | uniq"
         autonomous-system: "over matches | fuse | yield asn"
         jarm: "over matches | fuse | yield ssl.jarm | uniq"  
+        software: "over matches | fuse | yield cpe | uniq | head 25"
+
     autonomous-system:
       method: "GET"
       path_template: "/shodan/host/search"
@@ -251,7 +263,9 @@ shodan:
         x509-certificate: "over matches | fuse | yield ssl.cert.fingerprint.sha1 | uniq"
         location: "over matches | fuse | yield location.country_code | uniq"
         autonomous-system: "over matches | fuse | yield asn"
-        jarm: "over matches | fuse | yield ssl.jarm | uniq"       
+        jarm: "over matches | fuse | yield ssl.jarm | uniq" 
+        software: "over matches | fuse | yield cpe | uniq | head 25"
+
     location:
       method: "GET"
       path_template: "/shodan/host/search"
@@ -447,6 +461,8 @@ certificatesearch:
         output: "json"
       db_pool: "certificatesearch"
       ratelimit: "1/5s"
+      llm_ioc_extract: true
+      
     x509-certificate:
       method: "GET"
       path_template: "/"
@@ -455,6 +471,7 @@ certificatesearch:
         output: "json"
       db_pool: "certificatesearch"
       ratelimit: "1/5s"
+      llm_ioc_extract: true
 
 brave-news:
   enabled: true
@@ -464,6 +481,14 @@ brave-news:
     config:
       header_name: "X-Subscription-Token"
   endpoints:
+    threat-actor:
+      method: "GET"
+      path_template: "/news/search"
+      params_template:
+        q: "{identifier}"
+      db_pool: "brave-news"
+      ratelimit: "1/5s"
+      llm_ioc_extract: true  
     domain-name:
       method: "GET"
       path_template: "/news/search"
@@ -471,9 +496,26 @@ brave-news:
         q: "{identifier}"
       db_pool: "brave-news"
       ratelimit: "1/5s"
+      llm_ioc_extract: true
+    software:
+      method: "GET"
+      path_template: "/news/search"
+      params_template:
+        q: "{identifier}"
+      db_pool: "brave-news"
+      ratelimit: "1/5s"
+      llm_ioc_extract: true      
+    vulnerability:
+      method: "GET"
+      path_template: "/news/search"
+      params_template:
+        q: "{identifier}"
+      db_pool: "brave-news"
+      ratelimit: "1/5s"
+      llm_ioc_extract: true      
 
 hunterhow:
-  enabled: true
+  enabled: false
   base_url: "https://api.hunter.how"
   auth:
     type: "param"
@@ -494,6 +536,8 @@ hunterhow:
         fields: "ip"
       db_pool: "hunterhow"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
+
     domain-name:
       method: "GET"
       path_template: "/search"
@@ -508,6 +552,7 @@ hunterhow:
         fields: "ip,port,domain,asn,as_org,country,city,updated_at"
       db_pool: "hunterhow"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
 
 dnsdumpster:
   enabled: true
@@ -530,7 +575,7 @@ dnsdumpster:
 
 threatfox:
   enabled: true
-  base_url: "https://threatfox-api.abuse.ch/api/v1"
+  base_url: "https://threatfox-api.abuse.ch/api/v1/"
   auth:
     type: "header"
     config:
@@ -538,36 +583,49 @@ threatfox:
   endpoints:
     ipv4-addr:
       method: "POST"
-      path_template: "/"
+      path_template: ""
+      encoding: "json"
       body_template:
         query: "search_ioc"
         search_term: "{identifier}"
+        exact_match: true
       db_pool: "threatfox"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
+
     domain-name:
       method: "POST"
-      path_template: "/"
+      path_template: ""
+      encoding: "json"
       body_template:
         query: "search_ioc"
         search_term: "{identifier}"
+        exact_match: true
       db_pool: "threatfox"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
+
     md5:
       method: "POST"
-      path_template: "/"
+      path_template: ""
+      encoding: "json"
       body_template:
         query: "search_hash"
         hash: "{identifier}"
       db_pool: "threatfox"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
+
     sha256:
       method: "POST"
-      path_template: "/"
+      path_template: ""
+      encoding: "json"
       body_template:
         query: "search_hash"
         hash: "{identifier}"
       db_pool: "threatfox"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
 
 censys:
   enabled: true
@@ -584,7 +642,10 @@ censys:
       headers:
         Accept: "application/vnd.censys.api.v3.host.v1+json"
       db_pool: "censys"
-      ratelimit: "1/2s"
+      pivots:
+        autonomous-system: "yield result.resource.autonomous_system.asn |  'AS' +  cast(this, <string>) | uniq" 
+        location: "yield result.resource.location.country_code"
+
     sha256:
       method: "GET"
       path_template: "/certificate/{identifier}"
@@ -594,7 +655,7 @@ censys:
       ratelimit: "1/2s"
 
 fofa:
-  enabled: true
+  enabled: false
   base_url: "https://fofa.info/api/v1"
   auth:
     type: "param"
@@ -608,6 +669,8 @@ fofa:
         detail: "true"
       db_pool: "fofa"
       ratelimit: "1/1s"
+      llm_ioc_extract: true
+
     domain-name:
       method: "GET"
       path_template: "/search/all"
@@ -620,6 +683,7 @@ fofa:
         size: 100
       db_pool: "fofa"
       ratelimit: "1/1s"
+      llm_ioc_extract: true
 
 malwarebazaar:
   enabled: true
@@ -638,7 +702,12 @@ malwarebazaar:
         hash: "{identifier}"
       db_pool: "malwarebazaar"
       ratelimit: "1/2s"
-
+      pivots:
+        sha256: "over data | yield sha256_hash"
+        md5: "over data | yield md5_hash"
+        file-name: "over data | yield file_name"
+        imphash : "over data | yield imphash"
+        ssdeep: "over data | yield ssdeep"
     md5:
       method: "POST"
       path_template: "/"
@@ -648,7 +717,12 @@ malwarebazaar:
         hash: "{identifier}"
       db_pool: "malwarebazaar"
       ratelimit: "1/2s"
-
+      pivots:
+        sha256: "over data | yield sha256_hash"
+        md5: "over data | yield md5_hash"
+        file-name: "over data | yield file_name"
+        imphash : "over data | yield imphash"
+        ssdeep: "over data | yield ssdeep"
     sha1:
       method: "POST"
       path_template: "/"
@@ -658,6 +732,12 @@ malwarebazaar:
         hash: "{identifier}"
       db_pool: "malwarebazaar"
       ratelimit: "1/2s"
+      pivots:
+        sha256: "over data | yield sha256_hash"
+        md5: "over data | yield md5_hash"
+        file-name: "over data | yield file_name"
+        imphash : "over data | yield imphash"
+        ssdeep: "over data | yield ssdeep"      
 
 urlhaus:
   enabled: true
@@ -723,6 +803,7 @@ yaraify:
         search_term: "{identifier}"
       db_pool: "yaraify"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
 
     sha1:
       method: "POST"
@@ -732,6 +813,7 @@ yaraify:
         search_term: "{identifier}"
       db_pool: "yaraify"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
 
     sha256:
       method: "POST"
@@ -741,9 +823,10 @@ yaraify:
         search_term: "{identifier}"
       db_pool: "yaraify"
       ratelimit: "1/2s"
+      llm_ioc_extract: true
 
 dehashed:
-  enabled: true
+  enabled: false
   base_url: "https://api.dehashed.com/v2"
   auth:
     type: "header"
@@ -759,7 +842,7 @@ dehashed:
       ratelimit: "5/1s"
 
 intelxio:
-  enabled: true
+  enabled: false
   base_url: "https://free.intelx.io/"
   auth:
     type: "header"
@@ -835,14 +918,17 @@ ransomwarelive:
       path_template: "/groups/{identifier}"
       db_pool: "ransomwarelive"
       ratelimit: "1/1s"
+      llm_ioc_extract: true
+
     location:
       method: "GET"
       path_template: "/csirt/{identifier}"
       db_pool: "ransomwarelive"
       ratelimit: "1/1s"
+      llm_ioc_extract: true
 
 wildfire:
-  enabled: true
+  enabled: false
   base_url: "https://wildfire.paloaltonetworks.com/publicapi/"
   auth:
     type: "param"
@@ -878,7 +964,7 @@ wildfire:
       ratelimit: "1/5s"
 
 threatminer:
-  enabled: true
+  enabled: false
   base_url: "https://api.threatminer.org/v2"
   endpoints:
     domain-name:
@@ -945,3 +1031,21 @@ threatminer:
         rt: "1"
       db_pool: "threatminer"
       ratelimit: "1/6s"
+
+hackertarget:
+  enabled: true
+  base_url: "https://api.hackertarget.com"
+  auth:
+    type: "header"
+    config:
+      header_name: "X-API-Key"
+  endpoints:
+    autonomous-system:
+      method: "GET"
+      path_template: "/aslookup/"
+      params_template:
+        q: "{identifier}"
+        output: "json"
+        details: "true"
+      db_pool: "hackertarget"
+      ratelimit: "1/2s"

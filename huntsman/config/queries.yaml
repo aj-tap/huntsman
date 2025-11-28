@@ -7,30 +7,72 @@
 
 - title: virustotal - Engine View
   query_string: |
-    yield data.attributes.last_analysis_results | quiet(this)
+    _service='virustotal' | yield data.attributes.last_analysis_results | quiet(this)
 
 - title: virustotal - Whois View
   query_string: |
-    yield data.attributes | cut network, whois | quiet(this)
+    _service='virustotal' | yield data.attributes | cut network, whois | quiet(this)
 
 - title: virustotal - Table View
   query_string: |
-    yield data.attributes | quiet(this)
+    _service='virustotal' | yield data.attributes | quiet(this)
 
 - title: ipinfo - Group by Org/ASN
   query_string: |
-    yield this | count() by this["org"] | quiet(this)
+    _service='ipinfo' | count() by as_name
+
+- title: otx - Analysis View - Plugin Cuckoo
+  query_string: |
+    _service='otx' | yield analysis.plugins.cuckoo.result
+
+- title: otx - Analysis View - Plugin Cuckoo - File signatures
+  query_string: |
+    _service='otx' | over analysis.plugins.cuckoo.result.signatures
 
 - title: otx - Pulse View
   query_string: |
-    over pulse_info.pulses | fuse | cut name, description, tags, references | quiet(this)
+    _service='otx' | over pulse_info.pulses | fuse | cut name, description, tags, references | quiet(this)
 
 - title: otx - Validation View
   query_string: |
-    fuse | over validation | quiet(this)
+    _service='otx' | fuse | over validation | quiet(this)
 
-- title: urlscanio - Results View
+- title: urlscanio - Results
   query_string: |
-    over results | yield page  | fuse | sort -r tlsValidFrom
+    _service='urlscanio' | over results | yield page  | fuse | sort -r tlsValidFrom
 
+- title: shodan - Data View
+  query_string: |
+    _service='shodan' | over data | fuse | cut timestamp, tags, hostnames, opts, transport, port, http, data
 
+- title: shodan - SSL View
+  query_string: |
+    _service='shodan' | over data  | fuse | yield ssl 
+
+- title: proxycheckio - ip data View
+  query_string: |
+    _service = 'proxycheckio' | _type = 'ipv4-addr' | drop _ts, _id, _service, _type, status, task_id | over this | yield value
+  
+- title: proxycheckio - check email disposable status 
+  query_string: |
+    _service = 'proxycheckio'  | _type ='email-addr' | drop _ts, _id, _service, _type, status, task_id 
+  
+- title: internetstormcast - ip data view
+  query_string: |
+    _service = 'internetstormcast' | yield ip
+  
+- title: internetstormcast - threat feeds data view
+  query_string: |
+    _service = 'internetstormcast' | yield ip | yield threatfeeds
+
+- title: Malwarebazaar - data view
+  query_string: |
+    _service = 'malwarebazaar' |  over data 
+
+- title: Malwarebazaar - vendor intel
+  query_string: |
+    _service = 'malwarebazaar' |  over data | yield vendor_intel
+
+- title: Malwarebazaar - vendor intel - Triage
+  query_string: |
+    _service = 'malwarebazaar' |  over data | yield vendor_intel.Triage

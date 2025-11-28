@@ -9,7 +9,7 @@ from typing import Dict, Any, Tuple
 import yaml
 from .models import AnalysisTask, ConfigFile, Rule
 from .widgets import YamlEditorWidget
-from .utils.rule_management import fetch_rules_from_github
+from .utils.rule_management import sync_rules_from_local_dir
 
 class AnalysisTaskAdmin(admin.ModelAdmin):
     """Admin interface for the AnalysisTask model."""
@@ -144,13 +144,13 @@ class RuleAdmin(admin.ModelAdmin):
         """
         urls = super().get_urls()
         custom_urls = [
-            path('update-github/', self.admin_site.admin_view(self.update_from_github), name='rule-update-github'),
+            path('sync-local/', self.admin_site.admin_view(self.sync_local_rules), name='rule-sync-local'),
         ]
         return custom_urls + urls
 
-    def update_from_github(self, request: Any) -> Any:
+    def sync_local_rules(self, request: Any) -> Any:
         """
-        Update the rules from the GitHub repository.
+        Synchronize the rules from the local directory.
 
         Parameters
         ----------
@@ -163,13 +163,13 @@ class RuleAdmin(admin.ModelAdmin):
             A redirect to the previous page.
         """
         try:
-            stats = fetch_rules_from_github()
-            msg = f"Successfully updated rules. Downloaded: {stats['downloaded']}, Skipped: {stats['skipped']}."
+            stats = sync_rules_from_local_dir()
+            msg = f"Successfully synced rules. Created: {stats['created']}, Updated: {stats['updated']}."
             if stats['errors']:
                 msg += f" Errors: {len(stats['errors'])}."
             self.message_user(request, msg, messages.SUCCESS)
         except Exception as e:
-            self.message_user(request, f"Failed to update rules: {str(e)}", messages.ERROR)
+            self.message_user(request, f"Failed to sync rules: {str(e)}", messages.ERROR)
         return redirect('..')
 
 admin.site.register(AnalysisTask, AnalysisTaskAdmin)

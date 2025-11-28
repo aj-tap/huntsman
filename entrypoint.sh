@@ -18,6 +18,7 @@ if echo "$@" | grep -q "gunicorn"; then
     
     echo "Updating System Configs..."
     python manage.py setup_pools
+    python manage.py sync_configs
     python manage.py update_rules
     
     echo "Collecting Static Files..."

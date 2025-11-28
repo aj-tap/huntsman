@@ -1,9 +1,0 @@
-id: b1b53835-a036-4554-afe6-d4000c6999dd 
-title: Detect Google
-description: This rule detects google
-author: aj-tap
-tags: 
-  - Google
-syntax: |
-  from internetdb | grep('google',this)| quiet(this)
-source: internetdb

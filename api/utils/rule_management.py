@@ -84,3 +84,63 @@ def fetch_rules_from_github() -> Dict[str, Any]:
             stats['skipped'] += 1
 
     return stats
+
+
+def sync_rules_from_local_dir() -> Dict[str, Any]:
+    """
+    Synchronize correlation rules from the local directory to the database.
+
+    This function reads all YAML rule files from the directory specified by the
+    `CORRELATION_RULES_PATH` setting, parses them, and then creates or updates
+    the corresponding Rule objects in the local database.
+
+    Returns
+    -------
+    dict
+        A dictionary containing statistics about the sync operation, including
+        the number of rules created, updated, and any errors that occurred.
+    """
+    rules_directory_path = getattr(settings, 'CORRELATION_RULES_PATH', None)
+    if not rules_directory_path or not os.path.isdir(rules_directory_path):
+        raise FileNotFoundError(f"Rules directory not found or is not a directory: {rules_directory_path}")
+
+    stats: Dict[str, Any] = {
+        "created": 0,
+        "updated": 0,
+        "errors": []
+    }
+
+    for root, _, files in os.walk(rules_directory_path):
+        for file in files:
+            if file.endswith(('.yml', '.yaml')):
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r') as f:
+                        content = f.read()
+                        data = yaml.safe_load(content)
+
+                        if not isinstance(data, dict) or 'id' not in data:
+                            stats['errors'].append(f"Skipped {file}: Missing 'id' field.")
+                            continue
+
+                        rule_id = str(data['id'])
+                        _, created = Rule.objects.update_or_create(
+                            rule_id=rule_id,
+                            defaults={
+                                'name': file,
+                                'content': content,
+                                'title': data.get('title', 'No Title'),
+                                'author': data.get('author', 'Unknown'),
+                                'description': data.get('description', '')
+                            }
+                        )
+
+                        if created:
+                            stats['created'] += 1
+                        else:
+                            stats['updated'] += 1
+
+                except Exception as e:
+                    stats['errors'].append(f"Error processing {file}: {str(e)}")
+
+    return stats

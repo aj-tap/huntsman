@@ -11,6 +11,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from huntsman.celery import app as celery_app
 from typing import Dict, Any, List
+import functools
+import json
+import logging
+from django.conf import settings
 
 from .config import (
     load_api_recipes, load_internal_services_recipes, 
@@ -32,8 +36,8 @@ from .tasks import (
     run_bulk_stix_report_creation_task, run_ai_analysis_task
 )
 from .correlation_engine import create_correlation_engine_instance
-import json
-from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 @method_decorator(login_required, name='dispatch')
 class DashboardView(TemplateView):
@@ -95,7 +99,9 @@ class AnalysisTriggerView(APIView):
                     identifier_type=data['identifier_type'],
                     status=AnalysisTask.Status.PENDING
                 )
-                transaction.on_commit(lambda: run_analysis_task.delay(task_db_id=str(task_record.id)))
+                transaction.on_commit(
+                    functools.partial(run_analysis_task.delay, task_db_id=str(task_record.id))
+                )
         except Exception as e:
             return Response({"error": "Failed to create task in database.", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(
@@ -138,9 +144,12 @@ class BulkAnalysisTriggerView(APIView):
                         identifier_type=task_data['identifier_type'],
                         status=AnalysisTask.Status.PENDING
                     )
-                    transaction.on_commit(lambda t=task_record: run_analysis_task.delay(task_db_id=str(t.id)))
-                    task_ids.append(task_record.id)
+                    transaction.on_commit(
+                        functools.partial(run_analysis_task.delay, task_db_id=str(task_record.id))
+                    )
+                    task_ids.append(str(task_record.id))
         except Exception as e:
+            logger.error(f"Bulk task creation failed: {str(e)}")
             return Response({"error": "Failed to create bulk tasks in database.", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(
             {"message": f"{len(task_ids)} analysis tasks have been queued.", "task_ids": task_ids},
@@ -223,7 +232,9 @@ class SuperDBQueryView(APIView):
                 )
                 task_record.save()
                 
-                transaction.on_commit(lambda: run_superdb_query_task.delay(task_db_id=str(task_record.id)))
+                transaction.on_commit(
+                    functools.partial(run_superdb_query_task.delay, task_db_id=str(task_record.id))
+                )
         except Exception as e:
             return Response({"error": "Failed to create query task in database.", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -300,7 +311,8 @@ class CreatePoolView(APIView):
                 task_record.save()
                 
                 transaction.on_commit(
-                    lambda: run_create_pool_task.delay(
+                    functools.partial(
+                        run_create_pool_task.delay,
                         task_db_id=str(task_record.id),
                         name=pool_name,
                         layout_order=layout_order,
@@ -362,7 +374,8 @@ class LoadDataToBranchView(APIView):
                 task_record.save()
                 
                 transaction.on_commit(
-                    lambda: run_load_data_to_branch_task.delay(
+                    functools.partial(
+                        run_load_data_to_branch_task.delay,
                         task_db_id=str(task_record.id),
                         pool_id_or_name=pool_id_or_name,
                         branch_name=branch_name,
@@ -488,10 +501,6 @@ class HealthCheckView(APIView):
         except Exception as e:
             return {"status": "error", "message": f"Celery check failed: {str(e)}"}
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 class BulkTaskStatusView(APIView):
     """An API view to retrieve the status of multiple tasks in bulk."""
 
@@ -576,6 +585,7 @@ class CorrelationEngineView(APIView):
             
             analysis_result = engine.run_correlation_analysis(
                 task_id=str(task_id),
+                service_name=task.service_name,
                 rule_titles=data.get('rules'),
                 tags_filter=data.get('tags_filter')
             )
@@ -692,7 +702,8 @@ class STIXReportView(APIView):
                     status=AnalysisTask.Status.PENDING
                 )
                 transaction.on_commit(
-                    lambda: run_stix_report_creation_task.delay(
+                    functools.partial(
+                        run_stix_report_creation_task.delay,
                         task_db_id=str(task_record.id),
                         source_task_id=str(source_task_id)
                     )
@@ -741,7 +752,8 @@ class BulkSTIXReportView(APIView):
                     status=AnalysisTask.Status.PENDING
                 )
                 transaction.on_commit(
-                    lambda: run_bulk_stix_report_creation_task.delay(
+                    functools.partial(
+                        run_bulk_stix_report_creation_task.delay,
                         task_db_id=str(task_record.id),
                         report_mappings=report_mappings
                     )
@@ -793,7 +805,8 @@ class AIAnalysisView(APIView):
                 )
                 
                 transaction.on_commit(
-                    lambda: run_ai_analysis_task.delay(
+                    functools.partial(
+                        run_ai_analysis_task.delay,
                         task_db_id=str(task_record.id),
                         data=data,
                         prompt=prompt,

@@ -20,7 +20,6 @@ class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> None:
         """Run the command."""
         self.sync_general_configs()
-        self.sync_correlation_rules()
         self.stdout.write(self.style.SUCCESS("\nAll configurations synced successfully."))
 
     def sync_general_configs(self) -> None:
@@ -48,51 +47,3 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"Synced config: {name}"))
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f"Failed to sync {name}: {e}"))
-
-    def sync_correlation_rules(self) -> None:
-        """
-        Scan the local rules directory and populate the Rule model.
-
-        This method uses the 'id' field in the YAML file to prevent
-        duplication.
-        """
-        rules_dir = getattr(settings, 'CORRELATION_RULES_PATH', None)
-        if not rules_dir or not os.path.isdir(rules_dir):
-            self.stdout.write(self.style.WARNING("Rules directory not found. Skipping rule sync."))
-            return
-
-        self.stdout.write(f"Scanning rules in {rules_dir}...")
-        
-        count = 0
-        for filename in os.listdir(rules_dir):
-            if not filename.endswith(('.yml', '.yaml')):
-                continue
-
-            file_path = os.path.join(rules_dir, filename)
-            try:
-                with open(file_path, 'r') as f:
-                    content = f.read()
-                
-                try:
-                    data = yaml.safe_load(content)
-                    rule_id = data.get('id')
-                except yaml.YAMLError:
-                    self.stdout.write(self.style.ERROR(f"Invalid YAML in {filename}, skipping."))
-                    continue
-
-                if not rule_id:
-                    self.stdout.write(self.style.WARNING(f"Rule {filename} missing 'id', skipping import."))
-                    continue
-
-                Rule.objects.update_or_create(
-                    rule_id=str(rule_id),
-                    defaults={
-                        'name': filename,
-                        'content': content,
-                    }
-                )
-                count += 1
-            except Exception as e:
-                self.stdout.write(self.style.ERROR(f"Failed to process rule {filename}: {e}"))
-        
-        self.stdout.write(self.style.SUCCESS(f"Synced {count} rules from disk."))

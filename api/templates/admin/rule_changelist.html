@@ -4,8 +4,8 @@
 {% block object-tools %}
     <ul class="object-tools">
         <li>
-            <a href="{% url 'admin:rule-update-github' %}" class="historylink" style="background: #417690; color: white;">
-                Fetch from GitHub
+            <a href="{% url 'admin:rule-sync-local' %}" class="historylink" style="background: #417690; color: white;">
+                Sync Local Rules
             </a>
         </li>
         {{ block.super }}
