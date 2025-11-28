@@ -55,7 +55,6 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dashboard-overview">Dashboard Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#threat-detection">Threat Detection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Threat Detection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#superdb-explorer">SuperDB Explorer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#stix-visualization">STIX Visualization</a></li>
 </ul>
@@ -315,15 +314,14 @@
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#dashboard-overview" id="id2">Dashboard Overview</a></p></li>
-<li><p><a class="reference internal" href="#threat-detection" id="id3">Threat Detection</a></p></li>
-<li><p><a class="reference internal" href="#id1" id="id4">Threat Detection</a></p></li>
-<li><p><a class="reference internal" href="#superdb-explorer" id="id5">SuperDB Explorer</a></p></li>
-<li><p><a class="reference internal" href="#stix-visualization" id="id6">STIX Visualization</a></p></li>
+<li><p><a class="reference internal" href="#dashboard-overview" id="id1">Dashboard Overview</a></p></li>
+<li><p><a class="reference internal" href="#threat-detection" id="id2">Threat Detection</a></p></li>
+<li><p><a class="reference internal" href="#superdb-explorer" id="id3">SuperDB Explorer</a></p></li>
+<li><p><a class="reference internal" href="#stix-visualization" id="id4">STIX Visualization</a></p></li>
 </ul>
 </nav>
 <section id="dashboard-overview">
-<h2><a class="toc-backref" href="#id2" role="doc-backlink">Dashboard Overview</a><a class="headerlink" href="#dashboard-overview" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Dashboard Overview</a><a class="headerlink" href="#dashboard-overview" title="Link to this heading"></a></h2>
 <p>Access the dashboard at <code class="docutils literal notranslate"><span class="pre">http://localhost:8080/</span></code>.</p>
 <p>The interface is designed as a Single Page Application (SPA) with three primary views:</p>
 <ul class="simple">
@@ -333,10 +331,7 @@
 </ul>
 </section>
 <section id="threat-detection">
-<h2><a class="toc-backref" href="#id3" role="doc-backlink">Threat Detection</a><a class="headerlink" href="#threat-detection" title="Link to this heading"></a></h2>
-</section>
-<section id="id1">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink">Threat Detection</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Threat Detection</a><a class="headerlink" href="#threat-detection" title="Link to this heading"></a></h2>
 <p>The Detection module allows you to submit artifacts (IOCs) to various analysis engines using two modes.</p>
 <p><strong>1. Auto-Ingestion (Regex)</strong></p>
 <ol class="arabic simple">
@@ -358,7 +353,7 @@
 </ol>
 </section>
 <section id="superdb-explorer">
-<h2><a class="toc-backref" href="#id5" role="doc-backlink">SuperDB Explorer</a><a class="headerlink" href="#superdb-explorer" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">SuperDB Explorer</a><a class="headerlink" href="#superdb-explorer" title="Link to this heading"></a></h2>
 <p>SuperDB is the high-performance data lake backing Huntsman. The Explorer interface allows you to run SuperQL queries directly against your collected intelligence. By leveraging a compiled WebAssembly (WASM) version of the SuperDB engine, the frontend performs serverless, client-side ETL operations on loaded data without needing to query the server. For direct queries against the full persistent data lake, please refer to the REST API.</p>
 <p><strong>Basic Query Structure</strong></p>
 <p>SuperQL uses a pipe-based syntax similar to Splunk or Kusto.</p>
@@ -387,7 +382,7 @@
 <p>Results from SuperDB can be dragged and dropped onto the Graph Canvas to visualize connections between disparate data points.</p>
 </section>
 <section id="stix-visualization">
-<h2><a class="toc-backref" href="#id6" role="doc-backlink">STIX Visualization</a><a class="headerlink" href="#stix-visualization" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">STIX Visualization</a><a class="headerlink" href="#stix-visualization" title="Link to this heading"></a></h2>
 <p>Huntsman natively supports STIX 2.1 (Structured Threat Information Expression) for representing threat intelligence.</p>
 <p><strong>Graph Canvas</strong></p>
 <p>The central area of the application is a force-directed graph that visualizes STIX objects.</p>

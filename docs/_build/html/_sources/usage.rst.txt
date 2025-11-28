@@ -18,8 +18,6 @@ The interface is designed as a Single Page Application (SPA) with three primary 
 * **Monitor View**: For tracking the status of running analysis tasks.
 * **Results View**: For exploring the Intelligence Graph, detection lists, and data lake.
 
-Threat Detection
-----------------
 
 Threat Detection
 ----------------
