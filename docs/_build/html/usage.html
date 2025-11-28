@@ -55,6 +55,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dashboard-overview">Dashboard Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#threat-detection">Threat Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Threat Detection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#superdb-explorer">SuperDB Explorer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#stix-visualization">STIX Visualization</a></li>
 </ul>
@@ -314,65 +315,70 @@
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#dashboard-overview" id="id1">Dashboard Overview</a></p></li>
-<li><p><a class="reference internal" href="#threat-detection" id="id2">Threat Detection</a></p></li>
-<li><p><a class="reference internal" href="#superdb-explorer" id="id3">SuperDB Explorer</a></p></li>
-<li><p><a class="reference internal" href="#stix-visualization" id="id4">STIX Visualization</a></p></li>
+<li><p><a class="reference internal" href="#dashboard-overview" id="id2">Dashboard Overview</a></p></li>
+<li><p><a class="reference internal" href="#threat-detection" id="id3">Threat Detection</a></p></li>
+<li><p><a class="reference internal" href="#id1" id="id4">Threat Detection</a></p></li>
+<li><p><a class="reference internal" href="#superdb-explorer" id="id5">SuperDB Explorer</a></p></li>
+<li><p><a class="reference internal" href="#stix-visualization" id="id6">STIX Visualization</a></p></li>
 </ul>
 </nav>
 <section id="dashboard-overview">
-<h2><a class="toc-backref" href="#id1" role="doc-backlink">Dashboard Overview</a><a class="headerlink" href="#dashboard-overview" title="Link to this heading"></a></h2>
-<p>Access the dashboard at <code class="docutils literal notranslate"><span class="pre">http://localhost:8000/</span></code>.</p>
-<p>The main layout consists of:</p>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Dashboard Overview</a><a class="headerlink" href="#dashboard-overview" title="Link to this heading"></a></h2>
+<p>Access the dashboard at <code class="docutils literal notranslate"><span class="pre">http://localhost:8080/</span></code>.</p>
+<p>The interface is designed as a Single Page Application (SPA) with three primary views:</p>
 <ul class="simple">
-<li><p><strong>Top Navigation Bar</strong>: Access to Settings, Documentation, and System Health.</p></li>
-<li><p><strong>Side Panel</strong>: Quick access to recent Tasks, Saved Queries, and History.</p></li>
-<li><p><strong>Main Canvas</strong>: The primary workspace for graph visualizations and query results.</p></li>
+<li><p><strong>Input View</strong>: For ingesting raw text or manually staging artifacts.</p></li>
+<li><p><strong>Monitor View</strong>: For tracking the status of running analysis tasks.</p></li>
+<li><p><strong>Results View</strong>: For exploring the Intelligence Graph, detection lists, and data lake.</p></li>
 </ul>
 </section>
 <section id="threat-detection">
-<h2><a class="toc-backref" href="#id2" role="doc-backlink">Threat Detection</a><a class="headerlink" href="#threat-detection" title="Link to this heading"></a></h2>
-<p>The Detection module allows you to submit artifacts (IOCs) to various analysis engines.</p>
-<p><strong>Triggering an Analysis</strong></p>
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Threat Detection</a><a class="headerlink" href="#threat-detection" title="Link to this heading"></a></h2>
+</section>
+<section id="id1">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Threat Detection</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>The Detection module allows you to submit artifacts (IOCs) to various analysis engines using two modes.</p>
+<p><strong>1. Auto-Ingestion (Regex)</strong></p>
 <ol class="arabic simple">
-<li><p>Locate the <strong>Analysis Input</strong> bar at the top of the dashboard.</p></li>
-<li><p>Enter an artifact (e.g., <code class="docutils literal notranslate"><span class="pre">google.com</span></code>, <code class="docutils literal notranslate"><span class="pre">1.1.1.1</span></code>).</p></li>
-<li><p>Select the target service from the dropdown (e.g., <strong>VirusTotal</strong>, <strong>Shodan</strong>).</p></li>
-<li><p>Click <strong>Analyze</strong>.</p></li>
+<li><p>Navigate to the <strong>Auto</strong> tab in the Input View.</p></li>
+<li><p>Paste unstructured logs, CSVs, or text into the <strong>Raw Data Ingestion</strong> text area.</p></li>
+<li><p>The system automatically detects and counts artifacts (e.g., IPv4, Domains) using patterns defined in <code class="docutils literal notranslate"><span class="pre">ioc_patterns.yaml</span></code>.</p></li>
 </ol>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The system automatically detects the identifier type (Domain, IP, Hash) based on regex patterns defined in <code class="docutils literal notranslate"><span class="pre">ioc_patterns.yaml</span></code>.</p>
-</div>
-<p><strong>Viewing Results</strong></p>
-<p>Once an analysis is complete, the results appear in the <strong>Task Stream</strong> on the right. Clicking a task will:</p>
-<ul class="simple">
-<li><p>Display the raw JSON result in the <strong>Details Pane</strong>.</p></li>
-<li><p>Render any extracted relationships (e.g., IP resolution, downloaded files) on the Graph.</p></li>
-</ul>
+<p><strong>2. Manual Input</strong></p>
+<ol class="arabic simple">
+<li><p>Navigate to the <strong>Manual Input</strong> tab.</p></li>
+<li><p>Select an <strong>Indicator Type</strong> from the dropdown.</p></li>
+<li><p>Enter the <strong>Indicator Value</strong> and click <strong>Add</strong> to stage the artifact.</p></li>
+</ol>
+<p><strong>Executing Analysis</strong></p>
+<ol class="arabic simple">
+<li><p>In the <strong>Enrichment Modules</strong> section, filter and select the desired services (e.g., <em>VirusTotal</em>, <em>Shodan</em>) using the checkboxes.</p></li>
+<li><p>Click <strong>Execute Analysis</strong>.</p></li>
+<li><p>The view will automatically switch to the <strong>Monitor View</strong> to show task progress.</p></li>
+</ol>
 </section>
 <section id="superdb-explorer">
-<h2><a class="toc-backref" href="#id3" role="doc-backlink">SuperDB Explorer</a><a class="headerlink" href="#superdb-explorer" title="Link to this heading"></a></h2>
-<p>SuperDB is the high-performance data lake backing Huntsman. The Explorer allows you to run <strong>SuperQL</strong> queries directly against your collected intelligence.</p>
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">SuperDB Explorer</a><a class="headerlink" href="#superdb-explorer" title="Link to this heading"></a></h2>
+<p>SuperDB is the high-performance data lake backing Huntsman. The Explorer interface allows you to run SuperQL queries directly against your collected intelligence. By leveraging a compiled WebAssembly (WASM) version of the SuperDB engine, the frontend performs serverless, client-side ETL operations on loaded data without needing to query the server. For direct queries against the full persistent data lake, please refer to the REST API.</p>
 <p><strong>Basic Query Structure</strong></p>
 <p>SuperQL uses a pipe-based syntax similar to Splunk or Kusto.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from &#39;&lt;pool_name&gt;&#39; | &lt;command&gt; | &lt;command&gt;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>_service = &#39;&lt;value&gt;&#39; | &lt;command&gt; | &lt;command&gt;
 </pre></div>
 </div>
 <p><strong>Common Examples</strong></p>
 <ul>
 <li><p><strong>Filter by IP:</strong></p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from &#39;virustotal&#39; | where id == &#39;8.8.8.8&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>_service = &#39;virustotal&#39; | where id == &#39;8.8.8.8&#39;
 </pre></div>
 </div>
 </li>
 <li><p><strong>Aggregate Data:</strong></p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from &#39;shodan&#39; | count() by asn
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>_service = &#39;internetdb&#39; | count() by hostnames
 </pre></div>
 </div>
 </li>
 <li><p><strong>Text Search:</strong></p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>from &#39;rss-news&#39; | search &#39;ransomware&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>_service = &#39;rss-news&#39; | search &#39;ransomware&#39;
 </pre></div>
 </div>
 </li>
@@ -381,7 +387,7 @@
 <p>Results from SuperDB can be dragged and dropped onto the Graph Canvas to visualize connections between disparate data points.</p>
 </section>
 <section id="stix-visualization">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink">STIX Visualization</a><a class="headerlink" href="#stix-visualization" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">STIX Visualization</a><a class="headerlink" href="#stix-visualization" title="Link to this heading"></a></h2>
 <p>Huntsman natively supports STIX 2.1 (Structured Threat Information Expression) for representing threat intelligence.</p>
 <p><strong>Graph Canvas</strong></p>
 <p>The central area of the application is a force-directed graph that visualizes STIX objects.</p>

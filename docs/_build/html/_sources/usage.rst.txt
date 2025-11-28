@@ -10,40 +10,44 @@ The Huntsman Dashboard provides a visual interface for threat hunting, data expl
 Dashboard Overview
 ------------------
 
-Access the dashboard at ``http://localhost:8000/``.
+Access the dashboard at ``http://localhost:8080/``.
 
-The main layout consists of:
+The interface is designed as a Single Page Application (SPA) with three primary views:
 
-* **Top Navigation Bar**: Access to Settings, Documentation, and System Health.
-* **Side Panel**: Quick access to recent Tasks, Saved Queries, and History.
-* **Main Canvas**: The primary workspace for graph visualizations and query results.
+* **Input View**: For ingesting raw text or manually staging artifacts.
+* **Monitor View**: For tracking the status of running analysis tasks.
+* **Results View**: For exploring the Intelligence Graph, detection lists, and data lake.
 
 Threat Detection
 ----------------
 
-The Detection module allows you to submit artifacts (IOCs) to various analysis engines.
+Threat Detection
+----------------
 
-**Triggering an Analysis**
+The Detection module allows you to submit artifacts (IOCs) to various analysis engines using two modes.
 
-1. Locate the **Analysis Input** bar at the top of the dashboard.
-2. Enter an artifact (e.g., ``google.com``, ``1.1.1.1``).
-3. Select the target service from the dropdown (e.g., **VirusTotal**, **Shodan**).
-4. Click **Analyze**.
+**1. Auto-Ingestion (Regex)**
 
-.. note::
-   The system automatically detects the identifier type (Domain, IP, Hash) based on regex patterns defined in ``ioc_patterns.yaml``.
+1. Navigate to the **Auto** tab in the Input View.
+2. Paste unstructured logs, CSVs, or text into the **Raw Data Ingestion** text area.
+3. The system automatically detects and counts artifacts (e.g., IPv4, Domains) using patterns defined in ``ioc_patterns.yaml``.
 
-**Viewing Results**
+**2. Manual Input**
 
-Once an analysis is complete, the results appear in the **Task Stream** on the right. Clicking a task will:
+1. Navigate to the **Manual Input** tab.
+2. Select an **Indicator Type** from the dropdown.
+3. Enter the **Indicator Value** and click **Add** to stage the artifact.
 
-* Display the raw JSON result in the **Details Pane**.
-* Render any extracted relationships (e.g., IP resolution, downloaded files) on the Graph.
+**Executing Analysis**
+
+1. In the **Enrichment Modules** section, filter and select the desired services (e.g., *VirusTotal*, *Shodan*) using the checkboxes.
+2. Click **Execute Analysis**.
+3. The view will automatically switch to the **Monitor View** to show task progress.
 
 SuperDB Explorer
 ----------------
 
-SuperDB is the high-performance data lake backing Huntsman. The Explorer allows you to run **SuperQL** queries directly against your collected intelligence.
+SuperDB is the high-performance data lake backing Huntsman. The Explorer interface allows you to run SuperQL queries directly against your collected intelligence. By leveraging a compiled WebAssembly (WASM) version of the SuperDB engine, the frontend performs serverless, client-side ETL operations on loaded data without needing to query the server. For direct queries against the full persistent data lake, please refer to the REST API.
 
 **Basic Query Structure**
 
@@ -51,7 +55,7 @@ SuperQL uses a pipe-based syntax similar to Splunk or Kusto.
 
 .. code-block:: text
 
-   from '<pool_name>' | <command> | <command>
+   _service = '<value>' | <command> | <command>
 
 **Common Examples**
 
@@ -59,19 +63,20 @@ SuperQL uses a pipe-based syntax similar to Splunk or Kusto.
 
   .. code-block:: text
 
-     from 'virustotal' | where id == '8.8.8.8'
+     _service = 'virustotal' | where id == '8.8.8.8'
 
 * **Aggregate Data:**
 
   .. code-block:: text
 
-     from 'shodan' | count() by asn
+     _service = 'internetdb' | count() by hostnames
 
 * **Text Search:**
 
   .. code-block:: text
 
-     from 'rss-news' | search 'ransomware'
+     _service = 'rss-news' | search 'ransomware'
+
 
 **Visualizing Query Results**
 
