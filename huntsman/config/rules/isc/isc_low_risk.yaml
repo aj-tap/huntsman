@@ -1,0 +1,9 @@
+id: 1e2f3g4h-5i6j-7k8l-9m0n-1o2p3q4r5s6t
+title: ISC - Low Risk (Maxrisk Boolean Check)
+description: Filters for IPs where the maxrisk calculation returns a true positive verification.
+tags:
+  - internetstormcenter
+  - risk
+  - reputation
+syntax: |
+  from internetstormcast | yield ip.maxrisk>=0 | grep('true',this)

@@ -1,0 +1,9 @@
+id: a1b2c3d4-e5f6-7890-1234-567890abcdef
+title: VirusTotal - Malicious Stats Detected
+description: Detects indicators where at least one analysis engine has flagged the artifact as malicious.
+tags:
+  - virustotal
+  - malicious
+  - reputation
+syntax: |
+  from 'virustotal' | data.attributes.last_analysis_stats.malicious>0

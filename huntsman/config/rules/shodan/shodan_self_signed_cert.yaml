@@ -1,0 +1,9 @@
+id: 4d2e1f0a-3b4c-5d6e-7f8g-9h0i1j2k3l4m
+title: Shodan - Self Signed Cert
+description: Detects hosts presenting self-signed SSL certificates.
+tags:
+  - shodan
+  - ssl
+  - risk
+syntax: |
+  from 'shodan' | over matches | fuse | yield tags | uniq | grep('self-signed', this)

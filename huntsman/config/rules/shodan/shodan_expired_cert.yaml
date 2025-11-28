@@ -1,0 +1,9 @@
+id: 9d0e1f2g-3h4i-5j6k-7l8m-9n0o1p2q3r4s
+title: Shodan - Expired SSL Cert
+description: Detects hosts presenting SSL certificates that have expired.
+tags:
+  - shodan
+  - ssl
+  - expired
+syntax: |
+  from 'shodan' |  over data | ssl.cert.expired==true

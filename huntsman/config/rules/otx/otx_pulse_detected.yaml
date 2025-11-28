@@ -1,0 +1,9 @@
+id: 11223344-5566-7788-9900-aabbccddeeff
+title: OTX - Pulse Detected
+description: Detects IPs that are associated with more than one AlienVault OTX Pulse.
+tags:
+  - otx
+  - threat-intel
+  - pulse
+syntax: |
+  from 'otx' | pulse_info.count>1

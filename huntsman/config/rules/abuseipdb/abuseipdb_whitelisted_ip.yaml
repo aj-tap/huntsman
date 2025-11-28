@@ -1,0 +1,9 @@
+id: 55667788-9900-1122-3344-eeff00112233
+title: AbuseIPDB - Whitelisted IP
+description: Detects IPs that are explicitly whitelisted in AbuseIPDB.
+tags:
+  - abuseipdb
+  - whitelist
+  - benign
+syntax: |
+  from 'abuseipdb' | data.isWhitelisted==true

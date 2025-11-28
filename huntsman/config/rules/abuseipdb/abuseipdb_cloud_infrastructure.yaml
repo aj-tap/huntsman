@@ -1,0 +1,9 @@
+id: 33445566-7788-9900-1122-ccddeeff0011
+title: AbuseIPDB - Cloud Infrastructure
+description: Detects IPs categorized as Data Center, Web Hosting, or Transit infrastructure.
+tags:
+  - abuseipdb
+  - cloud
+  - hosting
+syntax: |
+  from 'abuseipdb' | data.usageType=='Data Center/Web Hosting/Transit'

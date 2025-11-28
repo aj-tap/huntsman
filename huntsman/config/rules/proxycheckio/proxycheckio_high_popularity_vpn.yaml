@@ -1,0 +1,9 @@
+id: c3d4e5f6-a7b8-9012-3456-7890abcdef12
+title: Proxycheck - High Popularity VPN
+description: Detects VPNs that are commercially popular or widely used.
+tags:
+  - proxycheckio
+  - vpn
+  - commercial
+syntax: |
+  from 'proxycheckio' |  over this | yield value.operator | popularity=='high'

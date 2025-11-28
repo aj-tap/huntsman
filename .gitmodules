@@ -1,0 +1,3 @@
+[submodule "huntsman/config/rules/supersqlhunt"]
+	path = huntsman/config/rules/supersqlhunt
+	url = https://github.com/aj-tap/supersqlhunt.git

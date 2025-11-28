@@ -1,0 +1,9 @@
+id: 66778899-0011-2233-4455-ff0011223344
+title: AbuseIPDB - Non-Whitelisted IP
+description: Detects IPs that are NOT present in the AbuseIPDB whitelist.
+tags:
+  - abuseipdb
+  - whitelist
+  - unknown
+syntax: |
+  from 'abuseipdb' | data.isWhitelisted==false

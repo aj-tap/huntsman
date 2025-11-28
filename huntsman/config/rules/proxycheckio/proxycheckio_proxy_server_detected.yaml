@@ -1,0 +1,9 @@
+id: a1b2c3d4-e5f6-7890-1234-567890abcdef
+title: Proxycheck - Proxy Server Detected
+description: Identifies IP addresses operating as proxy servers.
+tags:
+  - proxycheckio
+  - proxy
+  - anonymization
+syntax: |
+  from 'proxycheckio' |  over this | yield value | proxy=='yes'

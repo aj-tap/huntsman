@@ -1,0 +1,10 @@
+id: 9c0d1e2f-3g4h-5i6j-7k8l-9m0n1o2p3q4r
+title: InternetDB - Cloudflare Infrastructure
+description: Detects hosts identified as utilizing Cloudflare infrastructure based on CPE data.
+tags:
+  - internetdb
+  - cloudflare
+  - cdn
+  - infrastructure
+syntax: |
+  from internetdb | grep('cloudflare',cpes)

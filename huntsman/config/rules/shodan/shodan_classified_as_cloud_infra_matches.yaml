@@ -1,0 +1,9 @@
+id: 6a7b8c9d-0e1f-2g3h-4i5j-6k7l8m9n0o1p
+title: Shodan - Classified as Cloud Infra (Matches)
+description: Detects hosts classified as cloud infrastructure by aggregating match tags.
+tags:
+  - shodan
+  - cloud
+  - infrastructure
+syntax: |
+  from 'shodan' | over matches | fuse | yield tags | uniq | grep('cloud', this)

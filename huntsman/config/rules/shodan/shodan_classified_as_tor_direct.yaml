@@ -1,0 +1,9 @@
+id: 7b8c9d0e-1f2g-3h4i-5j6k-7l8m9n0o1p2q
+title: Shodan - Classified as TOR (Direct)
+description: Detects hosts directly tagged as TOR nodes in the top-level dataset.
+tags:
+  - shodan
+  - tor
+  - anonymization
+syntax: |
+  from 'shodan' | grep('tor',tags)

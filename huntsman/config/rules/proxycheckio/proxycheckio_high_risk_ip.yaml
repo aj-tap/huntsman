@@ -1,0 +1,9 @@
+id: f0e1d2c3-b4a5-9687-0912-345678abcdef
+title: Proxycheck - High Risk IP
+description: Detects IP addresses with a risk score of 50 or higher.
+tags:
+  - proxycheckio
+  - risk
+  - score
+syntax: |
+  from 'proxycheckio' |  over this | yield value | risk>=50 

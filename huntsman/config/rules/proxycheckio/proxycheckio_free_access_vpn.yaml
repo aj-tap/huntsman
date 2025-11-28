@@ -1,0 +1,9 @@
+id: 7890abcd-ef12-3456-7890-abcdef123456
+title: Proxycheck - Free Access VPN
+description: Identifies VPN services that offer free access policies.
+tags:
+  - proxycheckio
+  - vpn
+  - free-service
+syntax: |
+  from 'proxycheckio' |  over this | yield value.operator | policies.free_access=='yes'

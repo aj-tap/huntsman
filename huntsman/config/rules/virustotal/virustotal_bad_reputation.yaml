@@ -1,0 +1,9 @@
+id: f1e2d3c4-b5a6-9788-0912-345678abcdef
+title: VirusTotal - Bad Reputation
+description: Detects indicators that have a negative reputation score in VirusTotal.
+tags:
+  - virustotal
+  - reputation
+  - risk
+syntax: |
+  from 'virustotal' | data.attributes.reputation<0

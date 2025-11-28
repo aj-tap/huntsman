@@ -1,0 +1,9 @@
+id: 3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r
+title: VirusTotal - Signed Certificate
+description: Detects artifacts that have a verified "Signed" signature info in VirusTotal.
+tags:
+  - virustotal
+  - certificate
+  - attribution
+syntax: |
+  from 'virustotal' | yield  data.attributes | signature_info.verified=="Signed"

@@ -1,0 +1,9 @@
+id: 12345678-90ab-cdef-1234-567890abcdef
+title: Proxycheck - Traceable VPN Ownership
+description: Identifies VPN operators where ownership is traceable.
+tags:
+  - proxycheckio
+  - vpn
+  - attribution
+syntax: |
+  from 'proxycheckio' |  over this | yield value.operator | policies.traceable_ownership=='yes'

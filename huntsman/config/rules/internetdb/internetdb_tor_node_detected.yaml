@@ -1,0 +1,9 @@
+id: 0d1e2f3g-4h5i-6j7k-8l9m-0n1o2p3q4r5s
+title: InternetDB - TOR Node Detected
+description: Detects hosts tagged as TOR nodes within InternetDB.
+tags:
+  - internetdb
+  - tor
+  - anonymization
+syntax: |
+  from internetdb | yield tags | cast(this, <string>) | grep('tor',this)

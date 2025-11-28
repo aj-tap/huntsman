@@ -1,0 +1,10 @@
+id: 8b9c0d1e-2f3g-4h5i-6j7k-8l9m0n1o2p3q
+title: InternetDB - Detected Web Ports (HTTP/HTTPS)
+description: Identifies hosts exposing common web ports (80, 443, or 8080) as reported by InternetDB.
+tags:
+  - internetdb
+  - http
+  - https
+  - network
+syntax: |
+  from internetdb | yield ports | cast(this, <string>) | grep('443',this) or grep('80',this) or grep('8080',this)

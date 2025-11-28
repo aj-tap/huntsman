@@ -1,0 +1,9 @@
+id: 8c9d0e1f-2g3h-4i5j-6k7l-8m9n0o1p2q3r
+title: Shodan - Classified as Cloud Infra (Direct)
+description: Detects hosts directly tagged as cloud infrastructure in the top-level dataset.
+tags:
+  - shodan
+  - cloud
+  - infrastructure
+syntax: |
+  from 'shodan' | grep('cloud',tags)

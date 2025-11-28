@@ -1,0 +1,9 @@
+id: 98765432-1234-5678-abcd-ef0123456789
+title: Proxycheck - VPN Endpoint Detected
+description: Identifies IP addresses categorized as VPN endpoints.
+tags:
+  - proxycheckio
+  - vpn
+  - anonymization
+syntax: |
+  from 'proxycheckio' | over this | yield value | vpn=='yes'

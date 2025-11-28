@@ -1,0 +1,9 @@
+id: 5e6f7g8h-9i0j-1k2l-3m4n-5o6p7q8r9s0t
+title: Shodan - Classified as TOR (Matches)
+description: Detects hosts classified as TOR nodes by aggregating match tags.
+tags:
+  - shodan
+  - tor
+  - anonymization
+syntax: |
+  from 'shodan' | over matches | fuse | yield tags | uniq | grep('tor', this)

@@ -1,0 +1,9 @@
+id: 22334455-6677-8899-0011-bbccddeeff00
+title: AbuseIPDB - Non-TOR Endpoint
+description: Detects IPs explicitly identified as NOT being TOR exit nodes.
+tags:
+  - abuseipdb
+  - tor
+  - filtration
+syntax: |
+  from 'abuseipdb' | data.isTor==false
