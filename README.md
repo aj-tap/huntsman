@@ -78,7 +78,7 @@ Open huntsman/config/api_recipes.yaml and add your endpoint:
 # Example: Adding a new service
 myservice:
   enabled: true
-  base_url: "[https://api.myservice.com/v1](https://api.myservice.com/v1)"
+  base_url: "https://api.myservice.com/v1"
   auth:
     type: "header"
     config:
@@ -87,6 +87,7 @@ myservice:
     ipv4-addr:
       method: "GET"
       path_template: "/ip/{identifier}"
+      llm_ioc_extract: false # If enable it will use LLM to extract iocs
       pivots:
         # Automatically extract domains from the response
         domain-name: "yield data.related_domains"
