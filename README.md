@@ -1,6 +1,6 @@
 # Huntsman 
 
-Huntsman is a Threat Intelligence and OSINT aggregator designed to streamline security operations.
+Huntsman is a Threat Intelligence and OSINT aggregator to STIX2 designed to streamline security operations.
 
 It centralizes data from disparate sources, converts unstructured intelligence into structured STIX 2.1 objects, and visualizes relationships using an interactive graph engine. Huntsman aims to drastically reduce research time, allowing analysts to investigate threats faster and make informed decisions.
 
@@ -38,7 +38,7 @@ For further information on its functionality, refer to the article:
 ### 1.  **Clone the Repository:**
 
 ```bash
-git clone https://github.com/aj-tap/huntsman.git
+git clone --recurse-submodules https://github.com/aj-tap/huntsman.git
 cd huntsman
 ```    
 
