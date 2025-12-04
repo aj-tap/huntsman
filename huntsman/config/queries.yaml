@@ -1,8 +1,114 @@
 - title: Aggregated Results
   query_string: |
     switch (
-      case grep('virustotal', this)=> {Results:'VTScore: ' + cast(data.attributes.last_analysis_stats, <string>), Link:'https://www.virustotal.com/gui/search/' + data.id}
-      case grep('hostnames', this)=> {Results:'InternetDB: ' + cast(tags, <string>) + ' open ports' +cast(ports, <string>),  Link:'https://internetdb.shodan.io/' + ip}
+      case grep('virustotal', _service) => {
+        Source: 'virustotal', 
+        _id, 
+        Results: 'VTScore: ' + cast(data.attributes.last_analysis_stats, <string>), 
+        Link: 'https://www.virustotal.com/gui/search/' + _id
+      }
+      case grep('abuseipdb', _service) => {
+        Source: 'abuseipdb', 
+        _id, 
+        Results: 'Abuse Confidence Score: ' + cast(data.abuseConfidenceScore, <string>), 
+        Link: 'https://www.abuseipdb.com/check/' + _id
+      }
+      case grep('alienvault', _service) => {
+        Source: 'alienvault', 
+        _id, 
+        Results: 'AlienVault Pulse Count: ' + cast(pulse_info.count, <string>), 
+        Link: 'https://otx.alienvault.com/browse/global/pulses?q=' + _id
+      }
+      case grep('internetstormcast', _service) => {
+        Source: 'internetstormcast', 
+        _id, 
+        Results: 'Reported Attacks: ' + cast(ip.attacks, <string>), 
+        Link: 'https://isc.sans.edu/ipinfo/' + _id
+      }
+      case grep('ipinfo', _service) => {
+        Source: 'ipinfo', 
+        _id, 
+        Results: 'IPInfo: ' + cast(this, <string>), 
+        Link: 'https://ipinfo.io/' + _id
+      }
+      case grep('internetdb', _service) => {
+        Source: 'internetdb', 
+        _id, 
+        Results: 'InternetDB: ' + cast(tags, <string>), 
+        Link: 'https://internetdb.shodan.io/' + _id
+      }
+      case grep('shodan', _service) => {
+        Source: 'shodan', 
+        _id, 
+        Results: 'Hostname: ' + cast(hostnames, <string>) + ', ISP: ' + cast(isp, <string>) + ', Ports: ' + cast(ports, <string>) + ', Tags: ' + cast(tags, <string>), 
+        Link: 'https://www.shodan.io/host/' + _id
+      }
+      case grep('crowdsec', _service) => {
+        Source: 'crowdsec', 
+        _id, 
+        Results: 'Score: ' + cast(scores.overall, <string>), 
+        Link: 'https://app.crowdsec.net/cti/' + _id
+      }
+      case (grep('threatfox', _service) and query_status!="no_result") => {
+        Source: 'threatfox', 
+        _id, 
+        Results: 'Threatfox: ' + cast(this, <string>), 
+        Link: 'https://threatfox.abuse.ch/browse.php?search=ioc:' + _id
+      }
+      case (grep('wildfire', _service) and wildfire["get-verdict-info"].verdict=="0") => {
+        Source: 'wildfire', 
+        _id, 
+        Results: 'Wildfire Verdict: Benign', 
+        Link: 'https://www.paloaltonetworks.com/network-security/wildfire'
+      }
+      case (grep('wildfire', _service) and wildfire["get-verdict-info"].verdict=="1") => {
+        Source: 'wildfire', 
+        _id, 
+        Results: 'Wildfire Verdict: Malware', 
+        Link: 'https://www.paloaltonetworks.com/network-security/wildfire'
+      }
+      case (grep('wildfire', _service) and wildfire["get-verdict-info"].verdict=="2") => {
+        Source: 'wildfire', 
+        _id, 
+        Results: 'Wildfire Verdict: Grayware', 
+        Link: 'https://www.paloaltonetworks.com/network-security/wildfire'
+      }
+      case (grep('wildfire', _service) and wildfire["get-verdict-info"].verdict=="4") => {
+        Source: 'wildfire', 
+        _id, 
+        Results: 'Wildfire Verdict: Phishing', 
+        Link: 'https://www.paloaltonetworks.com/network-security/wildfire'
+      }
+      case (grep('wildfire', _service) and wildfire["get-verdict-info"].verdict=="5") => {
+        Source: 'wildfire', 
+        _id, 
+        Results: 'Wildfire Verdict: Command and Control', 
+        Link: 'https://www.paloaltonetworks.com/network-security/wildfire'
+      }
+      case (grep('wildfire', _service) and wildfire["get-verdict-info"].verdict=="-100") => {
+        Source: 'wildfire', 
+        _id, 
+        Results: 'Wildfire Verdict: sample exists, but there is currently no verdict', 
+        Link: 'https://www.paloaltonetworks.com/network-security/wildfire'
+      }
+      case (grep('wildfire', _service) and wildfire["get-verdict-info"].verdict=="-102") => {
+        Source: 'wildfire', 
+        _id, 
+        Results: 'Wildfire Verdict: Unknown, cannot find sample record in wildfire DB', 
+        Link: 'https://www.paloaltonetworks.com/network-security/wildfire'
+      }
+      case (grep('malwarebazaar', _service) and query_status=="ok") => {
+        Source: 'malwarebazaar', 
+        _id, 
+        Results: 'Malware Bazaar:' + cast(this, <string>), 
+        Link: 'https://bazaar.abuse.ch/sample/' + _id
+      }
+      case grep('proxycheckio', _service) => {
+        Source: 'proxycheckio', 
+        _id, 
+        Results: "" + cast(this, <string>), 
+        Link: "https://proxycheck.io/v2/" + _id
+      }
     ) | Results!='null'
 
 - title: virustotal - Engine View
